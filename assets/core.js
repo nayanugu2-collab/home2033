@@ -34,10 +34,14 @@ export function forArea(trades, id, band, exact = "all") {
     .sort((a, b) => b.date.localeCompare(a.date) || String(a.id).localeCompare(String(b.id)));
 }
 export function summary(trades, asOf) {
+  trades = validTrades(trades, asOf).sort((a, b) =>
+    b.date.localeCompare(a.date) || String(a.id).localeCompare(String(b.id)));
   const recent = n => trades.filter(t => t.date >= nextDay(shiftMonth(asOf, -n)) && t.date <= asOf);
-  const three = recent(3), six = recent(6);
+  const three = recent(3), six = recent(6), ten = trades.slice(0, 10);
   return {
     latest: trades[0] ?? null,
+    average10: ten.length ? ten.reduce((sum, t) => sum + t.priceManwon, 0) / ten.length : null,
+    count10: ten.length, start10: ten.at(-1)?.date ?? null, end10: ten[0]?.date ?? null,
     median3: median(three.map(t => t.priceManwon)),
     median6: median(six.map(t => t.priceManwon)),
     count3: three.length, count6: six.length, count: trades.length,
@@ -47,6 +51,9 @@ export function summary(trades, asOf) {
 }
 export function priceFor(summaryValue, metric) {
   return metric === "latest" ? summaryValue.latest?.priceManwon ?? null : summaryValue[metric];
+}
+export function referencePrice(summaryValue, metric) {
+  return priceFor(summaryValue, metric === "average10" ? "average10" : "latest");
 }
 export function comparison(price, base) {
   return price == null || base == null || base <= 0 ? { gap: null, ratio: null } :

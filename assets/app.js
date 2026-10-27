@@ -1,4 +1,4 @@
-import { areaClass, calculate, comparison, forArea, koreaToday, monthSeries, priceFor, summary, validTrades } from "./core.js";
+import { areaClass, calculate, comparison, forArea, koreaToday, monthSeries, priceFor, referencePrice, summary, validTrades } from "./core.js?v=average10";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -55,12 +55,21 @@ function checkPayload(value, expectedMode) {
 }
 function asOf() { return demo ? payload.asOf : today; }
 function baseSummary() { return summary(baseTrades, asOf()); }
+function basePrice() { return referencePrice(baseSummary(), $("metric").value); }
+function averageMode() { return $("metric").value === "average10"; }
+function averageSample(stats) {
+  return stats.count10 < 3 ? "거래 부족 · " + stats.count10 + "/10건" :
+    stats.count10 < 10 ? "10건 미만 · " + stats.count10 + "건 평균" : "10건 평균";
+}
+function averagePeriod(stats) {
+  return stats.count10 ? dateLabel(stats.start10) + " ~ " + dateLabel(stats.end10) : "해당 면적 거래 없음";
+}
 function selectedComplex() { return registry.complexes.find(c => c.id === selected); }
 function getSummary(c, exactType = "all") { return summary(forArea(trades, c.id, area, exactType), asOf()); }
 function record(c, exactType = "all") {
   const stats = getSummary(c, exactType);
   const price = priceFor(stats, $("metric").value);
-  return { c, stats, price, ...comparison(price, baseSummary().latest?.priceManwon) };
+  return { c, stats, price, ...comparison(price, basePrice()) };
 }
 function notice() {
   $("modeLabel").textContent = demo ? "샘플 데이터" : "국토부 공식 실거래";
@@ -84,8 +93,10 @@ function notice() {
 }
 function renderOverview(records) {
   const base = baseSummary(), latest = base.latest;
-  $("basePrice").innerHTML = (latest ? money(latest.priceManwon / 10000) : "—") + "<small>억원" + (demo ? " · 샘플" : "") + "</small>";
-  $("baseDetail").textContent = latest ? "계약 " + dateLabel(latest.date) + " · 전용 " + latest.area + "㎡ · " + latest.floor + "층" +
+  const price = basePrice();
+  $("basePrice").innerHTML = money(price == null ? null : price / 10000) + "<small>억원" + (demo ? " · 샘플" : "") + "</small>";
+  $("baseDetail").textContent = averageMode() ? "최근 10건 평균 · " + averageSample(base) + " · " + averagePeriod(base) :
+    latest ? "최근 1건 · 계약 " + dateLabel(latest.date) + " · 전용 " + latest.area + "㎡ · " + latest.floor + "층" +
     (base.sameDateCount > 1 ? " · 같은 날 " + base.sameDateCount + "건" : "") : "최근 12개월 59㎡급 거래 없음";
   const available = records.filter(r => r.price != null);
   $("summaryCount").innerHTML = available.length + "<small> / " + records.length + "개</small>";
@@ -108,16 +119,24 @@ function renderList() {
     return (a.gap ?? Infinity) - (b.gap ?? Infinity) || a.c.name.localeCompare(b.c.name, "ko");
   });
   renderOverview(records);
+  const metric = $("metric").value, metricLabel = $("metric").selectedOptions[0].textContent;
+  $("priceColumnLabel").textContent = metricLabel;
+  $("priceBasis").textContent = averageMode() ?
+    "기준 주택과 비교 단지 모두 최근 12개월 내 최신 10건의 산술평균입니다. 10건 미만이면 있는 거래만 평균하며, 두 단지의 거래 기간은 다를 수 있습니다." :
+    "선택한 비교 가격을 기준 주택 59㎡급의 최근 거래 1건과 비교합니다.";
   $("areaNotice").innerHTML = area === "59" ? '<span class="small">기준 59㎡급 ↔ 비교 59㎡급 · 같은 면적급 안에서도 실제 전용면적과 타입은 다를 수 있습니다.</span>' :
     '<span class="area-warning">면적이 다른 비교</span><span class="small">기준 59㎡급 ↔ 비교 ' + area + '㎡급 · 면적 증가분이 가격 격차에 포함됩니다.</span>';
   $("resultCount").innerHTML = "<b>" + records.length + "</b>개 관심 단지 <span class='muted'>· " + area + "㎡급" + (demo ? " · 샘플" : "") + "</span>";
   $("apartmentRows").innerHTML = records.map((r, index) => {
-    const latest = r.stats.latest, low = $("metric").value === "median3" ? r.stats.count3 < 3 : $("metric").value === "median6" ? r.stats.count6 < 3 : r.stats.count < 3;
+    const latest = r.stats.latest, low = (metric === "median3" ? r.stats.count3 < 3 : metric === "median6" ? r.stats.count6 < 3 : averageMode() ? r.stats.count10 < 3 : r.stats.count < 3) || (averageMode() && baseSummary().count10 < 3);
+    const priceDetail = averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) :
+      metric === "latest" ? (latest ? dateLabel(latest.date) + " · " + latest.area + "㎡" : "거래 부족 · 0건") :
+      (metric === "median3" ? r.stats.count3 : r.stats.count6) + "건 · 최근 " + (metric === "median3" ? "3" : "6") + "개월";
     return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(index + 1).padStart(2, "0") +
       '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + r.c.households.toLocaleString() + '세대</small></div></td>' +
-      '<td data-label="최근 거래"><span class="cell-price">' + money(latest ? latest.priceManwon / 10000 : null) + '</span><small>' + (latest ? dateLabel(latest.date) + " · " + latest.area + "㎡" : "거래 부족 · 0건") + "</small></td>" +
+      '<td data-label="' + escape(metricLabel) + '"><span class="cell-price">' + money(r.price == null ? null : r.price / 10000) + '</span><small class="' + (low ? "low-sample" : "muted") + '">' + priceDetail + "</small></td>" +
       '<td data-label="3개월 중앙값">' + medianCell(r.stats.median3, r.stats.count3) + '</td><td data-label="6개월 중앙값">' + medianCell(r.stats.median6, r.stats.count6) + "</td>" +
-      '<td data-label="기준 대비 격차" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + (r.price == null ? "거래 부족" : low ? "거래 부족 · 표본 유의" : "기준 최신 59㎡급 대비") + '</small></td><td data-label="가격 배율"><b>' +
+      '<td data-label="기준 대비 격차" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + (r.price == null ? "거래 부족" : low ? "거래 부족 · 표본 유의" : averageMode() ? "기준 59㎡급 평균 대비" : "기준 최신 59㎡급 대비") + '</small></td><td data-label="가격 배율"><b>' +
       (r.ratio == null ? "—" : r.ratio.toFixed(2) + "배") + '</b></td><td class="row-arrow"><a href="#detail" data-detail="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 상세 그래프">↗</a></td></tr>';
   }).join("");
   $("noResults").hidden = records.length > 0;
@@ -150,11 +169,11 @@ function renderChart(container, series, keys, title) {
 }
 function syncPrices() {
   if (!registry) return;
-  const base = baseSummary().latest?.priceManwon;
-  if (saleAuto) $("sale").value = base == null ? "" : money(base / 10000).replaceAll(",", "");
+  const base = basePrice();
+  if (saleAuto) $("sale").value = base == null ? "" : (base / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
   const value = record(selectedComplex(), exact).price;
   if (targetAuto) $("targetPrice").value = value == null ? "" : (value / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
-  $("saleHint").textContent = saleAuto ? "최신 기준 실거래 연동 중 · 미래 예상 매도가는 직접 수정할 수 있습니다." : "직접 입력한 예상 매도가 · 실거래 비교 기준에는 영향을 주지 않습니다.";
+  $("saleHint").textContent = saleAuto ? (averageMode() ? "기준 주택 최근 10건 평균" : "기준 주택 최근 1건") + " 연동 중 · 미래 예상 매도가는 직접 수정할 수 있습니다." : "직접 입력한 예상 매도가 · 실거래 비교 기준에는 영향을 주지 않습니다.";
   $("targetHint").textContent = (demo ? "[샘플] " : "") + selectedComplex().name + " · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + " · " +
     $("metric").selectedOptions[0].textContent + (targetAuto ? " 연동" : "을 참고한 직접 입력 시나리오") +
     (value == null ? " · 거래 부족: 목표 매수가를 직접 입력하면 계산할 수 있습니다." : " · 미래 가격 예측이 아닙니다.");
@@ -174,11 +193,13 @@ function renderDetail(resetTypes = false) {
   $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " + c.households.toLocaleString() + "세대 · " +
     (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계");
   $("selectedMetrics").innerHTML = [
-    ["선택 비교 가격", r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
+    [$("metric").selectedOptions[0].textContent, r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
     ["기준 대비 격차", signed(r.gap) + (r.gap == null ? "" : "억")],
-    ["3개월 / 6개월 거래", r.stats.count3 + "건 / " + r.stats.count6 + "건"],
+    [averageMode() ? "평균에 사용한 거래" : "3개월 / 6개월 거래", averageMode() ? r.stats.count10 + " / 10건" : r.stats.count3 + "건 / " + r.stats.count6 + "건"],
     ["실제 전용면적", r.stats.areas.length ? r.stats.areas.join(" / ") + "㎡" : "해당 면적 거래 없음"]
   ].map(([label, value]) => "<div><span>" + label + "</span><b>" + escape(value) + "</b></div>").join("");
+  $("selectedPriceDetail").textContent = averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) +
+    " · 선택한 전용면적의 실제 거래만 사용합니다. 아래 그래프는 월별 중앙값입니다." : "아래 그래프는 선택한 비교 가격과 별도로 월별 중앙값을 표시합니다.";
   const ts = forArea(trades, c.id, area, exact), series = monthSeries(ts, baseTrades, asOf());
   renderChart("priceChart", series, ["price", "base"], "월별 실거래 중앙값. 빈 월은 연결하지 않습니다.");
   renderChart("gapChart", series, ["gap"], "같은 계약월의 선택 단지 중앙값과 동천센트럴자이 59㎡급 중앙값의 차이");

@@ -25,7 +25,7 @@ class ProjectContractTests(unittest.TestCase):
     def test_relative_asset_paths_support_pages_repository_subpath(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         for path in re.findall(r'(?:src|href)="(\./[^"#]+)', html):
-            self.assertTrue((ROOT / path).is_file(), path)
+            self.assertTrue((ROOT / path.split("?", 1)[0]).is_file(), path)
 
     def test_unique_element_ids_and_all_static_app_references_exist(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")

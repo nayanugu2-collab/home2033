@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { areaClass, calculate, comparison, forArea, median, monthSeries, monthsUntil, nextDay, priceFor, shiftMonth, summary, validTrades } from "../assets/core.js";
+import { areaClass, calculate, comparison, forArea, median, monthSeries, monthsUntil, nextDay, priceFor, referencePrice, shiftMonth, summary, validTrades } from "../assets/core.js";
 
 const today = "2026-10-26";
 function trade(overrides = {}) {
@@ -55,6 +55,55 @@ test("gap and ratio use latest actual baseline, never purchase price", () => {
   assert.equal(comparison(180000, null).gap, null);
   assert.equal(comparison(180000, 0).ratio, null);
   assert.equal(comparison(null, 120000).gap, null);
+});
+test("recent ten mean selects latest contracts from unsorted input, not all trades or a median", () => {
+  const rows = Array.from({ length: 12 }, (_, i) => trade({ id: String(i),
+    date: "2026-10-" + String(i + 1).padStart(2, "0"), priceManwon: i < 2 ? 999999 : i === 11 ? 211000 : 100000 + i * 1000 }));
+  const s = summary(rows, today);
+  assert.equal(priceFor(s, "average10"), 116500);
+  assert.equal(s.count10, 10);
+  assert.equal(s.start10, "2026-10-03");
+  assert.equal(s.end10, "2026-10-12");
+  assert.equal(rows[0].id, "0");
+});
+test("recent ten mean uses available contracts and preserves fractional manwon; empty is not zero", () => {
+  const s = summary([trade({ priceManwon: 100000 }), trade({ priceManwon: 200001 })], today);
+  assert.equal(s.average10, 150000.5);
+  assert.equal(s.count10, 2);
+  const empty = summary([], today);
+  assert.equal(empty.average10, null);
+  assert.equal(empty.count10, 0);
+  assert.equal(empty.start10, null);
+  assert.equal(empty.end10, null);
+});
+test("recent ten mean excludes canceled, outside-year, future and invalid prices before taking ten", () => {
+  const s = summary([trade({ date: "2025-10-26", priceManwon: 999999 }),
+    trade({ date: "2026-10-27", priceManwon: 999999 }), trade({ canceled: true, priceManwon: 999999 }),
+    trade({ priceManwon: NaN }), trade({ priceManwon: 0 }),
+    trade({ date: "2025-10-27", priceManwon: 100000 }), trade({ priceManwon: 140000 })], today);
+  assert.equal(s.count10, 2);
+  assert.equal(s.average10, 120000);
+});
+test("same-date tenth boundary is selected by stable ID order", () => {
+  const rows = Array.from({ length: 11 }, (_, i) => trade({ id: String(i).padStart(2, "0"),
+    priceManwon: i === 10 ? 999999 : 100000 + i })).reverse();
+  assert.equal(summary(rows, today).average10, 100004.5);
+});
+test("mean respects complex, area band and exact area selection", () => {
+  const rows = [trade({ priceManwon: 100000 }), trade({ priceManwon: 140000 }),
+    trade({ area: 59.97, priceManwon: 180000 }), trade({ area: 84.9, priceManwon: 999999 }),
+    trade({ complexId: "other", priceManwon: 999999 })];
+  assert.equal(summary(forArea(rows, "base", "59"), today).average10, 140000);
+  assert.equal(summary(forArea(rows, "base", "59", "59.87"), today).average10, 120000);
+});
+test("mean comparison uses means for both homes; other price options retain latest baseline", () => {
+  const base = summary([trade({ priceManwon: 150000 }), trade({ date: "2026-09-01", priceManwon: 90000 })], today);
+  const target = summary([trade({ priceManwon: 170000 }), trade({ date: "2026-09-01", priceManwon: 190000 })], today);
+  assert.deepEqual(comparison(priceFor(target, "average10"), referencePrice(base, "average10")), { gap: 6, ratio: 1.5 });
+  assert.equal(referencePrice(base, "latest"), 150000);
+  assert.equal(referencePrice(base, "median3"), 150000);
+  assert.equal(referencePrice(base, "median6"), 150000);
+  assert.equal(referencePrice(summary([], today), "average10"), null);
 });
 test("negative gap is preserved", () => {
   assert.equal(comparison(100000, 120000).gap, -2);
