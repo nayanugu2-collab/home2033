@@ -1,0 +1,10 @@
+{
+  "name": "2033-home-gap",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "preview": "python -m http.server 8000",
+    "build": "python scripts/build_site.py"
+  }
+}

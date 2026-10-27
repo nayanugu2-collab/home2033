@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#132e2a">
+  <meta name="description" content="동천센트럴자이 59㎡를 기준으로 상급지 실거래가와 2033년 갈아타기 필요 자금을 비교합니다.">
+  <title>2033 HOME — 갈아타기 실거래 모니터</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./" aria-label="2033 HOME 홈"><span class="brand-mark">⌂</span><span>2033<span class="brand-light"> HOME</span></span></a>
+    <nav aria-label="주요 메뉴"><a href="#monitor" class="active" aria-label="실거래 모니터"><span class="nav-full">실거래 모니터</span><span class="nav-short">실거래</span></a><a href="#calculator" aria-label="갈아타기 계산기"><span class="nav-full">갈아타기 계산기</span><span class="nav-short">자금 계획</span></a><a href="#method" aria-label="데이터 안내"><span class="nav-full">데이터 안내</span><span class="nav-short">안내</span></a></nav>
+    <span class="top-date" id="todayLabel"></span>
+  </div>
+</header>
+<main id="main">
+  <section class="intro">
+    <div><div class="eyebrow"><span class="live-dot"></span> MY NEXT CHAPTER · 2033</div><h1>다음 집까지,<br class="mobile-break"> 지금 얼마나 남았을까.</h1><p>동천센트럴자이와 관심 단지의 실거래 가격 차이를 차곡차곡 기록합니다.</p></div>
+    <a class="text-link" href="#calculator">2033 자금 계획 <span>↗</span></a>
+  </section>
+  <div id="notice" class="notice" role="status" aria-live="polite">공식 실거래 데이터를 불러오고 있습니다.</div>
+  <div class="data-toolbar"><div><span class="status-dot" id="modeDot"></span><b id="modeLabel">공식 데이터</b><span id="updateLabel">갱신 전</span></div><div class="toolbar-buttons"><button class="link-button" id="refresh" type="button">↻ 새로고침</button><button class="outline-button" id="demoToggle" type="button">샘플로 둘러보기</button></div></div>
+  <section class="overview" aria-label="실거래 요약">
+    <article class="base-card">
+      <div class="card-top"><span class="tiny-label">비교의 출발점</span><span class="pill light">MY HOME</span></div>
+      <h2>동천센트럴자이 <span>전용 59㎡급</span></h2>
+      <div class="base-price" id="basePrice">—<small>억원</small></div>
+      <p id="baseDetail">최신 실거래 확인 전</p>
+      <div class="base-foot"><span>최초 매수가 <b>11.20억</b></span><span>현재 비교 기준과 별도</span></div>
+    </article>
+    <article class="summary-card"><div class="tiny-label">거래가 확인된 관심 단지</div><strong id="summaryCount">—</strong><div class="summary-caption" id="summaryCoverage">전체 후보 확인 중</div><span class="stat-symbol">▦</span></article>
+    <article class="summary-card"><div class="tiny-label">가장 가까운 가격 격차</div><strong id="minGap">—</strong><div class="summary-caption" id="minGapDetail">기준 실거래가가 필요합니다</div><span class="stat-symbol">↗</span></article>
+  </section>
+  <section id="monitor" class="monitor-section">
+    <div class="section-heading"><div><span class="eyebrow muted">01 / MARKET WATCH</span><h2>관심 단지 모니터</h2></div><span class="muted small">500세대 이상 · 최근 12개월</span></div>
+    <div class="panel filters">
+      <div class="filter-line"><div><span class="filter-label" id="areaLabel">비교 전용면적</span><div class="segmented" role="group" aria-labelledby="areaLabel"><button type="button" data-area="59" aria-pressed="false">59㎡</button><button type="button" data-area="74" aria-pressed="false">74㎡</button><button type="button" data-area="84" aria-pressed="true" class="selected">84㎡</button></div></div>
+      <label>비교 가격<select id="metric"><option value="latest">최근 거래 1건</option><option value="median3">최근 3개월 중앙값</option><option value="median6">최근 6개월 중앙값</option></select></label>
+      <label>정렬<select id="sort"><option value="gap">가격 격차 작은 순</option><option value="name">단지명 순</option><option value="date">최신 거래일 순</option></select></label>
+      <label class="search-label">단지 검색<input type="search" id="search" placeholder="단지명 또는 법정동" autocomplete="off"></label></div>
+      <div class="region-chips" id="regions" role="group" aria-label="지역 필터"></div>
+      <div class="area-note" id="areaNotice"></div>
+    </div>
+    <div class="list-heading"><span id="resultCount">단지 확인 중</span><span class="muted small">금액 단위: 억원 · 행을 눌러 상세 비교</span></div>
+    <div class="table-container panel"><table class="apartments"><caption class="sr-only">지역별 단지 실거래가, 거래 중앙값과 기준 주택 대비 격차</caption><thead><tr><th>단지 / 지역</th><th>최근 거래</th><th>3개월 중앙값</th><th>6개월 중앙값</th><th>기준 대비 격차</th><th>배율</th><th><span class="sr-only">상세</span></th></tr></thead><tbody id="apartmentRows"></tbody></table><div id="noResults" class="empty" hidden>조건에 맞는 단지가 없습니다. 지역 또는 검색어를 바꿔보세요.</div></div>
+    <p class="small muted">중앙값 표본이 3건 미만이면 ‘거래 부족’으로 표시합니다. 가격을 보간하거나 다른 면적의 거래로 채우지 않습니다.</p>
+  </section>
+  <section class="detail-section" id="detail" aria-label="선택 단지 상세">
+    <div class="section-heading"><div><span class="eyebrow muted">02 / THE BIGGER PICTURE</span><h2>거래 흐름을 함께 보기</h2></div></div>
+    <div class="panel detail-panel">
+      <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName">단지를 선택하세요</h3><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
+      <div class="selected-metrics" id="selectedMetrics"></div>
+      <div class="charts"><div class="chart-panel"><h4>실거래가 추세 <span>월별 중앙값 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지</span><span><i class="base-legend"></i>동천센트럴자이 59㎡급</span></div><div id="priceChart" class="chart"></div></div><div class="chart-panel"><h4>가격 격차 추세 <span>같은 계약월끼리 비교 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지 − 기준 주택</span></div><div id="gapChart" class="chart"></div></div></div>
+      <p class="small muted">거래가 없는 월은 선을 끊습니다. 격차는 두 단지 모두 거래가 있는 월에만 계산합니다. 첫 달은 12개월 시작일 이후의 거래만 포함합니다.</p>
+      <details><summary>월별 거래 건수와 가격 보기</summary><div class="scroll-table"><table class="history-table"><thead><tr><th>계약월</th><th>선택 단지</th><th>표본</th><th>기준 주택</th><th>표본</th><th>격차</th></tr></thead><tbody id="monthlyRows"></tbody></table></div></details>
+      <div class="trade-ledger"><h4>최근 실거래 내역 <span>최대 10건 · 전용면적별 표시</span></h4><div id="recentTrades"></div></div>
+      <div class="detail-bottom"><a id="complexSource" href="https://www.k-apt.go.kr/" target="_blank" rel="noopener">단지 정보 확인 ↗</a><button id="useTarget" class="primary-button" type="button">이 단지로 자금 계획하기 ↗</button></div>
+    </div>
+  </section>
+  <section id="calculator" class="calculator-section">
+    <div class="section-heading"><div><span class="eyebrow muted">03 / YOUR 2033 PLAN</span><h2>갈아타기 자금 계획</h2></div><span class="muted small">입력값은 이 브라우저에만 저장됩니다</span></div>
+    <div class="calculator-layout">
+      <form class="panel calculator-form" id="calculatorForm">
+        <div class="form-section"><h3><span>01</span> 지금의 자산</h3><div class="form-grid">
+          <label>현재 주택 예상 매도가 <span>억원</span><input id="sale" type="number" min="0" step="0.01" placeholder="최신 기준 실거래 연동" inputmode="decimal"></label>
+          <label>주담대 잔액 <span>억원</span><input id="mortgage" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+          <label>가족 차입금 잔액 <span>억원</span><input id="family" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+          <label>사용 가능한 금융자산 <span>억원</span><input id="assets" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+        </div><button type="button" class="link-button" id="resetSale">매도가를 최신 기준 실거래에 연동</button><p class="field-help" id="saleHint">매도가는 미래 예상값이며 실거래 비교 기준과 별개입니다.</p></div>
+        <div class="form-section"><h3><span>02</span> 그때까지 모을 자금</h3><div class="form-grid">
+          <label>월 저축액 <span>만원 / 월</span><input id="monthly" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
+          <label>연간 성과급 저축액 <span>만원 / 년</span><input id="bonus" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
+          <label>목표 매수 시점<input id="targetMonth" type="month" value="2033-12" required></label>
+          <label>신규 주택담보대출 <span>억원</span><input id="newLoan" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+        </div></div>
+        <div class="form-section"><h3><span>03</span> 목표 주택과 거래비용</h3><label>목표 단지<select id="targetComplex"></select></label><p class="field-help" id="targetHint"></p><div class="form-grid">
+          <label>가정한 목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="선택 단지 가격 연동"></label>
+          <label>취득세 예상액 <span>억원</span><input id="tax" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+          <label>기타 거래비용 <span>억원</span><input id="fees" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+        </div><button type="button" class="link-button" id="resetTarget">목표 매수가를 선택 단지 가격에 연동</button><p class="field-help">취득세·중개보수·매도 세금·등기·이사비 등을 직접 입력하세요. 세금이나 대출 한도는 자동 산정하지 않습니다.</p></div>
+        <div class="form-actions"><span class="small muted" id="saveState">금액 기본값 0 · 실제 잔액을 입력하세요</span><button type="button" class="outline-button" id="resetCalculator">입력 초기화</button></div>
+      </form>
+      <aside class="plan-result"><div class="eyebrow">YOUR NEXT HOME</div><h3 id="planTarget">2033년의 다음 집</h3><p id="planSubtitle">선택 단지와 자금 계획을 연결합니다.</p><div class="result-main"><span>추가로 필요한 자기자본</span><strong id="shortage">—<small>억원</small></strong><span id="surplus"></span></div><div id="calcError" role="status" aria-live="polite"></div><div class="fund-flow"><div><span>매도 후 순자금</span><b id="netSale">—</b></div><div><span>금융자산</span><b id="assetResult">—</b></div><div><span>추가 저축 + 성과급</span><b id="savingsResult">—</b></div><div class="flow-total"><span>예상 자기자본</span><b id="equityResult">—</b></div><div><span>+ 신규 주담대</span><b id="loanResult">—</b></div><div class="flow-total"><span>총 조달 가능액</span><b id="availableResult">—</b></div><div><span>목표 매수가 + 비용</span><b id="costResult">—</b></div></div><p class="plan-note" id="savingMonths"></p><p class="plan-note">현재 실거래가를 미래 매수가의 가정값으로 사용합니다. 집값·금리·투자수익률·물가 변화는 반영하지 않습니다.</p></aside>
+    </div>
+  </section>
+  <section class="panel method-section" id="method">
+    <div class="section-heading"><div><span class="eyebrow muted">BEHIND THE NUMBERS</span><h2>숫자를 읽기 전에</h2></div><span class="pill">출처가 있는 비교</span></div>
+    <div class="method-grid"><div><h3>공식 실거래, 계약일 기준</h3><p>국토교통부 매매 실거래가 상세 API에서 수집합니다. 해제 거래를 제외하며 신고·정정·해제 반영이 지연될 수 있습니다.</p></div><div><h3>주소와 면적까지 확인</h3><p>10자리 법정동 코드, 법정동명, 명시된 단지명 별칭, 지번 또는 검증된 도로명과 건물번호를 확인합니다. 모호한 거래는 제외합니다.</p></div><div><h3>매수가는 참고 정보</h3><p>기준은 동천센트럴자이 59㎡급의 최신 거래입니다. 후보 중앙값을 선택해도 기준은 최신 거래 1건이며, 두 가격의 계약 시점이 다를 수 있습니다.</p></div></div>
+    <details><summary>면적·중앙값·같은 날 거래 처리 기준</summary><p>59㎡급은 58 이상 60 미만, 74㎡급은 73 이상 75 미만, 84㎡급은 83 이상 85.01 미만입니다. 공급평형과 다릅니다. 상세 화면에서는 정확한 전용면적 타입을 선택할 수 있습니다. 3·6개월은 한국 날짜에서 각각 해당 개월을 뺀 다음 날부터 오늘까지이며, 짝수 건의 중앙값은 가운데 두 가격의 평균입니다. 같은 계약일에 여러 건이면 거래 ID 사전순 첫 건을 최근 1건으로 표시하고 동률 건수를 안내합니다. 면적급 전체 집계에는 같은 급의 타입이 함께 포함됩니다.</p></details>
+    <details><summary>단지 명부 검증 및 제외 이력</summary><p id="registryNote"></p><div id="registryAudit"></div></details>
+    <details><summary>첫 실행과 업데이트 실패 안내</summary><p>공식 가격이 비어 있으면 README에 따라 API 키를 GitHub Secrets에 등록하고 Actions를 실행하세요. 일부 지역·계약월이라도 실패하면 마지막 정상 가격 파일을 유지하고 수집 실패 상태만 갱신합니다. GitHub 예약 작업은 지연될 수 있으므로 화면의 최종 갱신일을 확인하세요.</p><a href="./README.md">설치 안내 README 열기 ↗</a></details>
+    <div class="source-links"><a href="https://www.data.go.kr/data/15126468/openapi.do" target="_blank" rel="noopener">공공데이터포털 ↗</a><a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토교통부 실거래가 ↗</a><a href="https://www.k-apt.go.kr/" target="_blank" rel="noopener">K-apt 단지 정보 ↗</a><span id="sourceStamp"></span></div>
+  </section>
+  <footer><a class="brand" href="./">2033<span class="brand-light"> HOME</span></a><span>매일의 기록이, 다음 집의 기준이 되도록.</span><span>개인 갈아타기 계획 도구</span></footer>
+</main>
+<noscript>이 대시보드를 사용하려면 JavaScript를 활성화해 주세요. 데이터는 data/trades.json에서 확인할 수 있습니다.</noscript>
+</body></html>

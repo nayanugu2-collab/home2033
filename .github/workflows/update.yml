@@ -1,0 +1,72 @@
+name: Update trades and deploy Pages
+
+on:
+  schedule:
+    - cron: '17 22 * * *' # Every day 07:17 KST (UTC previous day)
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: home2033-pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify collector, calculations and deployment contract
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+          node --test tests/core.test.mjs
+          node --check assets/app.js
+      - name: Fetch official transactions
+        id: collect
+        continue-on-error: true
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+        run: python update.py
+      - name: Commit last-good data and collection status
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/trades.json data/status.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update apartment transactions and collection status'
+            git push
+          fi
+      - name: Prepare public static files
+        run: python scripts/build_site.py
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy latest data directly
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Report collection failure after publishing last-good data
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "::error::Official API collection failed. Last-good prices were retained and the failure status was deployed."
+          exit 1
+

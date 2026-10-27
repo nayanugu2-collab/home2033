@@ -1,0 +1,1857 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-26",
+  "baseId": "base",
+  "purchasePriceEok": 11.2,
+  "minimumHouseholds": 500,
+  "complexes": [
+    {
+      "id": "base",
+      "region": "동천",
+      "name": "동천센트럴자이",
+      "legalDongCode": "4146510300",
+      "districtCode": "41465",
+      "legalDong": "동천동",
+      "jibuns": [
+        "164-4"
+      ],
+      "roadAddresses": [
+        {
+          "name": "고기로45번길",
+          "main": 40,
+          "sub": 18
+        }
+      ],
+      "households": 1057,
+      "aliases": [
+        "동천센트럴자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/33383"
+        }
+      ],
+      "note": "국토부 API 지번이 BL-로 제공될 수 있어 검증된 도로명과 본번·부번도 함께 확인합니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41465-463"
+      ]
+    },
+    {
+      "id": "parkview",
+      "region": "정자",
+      "name": "파크뷰",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "6"
+      ],
+      "roadAddresses": [],
+      "households": 1829,
+      "aliases": [
+        "파크뷰"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/12634"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-250"
+      ]
+    },
+    {
+      "id": "sangrok-woosung",
+      "region": "정자",
+      "name": "상록마을 우성",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "121"
+      ],
+      "roadAddresses": [
+        {
+          "name": "내정로",
+          "main": 55,
+          "sub": 0
+        }
+      ],
+      "households": 1762,
+      "aliases": [
+        "상록마을 우성",
+        "상록마을(우성)1",
+        "상록마을(우성)",
+        "상록마을우성"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "K-apt 기반 단지 정보",
+          "url": "https://aptsonpoom.com/danji/A46378626"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-60"
+      ]
+    },
+    {
+      "id": "sangrok-life1",
+      "region": "정자",
+      "name": "상록마을 라이프1차",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "124"
+      ],
+      "roadAddresses": [
+        {
+          "name": "정자로",
+          "main": 56,
+          "sub": 0
+        }
+      ],
+      "households": 750,
+      "aliases": [
+        "상록마을 라이프1차",
+        "상록마을(라이프1차)",
+        "상록마을라이프1차"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsite.kr/apartment/12812"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-58"
+      ]
+    },
+    {
+      "id": "hansol-cheonggu",
+      "region": "정자",
+      "name": "한솔마을 청구1단지",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "110"
+      ],
+      "roadAddresses": [],
+      "households": 858,
+      "aliases": [
+        "한솔마을 청구1단지",
+        "한솔마을(1단지)(청구)",
+        "한솔마을청구1단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://apart-pick.com/apt/5dObd"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-68"
+      ]
+    },
+    {
+      "id": "hansol-lg",
+      "region": "정자",
+      "name": "한솔마을 LG2단지",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "111"
+      ],
+      "roadAddresses": [],
+      "households": 598,
+      "aliases": [
+        "한솔마을 LG2단지",
+        "한솔마을(2단지)(LG)",
+        "한솔마을LG2단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/4583"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-66"
+      ]
+    },
+    {
+      "id": "jeongdeun-shinhwa",
+      "region": "정자",
+      "name": "정든마을 신화5단지",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "192"
+      ],
+      "roadAddresses": [
+        {
+          "name": "정자로",
+          "main": 112,
+          "sub": 0
+        }
+      ],
+      "households": 564,
+      "aliases": [
+        "정든마을 신화5단지",
+        "정든마을(5단지)(신화)",
+        "정든마을신화5단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://m.richgo.ai/realty/danji/a1hIszJ"
+        }
+      ],
+      "note": "분양 관리단지 기준 564세대. 임대 포함 총계와 혼동하지 않습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-63"
+      ]
+    },
+    {
+      "id": "jeongdeun-donga2",
+      "region": "정자",
+      "name": "정든마을 동아2단지",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "198"
+      ],
+      "roadAddresses": [
+        {
+          "name": "불정로",
+          "main": 179,
+          "sub": 0
+        }
+      ],
+      "households": 706,
+      "aliases": [
+        "정든마을 동아2단지",
+        "정든마을(2단지)(동아)",
+        "정든마을동아2단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/297348"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-62"
+      ]
+    },
+    {
+      "id": "park-river",
+      "region": "정자",
+      "name": "분당더샵파크리버",
+      "legalDongCode": "4113510300",
+      "districtCode": "41135",
+      "legalDong": "정자동",
+      "jibuns": [
+        "215"
+      ],
+      "roadAddresses": [
+        {
+          "name": "돌마로",
+          "main": 171,
+          "sub": 0
+        }
+      ],
+      "households": 506,
+      "aliases": [
+        "분당더샵파크리버",
+        "더샵분당파크리버"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/42214"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-601"
+      ]
+    },
+    {
+      "id": "gwacheon-xi",
+      "region": "과천",
+      "name": "과천자이",
+      "legalDongCode": "4129010900",
+      "districtCode": "41290",
+      "legalDong": "별양동",
+      "jibuns": [
+        "93"
+      ],
+      "roadAddresses": [
+        {
+          "name": "별양로",
+          "main": 110,
+          "sub": 0
+        }
+      ],
+      "households": 2099,
+      "aliases": [
+        "과천자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/45755"
+        }
+      ],
+      "note": "국토부 실제 API 응답으로 법정동 코드를 정정했습니다. 도로명 건물번호를 별양로 110으로 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-463"
+      ]
+    },
+    {
+      "id": "weaver",
+      "region": "과천",
+      "name": "과천위버필드",
+      "legalDongCode": "4129010800",
+      "districtCode": "41290",
+      "legalDong": "원문동",
+      "jibuns": [
+        "10"
+      ],
+      "roadAddresses": [],
+      "households": 2128,
+      "aliases": [
+        "과천위버필드"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/c/40938"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-439"
+      ]
+    },
+    {
+      "id": "prugio-summit",
+      "region": "과천",
+      "name": "과천푸르지오써밋",
+      "legalDongCode": "4129010700",
+      "districtCode": "41290",
+      "legalDong": "중앙동",
+      "jibuns": [
+        "101"
+      ],
+      "roadAddresses": [],
+      "households": 1571,
+      "aliases": [
+        "과천푸르지오써밋"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsonpoom.com/danji/A10024935"
+        }
+      ],
+      "note": "국토부 실제 API 응답으로 법정동 코드를 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-396"
+      ]
+    },
+    {
+      "id": "central-summit",
+      "region": "과천",
+      "name": "센트럴파크푸르지오써밋",
+      "legalDongCode": "4129011000",
+      "districtCode": "41290",
+      "legalDong": "부림동",
+      "jibuns": [
+        "96"
+      ],
+      "roadAddresses": [
+        {
+          "name": "별양로",
+          "main": 164,
+          "sub": 0
+        }
+      ],
+      "households": 1317,
+      "aliases": [
+        "센트럴파크푸르지오써밋",
+        "과천센트럴파크푸르지오써밋"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://butree.com/property/apt/complex/51823"
+        }
+      ],
+      "note": "국토부 실제 API 응답으로 법정동 코드를 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-435"
+      ]
+    },
+    {
+      "id": "schurr",
+      "region": "과천",
+      "name": "래미안슈르",
+      "legalDongCode": "4129010800",
+      "districtCode": "41290",
+      "legalDong": "원문동",
+      "jibuns": [
+        "4"
+      ],
+      "roadAddresses": [
+        {
+          "name": "별양로",
+          "main": 12,
+          "sub": 0
+        }
+      ],
+      "households": 3143,
+      "aliases": [
+        "래미안슈르"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsite.kr/apartment/28034"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-181"
+      ]
+    },
+    {
+      "id": "central-suite",
+      "region": "과천",
+      "name": "래미안센트럴스위트",
+      "legalDongCode": "4129010900",
+      "districtCode": "41290",
+      "legalDong": "별양동",
+      "jibuns": [
+        "3"
+      ],
+      "roadAddresses": [
+        {
+          "name": "별양로",
+          "main": 163,
+          "sub": 0
+        }
+      ],
+      "households": 543,
+      "aliases": [
+        "래미안센트럴스위트"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://butree.com/property/apt/complex/49550"
+        }
+      ],
+      "note": "국토부 실제 API 응답으로 법정동 코드를 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-364"
+      ]
+    },
+    {
+      "id": "eco-palace",
+      "region": "과천",
+      "name": "래미안에코팰리스",
+      "legalDongCode": "4129010700",
+      "districtCode": "41290",
+      "legalDong": "중앙동",
+      "jibuns": [
+        "71"
+      ],
+      "roadAddresses": [
+        {
+          "name": "관문로",
+          "main": 143,
+          "sub": 0
+        }
+      ],
+      "households": 659,
+      "aliases": [
+        "래미안에코팰리스"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/14915"
+        }
+      ],
+      "note": "국토부 실제 API 응답으로 법정동 코드를 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-146"
+      ]
+    },
+    {
+      "id": "ravieno",
+      "region": "과천",
+      "name": "과천푸르지오라비엔오",
+      "legalDongCode": "4129010300",
+      "districtCode": "41290",
+      "legalDong": "갈현동",
+      "jibuns": [
+        "827"
+      ],
+      "roadAddresses": [
+        {
+          "name": "과천대로8길",
+          "main": 15,
+          "sub": 0
+        }
+      ],
+      "households": 679,
+      "aliases": [
+        "과천푸르지오라비엔오"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsonpoom.com/danji/A10024002"
+        }
+      ],
+      "note": "현 지번 갈현동 827. 구 지번 25는 과천대로8길 15가 함께 일치할 때만 허용합니다.",
+      "legacyJibuns": [
+        "25"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41290-455"
+      ]
+    },
+    {
+      "id": "foreon",
+      "region": "강동",
+      "name": "올림픽파크포레온",
+      "legalDongCode": "1174010600",
+      "districtCode": "11740",
+      "legalDong": "둔촌동",
+      "jibuns": [
+        "633"
+      ],
+      "roadAddresses": [
+        {
+          "name": "양재대로",
+          "main": 1300,
+          "sub": 0
+        }
+      ],
+      "households": 12032,
+      "aliases": [
+        "올림픽파크포레온"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/724555"
+        }
+      ],
+      "note": "현 지번 둔촌동 633. 구 지번 170-1은 양재대로 1300이 함께 일치할 때만 허용합니다.",
+      "legacyJibuns": [
+        "170-1"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-5273"
+      ]
+    },
+    {
+      "id": "gracium",
+      "region": "강동",
+      "name": "고덕그라시움",
+      "legalDongCode": "1174010200",
+      "districtCode": "11740",
+      "legalDong": "고덕동",
+      "jibuns": [
+        "693"
+      ],
+      "roadAddresses": [],
+      "households": 4932,
+      "aliases": [
+        "고덕그라시움"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://www.kbland.kr/c/34391?xy=37.5575733%2C127.15808%2C16"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-4628"
+      ]
+    },
+    {
+      "id": "arteon",
+      "region": "강동",
+      "name": "고덕아르테온",
+      "legalDongCode": "1174010300",
+      "districtCode": "11740",
+      "legalDong": "상일동",
+      "jibuns": [
+        "519"
+      ],
+      "roadAddresses": [
+        {
+          "name": "고덕로",
+          "main": 360,
+          "sub": 0
+        }
+      ],
+      "households": 4066,
+      "aliases": [
+        "고덕아르테온"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A10025010&tr_code=sweb"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-4692"
+      ]
+    },
+    {
+      "id": "godeok-raemian",
+      "region": "강동",
+      "name": "래미안힐스테이트고덕",
+      "legalDongCode": "1174010200",
+      "districtCode": "11740",
+      "legalDong": "고덕동",
+      "jibuns": [
+        "688"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아리수로50길",
+          "main": 50,
+          "sub": 0
+        }
+      ],
+      "households": 3658,
+      "aliases": [
+        "래미안힐스테이트고덕"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/29284"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-4214"
+      ]
+    },
+    {
+      "id": "lotte-first",
+      "region": "강동",
+      "name": "강동롯데캐슬퍼스트",
+      "legalDongCode": "1174010700",
+      "districtCode": "11740",
+      "legalDong": "암사동",
+      "jibuns": [
+        "414-2"
+      ],
+      "roadAddresses": [
+        {
+          "name": "고덕로",
+          "main": 131,
+          "sub": 0
+        }
+      ],
+      "households": 3226,
+      "aliases": [
+        "강동롯데캐슬퍼스트",
+        "롯데캐슬퍼스트"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://www.kbland.kr/se/c/15615"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-2802"
+      ]
+    },
+    {
+      "id": "solvenue",
+      "region": "강동",
+      "name": "래미안솔베뉴",
+      "legalDongCode": "1174010100",
+      "districtCode": "11740",
+      "legalDong": "명일동",
+      "jibuns": [
+        "359"
+      ],
+      "roadAddresses": [
+        {
+          "name": "양재대로",
+          "main": 1650,
+          "sub": 0
+        }
+      ],
+      "households": 1900,
+      "aliases": [
+        "래미안솔베뉴"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsite.kr/apartment/38988"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-4585"
+      ]
+    },
+    {
+      "id": "heritage",
+      "region": "강동",
+      "name": "강동헤리티지자이",
+      "legalDongCode": "1174010500",
+      "districtCode": "11740",
+      "legalDong": "길동",
+      "jibuns": [
+        "483"
+      ],
+      "roadAddresses": [
+        {
+          "name": "천중로",
+          "main": 264,
+          "sub": 0
+        }
+      ],
+      "households": 1299,
+      "aliases": [
+        "강동헤리티지자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/commonPortal/programLink.do?aptCode=A10022525&jspNm=%2FopenApt%2FdMenu%2FdangiInfo%2FdangiInfo.open"
+        }
+      ],
+      "note": "구 지번 길동 160과 신 지번 483이 혼재합니다. 도로명 주소가 일치하는 경우만 구 지번도 허용합니다.",
+      "legacyJibuns": [
+        "160"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-5257"
+      ]
+    },
+    {
+      "id": "gangdong-palace",
+      "region": "강동",
+      "name": "래미안강동팰리스",
+      "legalDongCode": "1174010900",
+      "districtCode": "11740",
+      "legalDong": "천호동",
+      "jibuns": [
+        "571"
+      ],
+      "roadAddresses": [
+        {
+          "name": "천호대로",
+          "main": 1077,
+          "sub": 0
+        }
+      ],
+      "households": 999,
+      "aliases": [
+        "래미안강동팰리스"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/commonPortal/programLink.do?aptCode=A10026852&codParams=&jspNm=%2FopenApt%2FdMenu%2FdangiInfo%2FdangiInfo.open&tr_code=sweb"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11740-4289"
+      ]
+    },
+    {
+      "id": "hyundai3",
+      "region": "광장",
+      "name": "광장현대3단지",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "484"
+      ],
+      "roadAddresses": [],
+      "households": 1056,
+      "aliases": [
+        "광장현대3단지",
+        "현대3"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/735"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-16"
+      ]
+    },
+    {
+      "id": "hyundai-parkville",
+      "region": "광장",
+      "name": "광장현대파크빌",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "577"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아차산로",
+          "main": 549,
+          "sub": 0
+        }
+      ],
+      "households": 1170,
+      "aliases": [
+        "광장현대파크빌",
+        "현대파크빌",
+        "광장현대파크빌(10차)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/742"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-21"
+      ]
+    },
+    {
+      "id": "geukdong2",
+      "region": "광장",
+      "name": "광장극동2차",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "218-1"
+      ],
+      "roadAddresses": [],
+      "households": 896,
+      "aliases": [
+        "광장극동2차",
+        "극동2",
+        "극동2차"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/726"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-4"
+      ]
+    },
+    {
+      "id": "gwangjang-cheonggu",
+      "region": "광장",
+      "name": "광장청구",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "566"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아차산로",
+          "main": 503,
+          "sub": 23
+        }
+      ],
+      "households": 654,
+      "aliases": [
+        "광장청구",
+        "청구"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A14381513"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-14"
+      ]
+    },
+    {
+      "id": "hyundai5",
+      "region": "광장",
+      "name": "광장현대5단지",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "554-7"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아차산로70길",
+          "main": 61,
+          "sub": 0
+        }
+      ],
+      "households": 581,
+      "aliases": [
+        "광장현대5단지",
+        "현대5"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A14381512"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-17"
+      ]
+    },
+    {
+      "id": "hyundai8",
+      "region": "광장",
+      "name": "광장현대8단지",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "565",
+        "569"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아차산로",
+          "main": 522,
+          "sub": 0
+        },
+        {
+          "name": "아차산로",
+          "main": 508,
+          "sub": 0
+        }
+      ],
+      "households": 537,
+      "aliases": [
+        "광장현대8단지",
+        "현대8",
+        "현대8(801동,802동)",
+        "현대8(803동)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A14381510&tr_code=sweb"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-112",
+        "11215-18"
+      ]
+    },
+    {
+      "id": "walkerhill",
+      "region": "광장",
+      "name": "워커힐아파트",
+      "legalDongCode": "1121510400",
+      "districtCode": "11215",
+      "legalDong": "광장동",
+      "jibuns": [
+        "145-8"
+      ],
+      "roadAddresses": [
+        {
+          "name": "아차산로",
+          "main": 637,
+          "sub": 0
+        }
+      ],
+      "households": 576,
+      "aliases": [
+        "워커힐아파트",
+        "워커힐"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/c/728"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11215-11"
+      ]
+    },
+    {
+      "id": "helio",
+      "region": "송파",
+      "name": "헬리오시티",
+      "legalDongCode": "1171010700",
+      "districtCode": "11710",
+      "legalDong": "가락동",
+      "jibuns": [
+        "913"
+      ],
+      "roadAddresses": [
+        {
+          "name": "송파대로",
+          "main": 345,
+          "sub": 0
+        }
+      ],
+      "households": 9510,
+      "aliases": [
+        "헬리오시티"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/32148"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-8865"
+      ]
+    },
+    {
+      "id": "parkrio",
+      "region": "송파",
+      "name": "파크리오",
+      "legalDongCode": "1171010200",
+      "districtCode": "11710",
+      "legalDong": "신천동",
+      "jibuns": [
+        "17"
+      ],
+      "roadAddresses": [
+        {
+          "name": "올림픽로",
+          "main": 435,
+          "sub": 0
+        }
+      ],
+      "households": 6864,
+      "aliases": [
+        "파크리오"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://jamraea-jinjoo.co.kr/complex/parkrio"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-6266"
+      ]
+    },
+    {
+      "id": "els",
+      "region": "송파",
+      "name": "잠실엘스",
+      "legalDongCode": "1171010100",
+      "districtCode": "11710",
+      "legalDong": "잠실동",
+      "jibuns": [
+        "19"
+      ],
+      "roadAddresses": [
+        {
+          "name": "올림픽로",
+          "main": 99,
+          "sub": 0
+        }
+      ],
+      "households": 5678,
+      "aliases": [
+        "잠실엘스"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://aptsite.kr/apartment/27292"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-6346"
+      ]
+    },
+    {
+      "id": "ricenz",
+      "region": "송파",
+      "name": "리센츠",
+      "legalDongCode": "1171010100",
+      "districtCode": "11710",
+      "legalDong": "잠실동",
+      "jibuns": [
+        "22"
+      ],
+      "roadAddresses": [],
+      "households": 5563,
+      "aliases": [
+        "리센츠"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://www.aldongsan.com/aptview.php?id=22746"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-6249"
+      ]
+    },
+    {
+      "id": "trizium",
+      "region": "송파",
+      "name": "트리지움",
+      "legalDongCode": "1171010100",
+      "districtCode": "11710",
+      "legalDong": "잠실동",
+      "jibuns": [
+        "35"
+      ],
+      "roadAddresses": [
+        {
+          "name": "잠실로",
+          "main": 62,
+          "sub": 0
+        }
+      ],
+      "households": 3696,
+      "aliases": [
+        "트리지움",
+        "잠실트리지움"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/c/14988?ctype=01&xy=37.5205559%2C126.9265729%2C17"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-6028"
+      ]
+    },
+    {
+      "id": "lake-palace",
+      "region": "송파",
+      "name": "레이크팰리스",
+      "legalDongCode": "1171010100",
+      "districtCode": "11710",
+      "legalDong": "잠실동",
+      "jibuns": [
+        "44"
+      ],
+      "roadAddresses": [
+        {
+          "name": "잠실로",
+          "main": 88,
+          "sub": 0
+        }
+      ],
+      "households": 2678,
+      "aliases": [
+        "레이크팰리스"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://asil.kr/app/apt_info.jsp?apt=20064707&os=pc"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-5957"
+      ]
+    },
+    {
+      "id": "olympic-athletes",
+      "region": "송파",
+      "name": "올림픽선수기자촌",
+      "legalDongCode": "1171011100",
+      "districtCode": "11710",
+      "legalDong": "방이동",
+      "jibuns": [
+        "89"
+      ],
+      "roadAddresses": [],
+      "households": 5540,
+      "aliases": [
+        "올림픽선수기자촌",
+        "올림픽선수기자촌1단지",
+        "올림픽선수기자촌2단지",
+        "올림픽선수기자촌3단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/c/1940?ctype=01&xy=37.5150496%2C127.1362303%2C17"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-102",
+        "11710-5714",
+        "11710-5715"
+      ]
+    },
+    {
+      "id": "olympic-family",
+      "region": "송파",
+      "name": "올림픽훼밀리타운",
+      "legalDongCode": "1171010800",
+      "districtCode": "11710",
+      "legalDong": "문정동",
+      "jibuns": [
+        "150"
+      ],
+      "roadAddresses": [
+        {
+          "name": "중대로",
+          "main": 24,
+          "sub": 0
+        }
+      ],
+      "households": 4494,
+      "aliases": [
+        "올림픽훼밀리타운",
+        "올림픽훼밀리"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://apt.koreacharts.com/apt/A13820201/contents.html"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-89"
+      ]
+    },
+    {
+      "id": "garak-ssangyong",
+      "region": "송파",
+      "name": "가락쌍용1차",
+      "legalDongCode": "1171010700",
+      "districtCode": "11710",
+      "legalDong": "가락동",
+      "jibuns": [
+        "140"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동남로",
+          "main": 193,
+          "sub": 0
+        }
+      ],
+      "households": 2064,
+      "aliases": [
+        "가락쌍용1차",
+        "가락쌍용1",
+        "쌍용(1차)",
+        "가락(1차)쌍용아파트"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://www.aptfit.co.kr/complex/A13880806"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11710-59"
+      ]
+    },
+    {
+      "id": "oksu-parkhills",
+      "region": "옥수·금호",
+      "name": "e편한세상옥수파크힐스",
+      "legalDongCode": "1120011300",
+      "districtCode": "11200",
+      "legalDong": "옥수동",
+      "jibuns": [
+        "528"
+      ],
+      "roadAddresses": [
+        {
+          "name": "매봉길",
+          "main": 50,
+          "sub": 0
+        }
+      ],
+      "households": 1976,
+      "aliases": [
+        "e편한세상옥수파크힐스",
+        "옥수파크힐스101동~116동"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/31563"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11200-3114"
+      ]
+    },
+    {
+      "id": "oksu-riverzen",
+      "region": "옥수·금호",
+      "name": "래미안옥수리버젠",
+      "legalDongCode": "1120011300",
+      "districtCode": "11200",
+      "legalDong": "옥수동",
+      "jibuns": [
+        "561"
+      ],
+      "roadAddresses": [],
+      "households": 1511,
+      "aliases": [
+        "래미안옥수리버젠"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "KB 단지 기본정보",
+          "url": "https://kbland.kr/se/c/22566"
+        }
+      ],
+      "note": "관리단지 기준 1,511세대(임대 별도). 임대 포함 소개의 1,821세대와 구분합니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11200-2980"
+      ]
+    },
+    {
+      "id": "singeumho-xi",
+      "region": "옥수·금호",
+      "name": "신금호파크자이",
+      "legalDongCode": "1120011000",
+      "districtCode": "11200",
+      "legalDong": "금호동2가",
+      "jibuns": [
+        "1"
+      ],
+      "roadAddresses": [
+        {
+          "name": "금호로",
+          "main": 173,
+          "sub": 0
+        }
+      ],
+      "households": 1156,
+      "aliases": [
+        "신금호파크자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/30760"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11200-3086"
+      ]
+    },
+    {
+      "id": "acro",
+      "region": "흑석",
+      "name": "아크로리버하임",
+      "legalDongCode": "1159010500",
+      "districtCode": "11590",
+      "legalDong": "흑석동",
+      "jibuns": [
+        "341"
+      ],
+      "roadAddresses": [
+        {
+          "name": "현충로",
+          "main": 52,
+          "sub": 0
+        }
+      ],
+      "households": 1073,
+      "aliases": [
+        "아크로리버하임"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/33803"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11590-4876"
+      ]
+    },
+    {
+      "id": "centreville2",
+      "region": "흑석",
+      "name": "흑석한강센트레빌2차",
+      "legalDongCode": "1159010500",
+      "districtCode": "11590",
+      "legalDong": "흑석동",
+      "jibuns": [
+        "339"
+      ],
+      "roadAddresses": [
+        {
+          "name": "서달로",
+          "main": 91,
+          "sub": 0
+        }
+      ],
+      "households": 963,
+      "aliases": [
+        "흑석한강센트레빌2차",
+        "흑석한강센트레빌Ⅱ"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A15679109"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11590-4002"
+      ]
+    },
+    {
+      "id": "eduforet",
+      "region": "흑석",
+      "name": "롯데캐슬에듀포레",
+      "legalDongCode": "1159010500",
+      "districtCode": "11590",
+      "legalDong": "흑석동",
+      "jibuns": [
+        "340"
+      ],
+      "roadAddresses": [
+        {
+          "name": "서달로",
+          "main": 123,
+          "sub": 0
+        }
+      ],
+      "households": 545,
+      "aliases": [
+        "롯데캐슬에듀포레",
+        "흑석롯데캐슬에듀포레"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 KB",
+          "url": "https://kbland.kr/se/c/33560"
+        },
+        {
+          "label": "도로명·현 지번",
+          "url": "https://jusoga.com/b/1159010500102320055017112/"
+        }
+      ],
+      "note": "서달로 123, 현 지번 흑석동 340으로 정정했습니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11590-4875"
+      ]
+    },
+    {
+      "id": "bangbae-xi",
+      "region": "방배",
+      "name": "방배그랑자이",
+      "legalDongCode": "1165010100",
+      "districtCode": "11650",
+      "legalDong": "방배동",
+      "jibuns": [
+        "3283"
+      ],
+      "roadAddresses": [
+        {
+          "name": "방배로",
+          "main": 21,
+          "sub": 0
+        }
+      ],
+      "households": 758,
+      "aliases": [
+        "방배그랑자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/45354"
+        }
+      ],
+      "note": "국토부 실응답 기준 현 지번 방배동 3283, 방배로 21로 정정.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11650-4970"
+      ]
+    },
+    {
+      "id": "baekhyeon2",
+      "region": "판교·백현",
+      "name": "백현마을2단지",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "545"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 122,
+          "sub": 0
+        }
+      ],
+      "households": 772,
+      "aliases": [
+        "백현마을2단지",
+        "백현마을(2단지)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/21190"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-473"
+      ]
+    },
+    {
+      "id": "pangyo11",
+      "region": "판교·백현",
+      "name": "판교원마을11단지 현대힐스테이트",
+      "legalDongCode": "4113510800",
+      "districtCode": "41135",
+      "legalDong": "판교동",
+      "jibuns": [
+        "513"
+      ],
+      "roadAddresses": [],
+      "households": 605,
+      "aliases": [
+        "판교원마을11단지 현대힐스테이트",
+        "판교원마을11단지(힐스테이트)",
+        "판교원마을11단지현대힐스테이트"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://www.fitlook.org/r/41135/%ED%8C%90%EA%B5%90%EB%8F%99-513/"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41135-448"
+      ]
+    },
+    {
+      "id": "sadang-woosung",
+      "region": "사당·이수",
+      "name": "사당우성2단지",
+      "legalDongCode": "1159010700",
+      "districtCode": "11590",
+      "legalDong": "사당동",
+      "jibuns": [
+        "105"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동작대로29길",
+          "main": 91,
+          "sub": 0
+        }
+      ],
+      "households": 1080,
+      "aliases": [
+        "사당우성2단지",
+        "사당우성2",
+        "사당우성(2단지)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/c/1320"
+        }
+      ],
+      "note": "",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11590-49"
+      ]
+    },
+    {
+      "id": "goldenfore",
+      "region": "사당·이수",
+      "name": "사당롯데캐슬골든포레",
+      "legalDongCode": "1159010700",
+      "districtCode": "11590",
+      "legalDong": "사당동",
+      "jibuns": [
+        "1160"
+      ],
+      "roadAddresses": [
+        {
+          "name": "사당로",
+          "main": 90,
+          "sub": 0
+        }
+      ],
+      "households": 959,
+      "aliases": [
+        "사당롯데캐슬골든포레"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://openapt.seoul.go.kr/openApt/index.do?aptCode=A10025013"
+        }
+      ],
+      "note": "국토부 실응답 기준 현 지번 사당동 1160. 기존 1149는 다른 단지(사당롯데캐슬2차)의 주소로 확인되어 제거.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "11590-4948"
+      ]
+    }
+  ],
+  "excludedCandidates": [
+    {
+      "id": "sangrok-life2",
+      "region": "정자",
+      "name": "상록마을 라이프2차",
+      "households": 284,
+      "address": "정자동 125",
+      "reason": "500세대 미만. 기존 '상록마을 라이프'는 750세대인 1차로 구체화.",
+      "source": "https://aptsite.kr/apartment/12812"
+    },
+    {
+      "id": "donga1",
+      "region": "정자",
+      "name": "정든마을 동아1단지",
+      "households": 300,
+      "address": "불정로 141",
+      "reason": "500세대 미만. 기존 '정든마을 동아'는 706세대인 2단지로 구체화.",
+      "source": "https://kbland.kr/se/c/300898"
+    },
+    {
+      "id": "pangyo12",
+      "region": "판교·백현",
+      "name": "판교원마을12단지 힐스테이트",
+      "households": 428,
+      "address": "판교동 494",
+      "reason": "500세대 미만. 기존 모호한 후보는 605세대 11단지로 구체화.",
+      "source": "https://aptsonpoom.com/danji/A46341006"
+    }
+  ],
+  "notes": [
+    "기존 등록 후보를 바탕으로 구성한 관심 목록이며, 지역 내 500세대 이상 단지 전체를 전수 수록한 것은 아닙니다.",
+    "이수는 역세권 표현입니다. 사당동 법정동 코드로 조회하며, 별도의 '이수동' 코드를 만들지 않습니다.",
+    "공개 단지 정보 대조이며 정부 공인 검증을 뜻하지 않습니다. 출처 및 관리단지의 세대수 기준을 확인하세요."
+  ],
+  "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+}
