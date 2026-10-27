@@ -48,11 +48,45 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(update.shift_month(dt.date(2024, 3, 31), -1), dt.date(2024, 2, 29))
 
     def test_each_registry_identity_is_unambiguous(self):
-        self.assertEqual(len(self.registry["complexes"]), 52)
+        self.assertEqual(len({c["id"] for c in self.registry["complexes"]}), len(self.registry["complexes"]))
         for c in self.registry["complexes"]:
             with self.subTest(c=c["id"]):
                 self.assertGreaterEqual(c["households"], 500)
                 self.assertEqual(update.match_complex(self.raw(c), self.registry)["id"], c["id"])
+
+    def test_bundang_expansion_preserves_requested_complexes_and_minimum_households(self):
+        by_id = {c["id"]: c for c in self.registry["complexes"]}
+        self.assertTrue({"botdeul1", "botdeul2", "botdeul3", "botdeul4", "botdeul5", "botdeul7",
+                         "botdeul9", "seohyeon-samsung-hanshin", "seohyeon-hanyang", "hyoja-greentown",
+                         "pangyowon5", "pangyowon9", "sanun11", "sanun12", "sanun13"} <= set(by_id))
+        for ident in ("botdeul5", "botdeul6"):
+            self.assertIs(by_id[ident]["comparisonEligible"], False)
+            self.assertEqual(by_id[ident]["tenure"], "national-rental")
+        excluded = {c["id"]: c for c in self.registry["excludedCandidates"]}
+        self.assertEqual(excluded["botdeul8"]["households"], 447)
+        self.assertNotIn("botdeul8", by_id)
+
+    def test_shared_management_complex_aliases_match_but_neighboring_parcels_do_not(self):
+        by_id = {c["id"]: c for c in self.registry["complexes"]}
+        for ident, aliases in {"seohyeon-samsung-hanshin": ["시범삼성", "시범한신"],
+                               "hyoja-greentown": ["효자촌(대우)", "효자촌(럭키)", "효자촌(화성)"]}.items():
+            for alias in aliases:
+                self.assertEqual(update.match_complex(self.raw(by_id[ident], aptNm=alias), self.registry)["id"], ident)
+        self.assertIsNone(update.match_complex(self.raw(by_id["hyoja-greentown"], aptNm="효자촌(대창)", jibun="310"), self.registry))
+        self.assertIsNone(update.match_complex(self.raw(by_id["botdeul5"], jibun="722"), self.registry))
+
+    def test_national_rental_never_produces_sale_prices_even_if_api_row_is_present(self):
+        by_id = {c["id"]: c for c in self.registry["complexes"]}
+        def fetcher(key, district, month):
+            if month != "202610":
+                return []
+            if district == self.base["districtCode"]:
+                return [self.raw()]
+            if district == "41135":
+                return [self.raw(by_id[ident]) for ident in ("botdeul3", "botdeul5", "botdeul6")]
+            return []
+        result = update.collect("test", self.registry, TODAY, fetcher)
+        self.assertEqual({t["complexId"] for t in result["trades"]}, {"base", "botdeul3"})
 
     def test_same_name_wrong_district_dong_code_dong_name_or_parcel_rejected(self):
         for change in ({"sggCd": "41135"}, {"umdCd": "99999"}, {"umdNm": "다른동"},

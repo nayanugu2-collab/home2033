@@ -13,6 +13,8 @@ def generate():
     today = dt.date(2026, 10, 26)
     trades = []
     for index, c in enumerate(registry["complexes"]):
+        if c.get("comparisonEligible") is False:
+            continue  # National rental complexes never get synthetic sale prices either.
         if c["id"] in {"walkerhill", "pangyo11", "hansol-lg", "jeongdeun-shinhwa"}:
             continue  # UI must exercise legitimate missing-area states.
         bands = [59] if c["id"] == registry["baseId"] else [59, 74, 84]

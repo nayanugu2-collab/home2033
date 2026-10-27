@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-26",
+  "checkedAt": "2026-10-27",
   "baseId": "base",
   "purchasePriceEok": 11.2,
   "minimumHouseholds": 500,
@@ -1717,7 +1717,7 @@
     },
     {
       "id": "pangyo11",
-      "region": "판교·백현",
+      "region": "서판교",
       "name": "판교원마을11단지 현대힐스테이트",
       "legalDongCode": "4113510800",
       "districtCode": "41135",
@@ -1817,6 +1817,1039 @@
       "apiAptSequences": [
         "11590-4948"
       ]
+    },
+    {
+      "id": "botdeul1",
+      "region": "판교·삼평",
+      "name": "봇들마을1단지 판교신미주",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "705"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 275,
+          "sub": 0
+        }
+      ],
+      "households": 1147,
+      "aliases": [
+        "봇들마을1단지 판교신미주",
+        "봇들마을1단지(판교신미주)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-440"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul2",
+      "region": "판교·삼평",
+      "name": "봇들마을2단지 이지더원",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "717"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교로",
+          "main": 393,
+          "sub": 0
+        }
+      ],
+      "households": 721,
+      "aliases": [
+        "봇들마을2단지 이지더원",
+        "봇들마을2단지(이지더원)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-441"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul3",
+      "region": "판교·삼평",
+      "name": "봇들마을3단지",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "722"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 225,
+          "sub": 0
+        }
+      ],
+      "households": 870,
+      "aliases": [
+        "봇들마을3단지",
+        "봇들마을3단지(주공)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-452"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul4",
+      "region": "판교·삼평",
+      "name": "봇들마을4단지",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "718"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 226,
+          "sub": 0
+        }
+      ],
+      "households": 748,
+      "aliases": [
+        "봇들마을4단지",
+        "봇들마을4단지(주공)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-454"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul5",
+      "region": "판교·삼평",
+      "name": "봇들마을5단지",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "726"
+      ],
+      "roadAddresses": [
+        {
+          "name": "대왕판교로644번길",
+          "main": 65,
+          "sub": 0
+        }
+      ],
+      "households": 775,
+      "aliases": [
+        "봇들마을5단지",
+        "봇들마을5단지휴먼시아"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "LH 국민임대 단지·주소·세대수 공고",
+          "url": "https://www.myhome.go.kr/hws/com/fms/cvplFileDownload.do?atchFileId=16bcf19e00249&fileSn=1"
+        },
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "국민임대 단지로 매매 가격·격차·매수 계산에서 제외합니다.",
+      "displayNote": "국민임대 단지로 매매 가격·격차·매수 계산에서 제외합니다.",
+      "apiAptSequences": [],
+      "tenure": "national-rental",
+      "comparisonEligible": false,
+      "apiCheckedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul6",
+      "region": "판교·삼평",
+      "name": "봇들마을6단지",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "728"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 212,
+          "sub": 0
+        }
+      ],
+      "households": 1297,
+      "aliases": [
+        "봇들마을6단지",
+        "봇들마을6단지휴먼시아"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "LH 국민임대 단지·주소·세대수 공고",
+          "url": "https://www.myhome.go.kr/hws/com/fms/cvplFileDownload.do?atchFileId=16bcf19e00249&fileSn=1"
+        },
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "국민임대 단지로 매매 가격·격차·매수 계산에서 제외합니다.",
+      "displayNote": "국민임대 단지로 매매 가격·격차·매수 계산에서 제외합니다.",
+      "apiAptSequences": [],
+      "tenure": "national-rental",
+      "comparisonEligible": false,
+      "apiCheckedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul7",
+      "region": "판교·삼평",
+      "name": "봇들마을7단지",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "738"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 155,
+          "sub": 0
+        }
+      ],
+      "households": 585,
+      "aliases": [
+        "봇들마을7단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-453"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "botdeul9",
+      "region": "판교·삼평",
+      "name": "봇들마을9단지 금호어울림",
+      "legalDongCode": "4113510900",
+      "districtCode": "41135",
+      "legalDong": "삼평동",
+      "jibuns": [
+        "744"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 156,
+          "sub": 0
+        }
+      ],
+      "households": 850,
+      "aliases": [
+        "봇들마을9단지 금호어울림",
+        "봇들마을9단지(금호어울림)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-455"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "baekhyeon5",
+      "region": "판교·백현",
+      "name": "백현마을5단지",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "554"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교역로",
+          "main": 102,
+          "sub": 0
+        }
+      ],
+      "households": 584,
+      "aliases": [
+        "백현마을5단지",
+        "백현마을5단지(주공)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-469"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "alpharium2",
+      "region": "판교·백현",
+      "name": "판교알파리움2단지",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "530"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교역로",
+          "main": 145,
+          "sub": 0
+        }
+      ],
+      "households": 514,
+      "aliases": [
+        "판교알파리움2단지"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-528"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "pangyo-grandble",
+      "region": "판교·백현",
+      "name": "판교푸르지오그랑블",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "542"
+      ],
+      "roadAddresses": [
+        {
+          "name": "동판교로",
+          "main": 123,
+          "sub": 0
+        }
+      ],
+      "households": 948,
+      "aliases": [
+        "판교푸르지오그랑블"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "KB부동산 단지 기본정보",
+          "url": "https://kbland.kr/se/c/22053"
+        },
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "최근 수집 거래의 전용면적이 59·74·84㎡급 밖이면 해당 필터의 가격은 비워 둡니다.",
+      "displayNote": "최근 수집 거래의 전용면적이 59·74·84㎡급 밖이면 해당 필터의 가격은 비워 둡니다.",
+      "apiAptSequences": [
+        "41135-497"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "pangyo-firstpark",
+      "region": "판교·백현",
+      "name": "더샵판교퍼스트파크",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "608"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교백현로",
+          "main": 38,
+          "sub": 0
+        }
+      ],
+      "households": 1223,
+      "aliases": [
+        "더샵판교퍼스트파크",
+        "THESHARP판교퍼스트파크"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "KB부동산 단지 기본정보",
+          "url": "https://www.kbland.kr/se/c/37859"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-594"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "pangyowon5",
+      "region": "서판교",
+      "name": "판교원마을5단지 푸르지오",
+      "legalDongCode": "4113510800",
+      "districtCode": "41135",
+      "legalDong": "판교동",
+      "jibuns": [
+        "634"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교원로",
+          "main": 207,
+          "sub": 0
+        }
+      ],
+      "households": 567,
+      "aliases": [
+        "판교원마을5단지 푸르지오",
+        "판교원마을5단지(푸르지오)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "KB부동산 단지 기본정보",
+          "url": "https://kbland.kr/se/c/21199"
+        },
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-462"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "pangyowon7",
+      "region": "서판교",
+      "name": "판교원마을7단지 모아미래도",
+      "legalDongCode": "4113510800",
+      "districtCode": "41135",
+      "legalDong": "판교동",
+      "jibuns": [
+        "637"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교원로",
+          "main": 237,
+          "sub": 0
+        }
+      ],
+      "households": 585,
+      "aliases": [
+        "판교원마을7단지 모아미래도",
+        "판교원마을7단지(모아미래도)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "최근 수집 거래의 전용면적이 59·74·84㎡급 밖이면 해당 필터의 가격은 비워 둡니다.",
+      "displayNote": "최근 수집 거래의 전용면적이 59·74·84㎡급 밖이면 해당 필터의 가격은 비워 둡니다.",
+      "apiAptSequences": [
+        "41135-439"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "pangyowon9",
+      "region": "서판교",
+      "name": "판교원마을9단지 한림풀에버",
+      "legalDongCode": "4113510800",
+      "districtCode": "41135",
+      "legalDong": "판교동",
+      "jibuns": [
+        "585"
+      ],
+      "roadAddresses": [
+        {
+          "name": "서판교로",
+          "main": 29,
+          "sub": 0
+        }
+      ],
+      "households": 1045,
+      "aliases": [
+        "판교원마을9단지 한림풀에버",
+        "판교원마을9단지(한림풀에버)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-444"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "sanun11",
+      "region": "서판교",
+      "name": "산운마을11단지 판교포레라움",
+      "legalDongCode": "4113511500",
+      "districtCode": "41135",
+      "legalDong": "운중동",
+      "jibuns": [
+        "922"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교원로",
+          "main": 68,
+          "sub": 0
+        }
+      ],
+      "households": 504,
+      "aliases": [
+        "산운마을11단지 판교포레라움",
+        "산운마을11단지(판교포레라움)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-466"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "sanun12",
+      "region": "서판교",
+      "name": "산운마을12단지 판교센트럴포레",
+      "legalDongCode": "4113511500",
+      "districtCode": "41135",
+      "legalDong": "운중동",
+      "jibuns": [
+        "921"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교원로",
+          "main": 46,
+          "sub": 0
+        }
+      ],
+      "households": 510,
+      "aliases": [
+        "산운마을12단지 판교센트럴포레",
+        "산운마을12단지판교센트럴포레와이시티"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-457"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "sanun13",
+      "region": "서판교",
+      "name": "산운마을13단지 태영",
+      "legalDongCode": "4113511500",
+      "districtCode": "41135",
+      "legalDong": "운중동",
+      "jibuns": [
+        "918"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교원로82번길",
+          "main": 30,
+          "sub": 0
+        }
+      ],
+      "households": 1396,
+      "aliases": [
+        "산운마을13단지 태영",
+        "산운마을13단지(태영)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-477"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "seohyeon-samsung-hanshin",
+      "region": "서현",
+      "name": "시범단지 삼성한신",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "87"
+      ],
+      "roadAddresses": [
+        {
+          "name": "중앙공원로",
+          "main": 53,
+          "sub": 0
+        }
+      ],
+      "households": 1781,
+      "aliases": [
+        "시범단지 삼성한신",
+        "시범삼성",
+        "시범한신"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "삼성·한신을 같은 관리단지 1,781세대로 집계합니다. 두 API 명칭의 거래를 포함합니다.",
+      "displayNote": "삼성·한신을 같은 관리단지 1,781세대로 집계합니다. 두 API 명칭의 거래를 포함합니다.",
+      "apiAptSequences": [
+        "41135-102",
+        "41135-98"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "seohyeon-hanyang",
+      "region": "서현",
+      "name": "시범단지 한양",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "91"
+      ],
+      "roadAddresses": [
+        {
+          "name": "중앙공원로",
+          "main": 17,
+          "sub": 0
+        }
+      ],
+      "households": 2419,
+      "aliases": [
+        "시범단지 한양",
+        "시범한양"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-103"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "seohyeon-woosung",
+      "region": "서현",
+      "name": "시범단지 우성",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "96"
+      ],
+      "roadAddresses": [
+        {
+          "name": "중앙공원로",
+          "main": 54,
+          "sub": 0
+        }
+      ],
+      "households": 1874,
+      "aliases": [
+        "시범단지 우성",
+        "시범우성"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "세대수는 K-apt 관리단지 기준입니다. 일부 민간 자료의 세대수와 차이가 있습니다.",
+      "displayNote": "세대수는 K-apt 관리단지 기준입니다. 일부 민간 자료의 세대수와 차이가 있습니다.",
+      "apiAptSequences": [
+        "41135-100"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "seohyeon-hyundai",
+      "region": "서현",
+      "name": "시범단지 현대",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "92"
+      ],
+      "roadAddresses": [
+        {
+          "name": "중앙공원로",
+          "main": 20,
+          "sub": 0
+        }
+      ],
+      "households": 1695,
+      "aliases": [
+        "시범단지 현대",
+        "시범현대"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-99"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "hyoja-donga",
+      "region": "서현",
+      "name": "효자촌 동아",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "291"
+      ],
+      "roadAddresses": [
+        {
+          "name": "돌마로486번길",
+          "main": 7,
+          "sub": 0
+        },
+        {
+          "name": "돌마로486번길",
+          "main": 12,
+          "sub": 0
+        }
+      ],
+      "households": 648,
+      "aliases": [
+        "효자촌 동아",
+        "효자촌(동아)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-106"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "hyoja-samhwan",
+      "region": "서현",
+      "name": "효자촌 삼환",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "301"
+      ],
+      "roadAddresses": [
+        {
+          "name": "돌마로476번길",
+          "main": 31,
+          "sub": 0
+        },
+        {
+          "name": "불정로",
+          "main": 361,
+          "sub": 0
+        }
+      ],
+      "households": 632,
+      "aliases": [
+        "효자촌 삼환",
+        "효자촌(삼환)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-109"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "hyoja-imgwang",
+      "region": "서현",
+      "name": "효자촌 임광",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "292"
+      ],
+      "roadAddresses": [
+        {
+          "name": "불정로",
+          "main": 397,
+          "sub": 0
+        }
+      ],
+      "households": 732,
+      "aliases": [
+        "효자촌 임광",
+        "효자촌(임광)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-110"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "hyoja-hyundai",
+      "region": "서현",
+      "name": "효자촌 현대",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "299"
+      ],
+      "roadAddresses": [
+        {
+          "name": "분당로201번길",
+          "main": 17,
+          "sub": 0
+        }
+      ],
+      "households": 710,
+      "aliases": [
+        "효자촌 현대",
+        "효자촌(현대)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "K-apt 관리단지 710세대 기준입니다. 일부 민간 자료의 536세대와 구분합니다.",
+      "displayNote": "K-apt 관리단지 710세대 기준입니다. 일부 민간 자료의 536세대와 구분합니다.",
+      "apiAptSequences": [
+        "41135-111"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "hyoja-greentown",
+      "region": "서현",
+      "name": "효자촌 그린타운",
+      "legalDongCode": "4113510500",
+      "districtCode": "41135",
+      "legalDong": "서현동",
+      "jibuns": [
+        "308"
+      ],
+      "roadAddresses": [
+        {
+          "name": "분당로263번길",
+          "main": 13,
+          "sub": 0
+        },
+        {
+          "name": "불정로",
+          "main": 362,
+          "sub": 0
+        }
+      ],
+      "households": 1774,
+      "aliases": [
+        "효자촌 그린타운",
+        "효자촌(대우)",
+        "효자촌(럭키)",
+        "효자촌(화성)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-27",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "대우·럭키(LG)·화성을 같은 관리단지 1,774세대로 집계합니다. 대창(310번지)은 포함하지 않습니다.",
+      "displayNote": "대우·럭키(LG)·화성을 같은 관리단지 1,774세대로 집계합니다. 대창(310번지)은 포함하지 않습니다.",
+      "apiAptSequences": [
+        "41135-104",
+        "41135-107",
+        "41135-112"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
     }
   ],
   "excludedCandidates": [
@@ -1846,12 +2879,94 @@
       "address": "판교동 494",
       "reason": "500세대 미만. 기존 모호한 후보는 605세대 11단지로 구체화.",
       "source": "https://aptsonpoom.com/danji/A46341006"
+    },
+    {
+      "id": "botdeul8",
+      "region": "판교·삼평",
+      "name": "봇들마을8단지",
+      "households": 447,
+      "address": "삼평동 742",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "baekhyeon6",
+      "region": "판교·백현",
+      "name": "백현마을6단지",
+      "households": 396,
+      "address": "백현동 555",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "baekhyeon7",
+      "region": "판교·백현",
+      "name": "백현마을7단지",
+      "households": 464,
+      "address": "백현동 556",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "baekhyeon8",
+      "region": "판교·백현",
+      "name": "백현마을8단지",
+      "households": 340,
+      "address": "백현동 558",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "baekhyeon9",
+      "region": "판교·백현",
+      "name": "백현마을9단지",
+      "households": 348,
+      "address": "백현동 525",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "alpharium1",
+      "region": "판교·백현",
+      "name": "판교알파리움1단지",
+      "households": 417,
+      "address": "백현동 531",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "pangyowon3",
+      "region": "서판교",
+      "name": "판교원마을3단지 푸르지오",
+      "households": 486,
+      "address": "판교동 629",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "pangyowon6",
+      "region": "서판교",
+      "name": "판교원마을6단지 대광로제비앙",
+      "households": 470,
+      "address": "판교동 635",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+    },
+    {
+      "id": "sanun14",
+      "region": "서판교",
+      "name": "산운마을14단지 경남아너스빌",
+      "households": 492,
+      "address": "운중동 916",
+      "reason": "K-apt 관리단지 기준 500세대 미만.",
+      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
     }
   ],
   "notes": [
     "기존 등록 후보를 바탕으로 구성한 관심 목록이며, 지역 내 500세대 이상 단지 전체를 전수 수록한 것은 아닙니다.",
     "이수는 역세권 표현입니다. 사당동 법정동 코드로 조회하며, 별도의 '이수동' 코드를 만들지 않습니다.",
-    "공개 단지 정보 대조이며 정부 공인 검증을 뜻하지 않습니다. 출처 및 관리단지의 세대수 기준을 확인하세요."
+    "공개 단지 정보 대조이며 정부 공인 검증을 뜻하지 않습니다. 출처 및 관리단지의 세대수 기준을 확인하세요.",
+    "2026-10-27 판교·삼평·백현·운중 및 서현의 27개 단지를 추가했습니다. 봇들5·6은 국민임대 안내용으로 표시하고 매매 비교에서 제외합니다."
   ],
   "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
 }

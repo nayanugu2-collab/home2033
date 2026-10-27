@@ -1,6 +1,6 @@
 # 단지 명부 검증 기록
 
-확인일: 2026-10-26. 기준 주택 1개와 관심 단지 51개입니다. 기존 후보의 지역·단지 구성을 유지했습니다. 공개 단지 기본정보 및 도로명 주소를 대조한 결과이며, 2026-10-26 17:21 KST 실제 API 수집 결과로 법정동 코드·명칭·지번을 추가 대조했고 52개 단지 모두 거래 연결을 확인했습니다. 가격은 이 검증 자료에서 가져오지 않습니다.
+확인일: 2026-10-26~27. 초기 기준 주택 1개와 관심 단지 51개를 유지하고, 판교·서현 주변 27개를 추가해 **총 79개(기준 1개 + 관심·안내 78개)**입니다. 봇들5·6은 국민임대 안내용으로 매매 비교에서 제외합니다. 초기 52개와 추가 매매 대상 25개는 2026-10-26 실제 API 원본의 법정동·명칭·지번에 연결되는 것을 확인했습니다. 세대수와 주소는 공개 기본정보로 대조하며, 가격은 이 검증 자료에서 가져오지 않습니다.
 
 ## 이름과 범위 수정
 
@@ -94,3 +94,43 @@ API 응답의 sggCd·umdCd를 붙인 10자리 법정동 코드와 umdNm을 모�
 - 사당롯데캐슬골든포레: API 현 지번 사당동 1160으로 정정했습니다. 기존 1149는 별개 단지인 사당롯데캐슬2차로 확인되어 허용하지 않습니다.
 - 위 수정은 국토교통부 상세 API의 이름·법정동 코드·법정동명·지번·도로명·aptSeq를 직접 대조한 결과입니다. 이름 유사도는 검토 후보 제시에만 사용하고 거래 승인에는 사용하지 않았습니다.
 - 실제 관측 신원 회귀 자료: tests/fixtures/observed-identities.json. 세대수는 실거래 API 미제공 항목이므로 앞 표의 단지 정보 출처를 따릅니다.
+
+## 판교·서현 확장 (2026-10-27)
+
+27개 추가: 매매 대상 25개와 국민임대 안내 2개. 법정동 코드는 공식 XML의 시군구·법정동 코드로 대조했습니다. 세대수는 K-apt 관리단지 기준이며, 일부 K-apt 출처는 2018년 관리비 공개 목록의 기본정보입니다. 봇들5·6의 공급 유형과 주소는 LH 공고로 별도 확인했습니다.
+
+| 지역 | 단지 | 법정동 코드 | 지번 | 세대수 | 확인 출처 |
+|---|---|---|---|---:|---|
+| 판교·삼평 | 봇들마을1단지 판교신미주 | 4113510900 | 삼평동 705 | 1147 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·삼평 | 봇들마을2단지 이지더원 | 4113510900 | 삼평동 717 | 721 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·삼평 | 봇들마을3단지 | 4113510900 | 삼평동 722 | 870 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·삼평 | 봇들마을4단지 | 4113510900 | 삼평동 718 | 748 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·삼평 | 봇들마을5단지 | 4113510900 | 삼평동 726 | 775 | [기본정보](https://www.myhome.go.kr/hws/com/fms/cvplFileDownload.do?atchFileId=16bcf19e00249&fileSn=1) |
+| 판교·삼평 | 봇들마을6단지 | 4113510900 | 삼평동 728 | 1297 | [기본정보](https://www.myhome.go.kr/hws/com/fms/cvplFileDownload.do?atchFileId=16bcf19e00249&fileSn=1) |
+| 판교·삼평 | 봇들마을7단지 | 4113510900 | 삼평동 738 | 585 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·삼평 | 봇들마을9단지 금호어울림 | 4113510900 | 삼평동 744 | 850 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·백현 | 백현마을5단지 | 4113511000 | 백현동 554 | 584 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·백현 | 판교알파리움2단지 | 4113511000 | 백현동 530 | 514 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 판교·백현 | 판교푸르지오그랑블 | 4113511000 | 백현동 542 | 948 | [기본정보](https://kbland.kr/se/c/22053) |
+| 판교·백현 | 더샵판교퍼스트파크 | 4113511000 | 백현동 608 | 1223 | [기본정보](https://www.kbland.kr/se/c/37859) |
+| 서판교 | 판교원마을5단지 푸르지오 | 4113510800 | 판교동 634 | 567 | [기본정보](https://kbland.kr/se/c/21199) |
+| 서판교 | 판교원마을7단지 모아미래도 | 4113510800 | 판교동 637 | 585 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서판교 | 판교원마을9단지 한림풀에버 | 4113510800 | 판교동 585 | 1045 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서판교 | 산운마을11단지 판교포레라움 | 4113511500 | 운중동 922 | 504 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서판교 | 산운마을12단지 판교센트럴포레 | 4113511500 | 운중동 921 | 510 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서판교 | 산운마을13단지 태영 | 4113511500 | 운중동 918 | 1396 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 시범단지 삼성한신 | 4113510500 | 서현동 87 | 1781 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 시범단지 한양 | 4113510500 | 서현동 91 | 2419 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 시범단지 우성 | 4113510500 | 서현동 96 | 1874 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 시범단지 현대 | 4113510500 | 서현동 92 | 1695 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 효자촌 동아 | 4113510500 | 서현동 291 | 648 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 효자촌 삼환 | 4113510500 | 서현동 301 | 632 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 효자촌 임광 | 4113510500 | 서현동 292 | 732 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 효자촌 현대 | 4113510500 | 서현동 299 | 710 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+| 서현 | 효자촌 그린타운 | 4113510500 | 서현동 308 | 1774 | [기본정보](https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y) |
+
+- 삼성·한신은 한 관리단지로 등록하고 시범삼성·시범한신 두 명칭을 매칭합니다. 효자촌 그린타운은 대우·럭키·화성을 같은 관리단지로 집계하며, 대창(310번지)을 섞지 않습니다.
+- 봇들5·6은 국민임대 안내용입니다. 수집기와 화면 모두 매매 가격을 만들지 않으며, 임대료·주변 가격도 대체하지 않습니다.
+- 봇들8(447), 백현6(396)·7(464)·8(340)·9(348), 알파리움1(417), 판교원3(486)·6(470), 산운14(492)는 500세대 미만으로 제외 기록에 남겼습니다.
+- 그랑블·알파리움 등은 전용 59·74·84㎡급 거래가 없을 수 있습니다. 필터 밖 실제 면적은 JSON에 보존하지만 다른 크기의 가격을 끼워 넣지 않습니다.
+- 새 공식 수집은 기존 GitHub Actions가 Secret으로 수행합니다. 최초 대조에 사용한 원본 캐시의 관측 시각은 2026-10-26이며 apiVerifiedAt에 그대로 보존했습니다.

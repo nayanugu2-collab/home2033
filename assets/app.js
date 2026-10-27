@@ -65,7 +65,7 @@ function averagePeriod(stats) {
   return stats.count10 ? dateLabel(stats.start10) + " ~ " + dateLabel(stats.end10) : "해당 면적 거래 없음";
 }
 function selectedComplex() { return registry.complexes.find(c => c.id === selected); }
-function getSummary(c, exactType = "all") { return summary(forArea(trades, c.id, area, exactType), asOf()); }
+function getSummary(c, exactType = "all") { return summary(c.comparisonEligible === false ? [] : forArea(trades, c.id, area, exactType), asOf()); }
 function record(c, exactType = "all") {
   const stats = getSummary(c, exactType);
   const price = priceFor(stats, $("metric").value);
@@ -110,9 +110,10 @@ function medianCell(price, n) {
     (n < 3 ? "거래 부족 · " + n + "건" : n + "건") + "</small>";
 }
 function renderList() {
-  const search = $("search").value.trim().toLowerCase();
+  const normalizeSearch = value => value.replace(/\s+/g, "").toLowerCase();
+  const search = normalizeSearch($("search").value);
   let records = registry.complexes.filter(c => c.id !== registry.baseId &&
-    (region === "all" || c.region === region) && (c.name + c.legalDong).toLowerCase().includes(search)).map(c => record(c));
+    (region === "all" || c.region === region) && normalizeSearch([c.name, c.legalDong, c.region, ...c.aliases].join(" ")).includes(search)).map(c => record(c));
   records.sort((a, b) => {
     if ($("sort").value === "name") return a.c.name.localeCompare(b.c.name, "ko");
     if ($("sort").value === "date") return (b.stats.latest?.date ?? "").localeCompare(a.stats.latest?.date ?? "");
@@ -129,14 +130,14 @@ function renderList() {
   $("resultCount").innerHTML = "<b>" + records.length + "</b>개 관심 단지 <span class='muted'>· " + area + "㎡급" + (demo ? " · 샘플" : "") + "</span>";
   $("apartmentRows").innerHTML = records.map((r, index) => {
     const latest = r.stats.latest, low = (metric === "median3" ? r.stats.count3 < 3 : metric === "median6" ? r.stats.count6 < 3 : averageMode() ? r.stats.count10 < 3 : r.stats.count < 3) || (averageMode() && baseSummary().count10 < 3);
-    const priceDetail = averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) :
+    const priceDetail = r.c.comparisonEligible === false ? "국민임대 · 매매 비교 제외" : averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) :
       metric === "latest" ? (latest ? dateLabel(latest.date) + " · " + latest.area + "㎡" : "거래 부족 · 0건") :
       (metric === "median3" ? r.stats.count3 : r.stats.count6) + "건 · 최근 " + (metric === "median3" ? "3" : "6") + "개월";
     return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(index + 1).padStart(2, "0") +
-      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + r.c.households.toLocaleString() + '세대</small></div></td>' +
+      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + r.c.households.toLocaleString() + '세대' + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small></div></td>' +
       '<td data-label="' + escape(metricLabel) + '"><span class="cell-price">' + money(r.price == null ? null : r.price / 10000) + '</span><small class="' + (low ? "low-sample" : "muted") + '">' + priceDetail + "</small></td>" +
       '<td data-label="3개월 중앙값">' + medianCell(r.stats.median3, r.stats.count3) + '</td><td data-label="6개월 중앙값">' + medianCell(r.stats.median6, r.stats.count6) + "</td>" +
-      '<td data-label="기준 대비 격차" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + (r.price == null ? "거래 부족" : low ? "거래 부족 · 표본 유의" : averageMode() ? "기준 59㎡급 평균 대비" : "기준 최신 59㎡급 대비") + '</small></td><td data-label="가격 배율"><b>' +
+      '<td data-label="기준 대비 격차" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + (r.c.comparisonEligible === false ? "매매 비교 제외" : r.price == null ? "거래 부족" : low ? "거래 부족 · 표본 유의" : averageMode() ? "기준 59㎡급 평균 대비" : "기준 최신 59㎡급 대비") + '</small></td><td data-label="가격 배율"><b>' +
       (r.ratio == null ? "—" : r.ratio.toFixed(2) + "배") + '</b></td><td class="row-arrow"><a href="#detail" data-detail="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 상세 그래프">↗</a></td></tr>';
   }).join("");
   $("noResults").hidden = records.length > 0;
@@ -169,12 +170,15 @@ function renderChart(container, series, keys, title) {
 }
 function syncPrices() {
   if (!registry) return;
+  const eligible = selectedComplex().comparisonEligible !== false;
   const base = basePrice();
   if (saleAuto) $("sale").value = base == null ? "" : (base / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
   const value = record(selectedComplex(), exact).price;
-  if (targetAuto) $("targetPrice").value = value == null ? "" : (value / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+  if (targetAuto || !eligible) $("targetPrice").value = value == null ? "" : (value / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+  $("targetPrice").disabled = !eligible;
+  $("resetTarget").disabled = !eligible;
   $("saleHint").textContent = saleAuto ? (averageMode() ? "기준 주택 최근 10건 평균" : "기준 주택 최근 1건") + " 연동 중 · 미래 예상 매도가는 직접 수정할 수 있습니다." : "직접 입력한 예상 매도가 · 실거래 비교 기준에는 영향을 주지 않습니다.";
-  $("targetHint").textContent = (demo ? "[샘플] " : "") + selectedComplex().name + " · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + " · " +
+  $("targetHint").textContent = !eligible ? "국민임대 단지로 매매 가격과 매수 자금 계산을 제공하지 않습니다. 다른 매매 단지를 선택하세요." : (demo ? "[샘플] " : "") + selectedComplex().name + " · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + " · " +
     $("metric").selectedOptions[0].textContent + (targetAuto ? " 연동" : "을 참고한 직접 입력 시나리오") +
     (value == null ? " · 거래 부족: 목표 매수가를 직접 입력하면 계산할 수 있습니다." : " · 미래 가격 예측이 아닙니다.");
 }
@@ -188,24 +192,27 @@ function renderDetail(resetTypes = false) {
     $("exactArea").value = exact;
   }
   const r = record(c, exact);
+  const eligible = c.comparisonEligible !== false;
+  $("useTarget").disabled = !eligible;
   $("selectedName").textContent = c.name;
   $("selectedRegion").textContent = c.region + (demo ? " · 샘플" : "");
   $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " + c.households.toLocaleString() + "세대 · " +
-    (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계");
+    (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계") + (c.displayNote ? " · " + c.displayNote : "");
   $("selectedMetrics").innerHTML = [
-    [$("metric").selectedOptions[0].textContent, r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
+    [$("metric").selectedOptions[0].textContent, !eligible ? "매매 비교 제외" : r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
     ["기준 대비 격차", signed(r.gap) + (r.gap == null ? "" : "억")],
     [averageMode() ? "평균에 사용한 거래" : "3개월 / 6개월 거래", averageMode() ? r.stats.count10 + " / 10건" : r.stats.count3 + "건 / " + r.stats.count6 + "건"],
     ["실제 전용면적", r.stats.areas.length ? r.stats.areas.join(" / ") + "㎡" : "해당 면적 거래 없음"]
   ].map(([label, value]) => "<div><span>" + label + "</span><b>" + escape(value) + "</b></div>").join("");
-  $("selectedPriceDetail").textContent = averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) +
+  $("selectedPriceDetail").textContent = !eligible ? "국민임대 · 매매 비교 제외. 임대료나 인근 단지 가격을 매매 가격으로 대체하지 않습니다." : averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) +
     " · 선택한 전용면적의 실제 거래만 사용합니다. 아래 그래프는 월별 중앙값입니다." : "아래 그래프는 선택한 비교 가격과 별도로 월별 중앙값을 표시합니다.";
-  const ts = forArea(trades, c.id, area, exact), series = monthSeries(ts, baseTrades, asOf());
+  const ts = eligible ? forArea(trades, c.id, area, exact) : [], series = monthSeries(ts, baseTrades, asOf());
   renderChart("priceChart", series, ["price", "base"], "월별 실거래 중앙값. 빈 월은 연결하지 않습니다.");
   renderChart("gapChart", series, ["gap"], "같은 계약월의 선택 단지 중앙값과 동천센트럴자이 59㎡급 중앙값의 차이");
+  if (!eligible) for (const id of ["priceChart", "gapChart"]) $(id).innerHTML = '<div class="chart-empty">국민임대<p>매매 비교 대상이 아닙니다.</p></div>';
   $("monthlyRows").innerHTML = series.map(p => "<tr><td>" + p.month + "</td><td>" + money(p.price) + "</td><td>" + p.count + (p.count < 3 ? " · 거래 부족" : "") + "</td><td>" + money(p.base) + "</td><td>" + p.baseCount + (p.baseCount < 3 ? " · 거래 부족" : "") + "</td><td>" + signed(p.gap) + "</td></tr>").join("");
   $("recentTrades").innerHTML = ts.length ? '<div class="ledger-list">' + ts.slice(0, 10).map(t => '<div><time>' + dateLabel(t.date) + '</time><span>' + t.area + "㎡ · " + escape(t.floor) + '층</span><b>' + money(t.priceManwon / 10000) + '억</b><small>' + escape(t.dealingType || "거래유형 미제공") + (demo ? " · 샘플" : "") + "</small></div>").join("") + "</div>" +
-    (r.stats.sameDateCount > 1 ? '<p class="field-help">최신 계약일에 ' + r.stats.sameDateCount + "건이 있습니다. 최근 1건은 거래 ID 순으로 선택하며 당일 거래 내역도 함께 확인하세요.</p>" : "") : '<p class="empty">거래 부족 · 해당 전용면적의 최근 12개월 거래가 없습니다.</p>';
+    (r.stats.sameDateCount > 1 ? '<p class="field-help">최신 계약일에 ' + r.stats.sameDateCount + "건이 있습니다. 최근 1건은 거래 ID 순으로 선택하며 당일 거래 내역도 함께 확인하세요.</p>" : "") : '<p class="empty">' + (eligible ? '거래 부족 · 해당 전용면적의 최근 12개월 거래가 없습니다.' : '국민임대 단지입니다. 매매 가격을 제공하지 않습니다.') + '</p>';
   $("complexSource").href = c.sources[0].url;
   $("complexSource").textContent = "단지 정보 확인 ↗ · " + c.checkedAt;
   $("targetComplex").value = selected;
@@ -217,6 +224,7 @@ function renderCalculation() {
   $("planSubtitle").textContent = $("targetMonth").value + " 매수 가정 · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + (demo ? " · 샘플 가격" : "");
   const resultIds = ["shortage", "netSale", "assetResult", "savingsResult", "equityResult", "loanResult", "availableResult", "costResult"];
   try {
+    if (selectedComplex().comparisonEligible === false) throw new Error("국민임대 단지는 매수 자금 계산 대상이 아닙니다. 다른 매매 단지를 선택하세요.");
     for (const id of ids) {
       if ($(id).value === "") throw new Error(id === "sale" ? "현재 주택 예상 매도가를 입력하세요." : id === "targetPrice" ? "거래 부족 · 목표 매수가를 직접 입력하세요." : "비어 있는 입력값을 확인하세요.");
     }
@@ -249,7 +257,7 @@ function choose(id, scroll = false) {
 function setupRegistry() {
   $("regions").innerHTML = ["all", ...new Set(registry.complexes.filter(c => c.id !== registry.baseId).map(c => c.region))].map(r =>
     '<button type="button" data-region="' + r + '" aria-pressed="' + (r === region) + '" class="' + (r === region ? "selected" : "") + '">' + (r === "all" ? "전체 지역" : r) + "</button>").join("");
-  $("targetComplex").innerHTML = registry.complexes.filter(c => c.id !== registry.baseId).map(c => '<option value="' + c.id + '">' + escape(c.region + " · " + c.name) + "</option>").join("");
+  $("targetComplex").innerHTML = registry.complexes.filter(c => c.id !== registry.baseId).map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + "</option>").join("");
   $("registryNote").textContent = registry.notes.join(" ") + " 확인일 " + registry.checkedAt + ". 비교 후보 " + (registry.complexes.length - 1) + "개.";
   $("registryAudit").innerHTML = '<div class="audit-list">' + registry.complexes.map(c => '<div><b>' + escape(c.name) + '</b><span>' + escape(c.legalDong + " " + c.jibuns.join(", ") + " · 법정동 " + c.legalDongCode + " · " + c.households + "세대") + '</span>' +
     (c.note ? "<small>" + escape(c.note) + "</small>" : "") + '<a target="_blank" rel="noopener" href="' + escape(c.sources[0].url) + '">확인 출처 ↗</a></div>').join("") + "</div><h4>500세대 미만으로 제외한 구분 단지</h4>" +

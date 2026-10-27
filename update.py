@@ -192,7 +192,7 @@ def collect(key, registry, today, fetcher=fetch_month):
                     stats["canceled"] += 1
                     continue
                 c = match_complex(row, registry)
-                if c is None:
+                if c is None or c.get("comparisonEligible") is False:
                     stats["unmatched"] += 1
                     continue
                 try:

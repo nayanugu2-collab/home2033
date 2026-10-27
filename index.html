@@ -8,7 +8,7 @@
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css">
-  <script type="module" src="./assets/app.js?v=average10"></script>
+  <script type="module" src="./assets/app.js?v=bundang-expansion"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -50,7 +50,7 @@
     </div>
     <div class="list-heading"><span id="resultCount">단지 확인 중</span><span class="muted small">금액 단위: 억원 · 행을 눌러 상세 비교</span></div>
     <div class="table-container panel"><table class="apartments"><caption class="sr-only">지역별 단지 실거래가, 선택한 비교 가격과 기준 주택 대비 격차</caption><thead><tr><th>단지 / 지역</th><th id="priceColumnLabel">최근 10건 평균</th><th>3개월 중앙값</th><th>6개월 중앙값</th><th>기준 대비 격차</th><th>배율</th><th><span class="sr-only">상세</span></th></tr></thead><tbody id="apartmentRows"></tbody></table><div id="noResults" class="empty" hidden>조건에 맞는 단지가 없습니다. 지역 또는 검색어를 바꿔보세요.</div></div>
-    <p class="small muted">평균은 최대 10건으로 계산하고 10건 미만이면 실제 사용 건수를 표시합니다. 평균·중앙값 표본이 3건 미만이면 ‘거래 부족’입니다. 가격을 보간하거나 다른 면적의 거래로 채우지 않습니다.</p>
+    <p class="small muted">평균은 최대 10건으로 계산하고 10건 미만이면 실제 사용 건수를 표시합니다. 평균·중앙값 표본이 3건 미만이면 ‘거래 부족’입니다. 선택 면적의 거래가 없으면 가격을 비워 둡니다. 국민임대 단지는 안내용으로 표시하며 매매 비교·매수 계산에서 제외합니다.</p>
   </section>
   <section class="detail-section" id="detail" aria-label="선택 단지 상세">
     <div class="section-heading"><div><span class="eyebrow muted">02 / THE BIGGER PICTURE</span><h2>거래 흐름을 함께 보기</h2></div></div>
