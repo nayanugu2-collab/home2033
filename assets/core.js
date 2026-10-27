@@ -33,6 +33,17 @@ export function forArea(trades, id, band, exact = "all") {
     (exact === "all" || Math.abs(t.area - Number(exact)) < 0.00005))
     .sort((a, b) => b.date.localeCompare(a.date) || String(a.id).localeCompare(String(b.id)));
 }
+export function constructionLabel(trades, id, today) {
+  const currentYear = Number(today.slice(0, 4));
+  // Building age is property metadata: use all areas, independent of price filters.
+  const years = [...new Set(trades.filter(t => t.complexId === id && !t.canceled && t.date <= today &&
+    Number.isInteger(t.buildYear) && t.buildYear >= 1900 &&
+    t.buildYear <= Number(t.date?.slice(0, 4)) && t.buildYear <= currentYear)
+    .map(t => t.buildYear))].sort((a, b) => a - b);
+  if (!years.length) return "건축연도 확인 필요";
+  const oldest = currentYear - years[0], newest = currentYear - years.at(-1);
+  return years.join("·") + "년 건축 · " + (oldest === newest ? oldest : newest + "–" + oldest) + "년 경과";
+}
 export function summary(trades, asOf) {
   trades = validTrades(trades, asOf).sort((a, b) =>
     b.date.localeCompare(a.date) || String(a.id).localeCompare(String(b.id)));

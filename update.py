@@ -175,6 +175,12 @@ def fetch_month(key, district, month, fetcher=fetch_page):
     return result
 
 
+def build_year(value, contract_year):
+    """An optional API field must never invalidate an otherwise valid price."""
+    text = str(value or "").strip()
+    return int(text) if re.fullmatch(r"\d{4}", text) and 1900 <= int(text) <= contract_year else None
+
+
 def collect(key, registry, today, fetcher=fetch_month):
     districts = sorted({c["districtCode"] for c in registry["complexes"]})
     months = contract_months(today)
@@ -218,6 +224,7 @@ def collect(key, registry, today, fetcher=fetch_month):
                     "districtCode": district, "legalDong": row["umdNm"], "jibun": row.get("jibun", ""),
                     "roadName": row.get("roadNm", ""), "area": area, "areaClass": area_class(area),
                     "priceManwon": amount, "date": date.isoformat(), "floor": row.get("floor", ""),
+                    "buildYear": build_year(row.get("buildYear"), date.year),
                     "aptDong": row.get("aptDong", ""), "aptSeq": row.get("aptSeq", ""),
                     "dealingType": row.get("dealingGbn", ""), "canceled": False
                 })

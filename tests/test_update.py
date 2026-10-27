@@ -47,6 +47,15 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual((months[0], months[-1], len(months)), ("202510", "202610", 13))
         self.assertEqual(update.shift_month(dt.date(2024, 3, 31), -1), dt.date(2024, 2, 29))
 
+    def test_optional_build_year_is_preserved_without_losing_valid_prices(self):
+        for value, expected in [("2019", 2019), (" 2019 ", 2019), (None, None), ("", None),
+                                ("0", None), ("1899", None), ("2027", None), ("2019.5", None), ("bad", None)]:
+            with self.subTest(value=value):
+                result = update.collect("test", self.registry, TODAY, self.fake_fetcher([self.raw(buildYear=value)]))
+                self.assertEqual(len(result["trades"]), 2)
+                self.assertEqual(sum(t["buildYear"] == expected for t in result["trades"]), 2 if expected is None else 1)
+                self.assertTrue(all(t["priceManwon"] == 112000 for t in result["trades"]))
+
     def test_each_registry_identity_is_unambiguous(self):
         self.assertEqual(len({c["id"] for c in self.registry["complexes"]}), len(self.registry["complexes"]))
         for c in self.registry["complexes"]:

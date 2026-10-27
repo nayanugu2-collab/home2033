@@ -8,7 +8,7 @@
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css">
-  <script type="module" src="./assets/app.js?v=bundang-expansion"></script>
+  <script type="module" src="./assets/app.js?v=building-age"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -30,6 +30,7 @@
     <article class="base-card">
       <div class="card-top"><span class="tiny-label">비교의 출발점</span><span class="pill light">MY HOME</span></div>
       <h2>동천센트럴자이 <span>전용 59㎡급</span></h2>
+      <p id="baseAge">건축연도 확인 중</p>
       <div class="base-price" id="basePrice">—<small>억원</small></div>
       <p id="baseDetail">최근 10건 평균 확인 전</p>
       <div class="base-foot"><span>최초 매수가 <b>11.20억</b></span><span>현재 비교 기준과 별도</span></div>
@@ -55,7 +56,7 @@
   <section class="detail-section" id="detail" aria-label="선택 단지 상세">
     <div class="section-heading"><div><span class="eyebrow muted">02 / THE BIGGER PICTURE</span><h2>거래 흐름을 함께 보기</h2></div></div>
     <div class="panel detail-panel">
-      <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName">단지를 선택하세요</h3><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
+      <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName">단지를 선택하세요</h3><p class="small" id="selectedAge"></p><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
       <div class="selected-metrics" id="selectedMetrics"></div>
       <p class="small muted" id="selectedPriceDetail"></p>
       <div class="charts"><div class="chart-panel"><h4>실거래가 추세 <span>월별 중앙값 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지</span><span><i class="base-legend"></i>동천센트럴자이 59㎡급</span></div><div id="priceChart" class="chart"></div></div><div class="chart-panel"><h4>가격 격차 추세 <span>같은 계약월끼리 비교 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지 − 기준 주택</span></div><div id="gapChart" class="chart"></div></div></div>
@@ -95,6 +96,7 @@
     <div class="section-heading"><div><span class="eyebrow muted">BEHIND THE NUMBERS</span><h2>숫자를 읽기 전에</h2></div><span class="pill">출처가 있는 비교</span></div>
     <div class="method-grid"><div><h3>공식 실거래, 계약일 기준</h3><p>국토교통부 매매 실거래가 상세 API에서 수집합니다. 해제 거래를 제외하며 신고·정정·해제 반영이 지연될 수 있습니다.</p></div><div><h3>주소와 면적까지 확인</h3><p>10자리 법정동 코드, 법정동명, 명시된 단지명 별칭, 지번 또는 검증된 도로명과 건물번호를 확인합니다. 모호한 거래는 제외합니다.</p></div><div><h3>최근 10건 평균으로 비교</h3><p>기본값은 기준 주택 59㎡급과 비교 단지의 최근 10건 산술평균입니다. 10건 미만이면 있는 거래만 사용합니다. 최근 1건·3개월·6개월 중앙값 선택 시 기준 주택은 최근 1건이며, 최초 매수가는 참고 정보입니다.</p></div></div>
     <details><summary>면적·평균·중앙값·같은 날 거래 처리 기준</summary><p>59㎡급은 58 이상 60 미만, 74㎡급은 73 이상 75 미만, 84㎡급은 83 이상 85.01 미만입니다. 공급평형과 다릅니다. 상세 화면에서는 정확한 전용면적 타입을 선택할 수 있습니다. 최근 10건 평균은 최근 12개월 내 해당 단지·선택 면적의 거래를 계약일 내림차순으로 최대 10건 골라 가격 합계를 건수로 나눈 산술평균입니다. 거래가 없으면 가격을 비웁니다. 같은 계약일은 거래 ID 사전순으로 정렬하므로 10번째 경계가 같은 날이면 ID 순으로 포함하며 실제 계약 순서를 뜻하지 않습니다. 3·6개월은 한국 날짜에서 각각 해당 개월을 뺀 다음 날부터 오늘까지이며, 짝수 건의 중앙값은 가운데 두 가격의 평균입니다. 같은 계약일에 여러 건이면 거래 ID 사전순 첫 건을 최근 1건으로 표시하고 동률 건수를 안내합니다. 면적급 전체 집계에는 같은 급의 타입이 함께 포함됩니다.</p></details>
+    <p class="muted small">연식은 공식 거래에 기재된 건축연도 기준으로 현재 한국 연도에서 차감합니다. 정확한 준공 월·일 기준은 아니며, 동별 연도가 다르면 함께 표시합니다. 면적·가격 필터와 무관하고, 샘플 모드에서도 공식 건축연도만 사용합니다. 확인할 자료가 없으면 ‘건축연도 확인 필요’로 표시합니다.</p>
     <details><summary>단지 명부 검증 및 제외 이력</summary><p id="registryNote"></p><div id="registryAudit"></div></details>
     <details><summary>첫 실행과 업데이트 실패 안내</summary><p>공식 가격이 비어 있으면 README에 따라 API 키를 GitHub Secrets에 등록하고 Actions를 실행하세요. 일부 지역·계약월이라도 실패하면 마지막 정상 가격 파일을 유지하고 수집 실패 상태만 갱신합니다. GitHub 예약 작업은 지연될 수 있으므로 화면의 최종 갱신일을 확인하세요.</p><a href="./README.md">설치 안내 README 열기 ↗</a></details>
     <div class="source-links"><a href="https://www.data.go.kr/data/15126468/openapi.do" target="_blank" rel="noopener">공공데이터포털 ↗</a><a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토교통부 실거래가 ↗</a><a href="https://www.k-apt.go.kr/" target="_blank" rel="noopener">K-apt 단지 정보 ↗</a><span id="sourceStamp"></span></div>

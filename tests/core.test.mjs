@@ -1,9 +1,26 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { areaClass, calculate, comparison, forArea, median, monthSeries, monthsUntil, nextDay, priceFor, referencePrice, shiftMonth, summary, validTrades } from "../assets/core.js";
+import { areaClass, calculate, comparison, constructionLabel, forArea, median, monthSeries, monthsUntil, nextDay, priceFor, referencePrice, shiftMonth, summary, validTrades } from "../assets/core.js";
 
 const today = "2026-10-26";
+test("building age uses all areas and current year, independent of contract year", () => {
+  const rows = [trade({ area: 114, buildYear: 2019, date: "2025-12-10" }), trade({ buildYear: 2000, complexId: "other" })];
+  assert.equal(constructionLabel(rows, "base", today), "2019년 건축 · 7년 경과");
+  assert.equal(constructionLabel(rows, "base", "2027-01-01"), "2019년 건축 · 8년 경과");
+});
+test("different building years retain the observed years and age range", () => {
+  assert.equal(constructionLabel([trade({ buildYear: 1996 }), trade({ buildYear: 1995 }), trade({ buildYear: 1995 })], "base", today),
+    "1995·1996년 건축 · 30–31년 경과");
+  assert.equal(constructionLabel([trade({ buildYear: 2026 })], "base", today), "2026년 건축 · 0년 경과");
+});
+test("unknown or invalid building years never fabricate an age", () => {
+  const rows = [trade(), ...[null, 0, "2019", 1899, 2027, 2019.5].map(buildYear => trade({ buildYear })),
+    trade({ buildYear: 2026, date: "2025-12-10" }), trade({ buildYear: 2019, canceled: true }),
+    trade({ buildYear: 2019, date: "2026-12-01" })];
+  assert.equal(constructionLabel(rows, "base", today), "건축연도 확인 필요");
+  assert.equal(constructionLabel([], "base", today), "건축연도 확인 필요");
+});
 function trade(overrides = {}) {
   return { id: "test", complexId: "base", area: 59.87, priceManwon: 112000, date: "2026-10-05", canceled: false, ...overrides };
 }
