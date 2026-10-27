@@ -2,7 +2,17 @@
 
 동천센트럴자이 **전용 59㎡급의 최신 실거래**와 관심 아파트의 가격 격차를 추적하는 정적 대시보드입니다. 최초 매수가 **11.2억원은 참고 정보**로만 표시합니다. HTML·CSS·JavaScript, Python 표준 라이브러리, JSON, GitHub Actions·Pages만 사용하며 별도 서버·DB·유료 API는 필요하지 않습니다.
 
-공식 API 키를 연결하기 전에는 가격이 빈 상태로 시작합니다. **샘플로 둘러보기**를 누르면 별도의 가상 데이터로 UI를 확인할 수 있습니다. 샘플은 실거래나 미래 가격 예측이 아닙니다.
+현재 저장소에는 2026-10-27에 GitHub Actions가 공식 API로 수집한 거래 2,364건이 포함되어 있습니다. 이후 수집에 실패해도 이 마지막 정상 데이터를 볼 수 있습니다. **샘플로 둘러보기**를 누르면 별도의 가상 데이터로 UI를 확인할 수 있습니다. 샘플은 실거래나 미래 가격 예측이 아닙니다.
+
+**[대시보드 열기](https://nayanugu2-collab.github.io/home2033/)** · [첫 수집·배포 성공 기록](https://github.com/nayanugu2-collab/home2033/actions/runs/40487250861)
+
+운영 저장소는 [nayanugu2-collab/home2033](https://github.com/nayanugu2-collab/home2033)입니다. Secret 연결, 공식 수집, Pages 배포를 완료했으며, 아래 설정으로 관리합니다.
+
+- [API Secret 설정](https://github.com/nayanugu2-collab/home2033/settings/secrets/actions): 이름은 **MOLIT_SERVICE_KEY**, 값은 발급받은 인증키입니다. 같은 이름이 이미 있으면 중복 등록하지 않습니다.
+- [Pages 설정](https://github.com/nayanugu2-collab/home2033/settings/pages): **Build and deployment → Source → GitHub Actions**를 선택합니다.
+- [수집·배포 실행](https://github.com/nayanugu2-collab/home2033/actions/workflows/update.yml): **Run workflow → main → Run workflow**로 수동 실행합니다. 매일 07:17 한국시간에도 자동 실행을 시도합니다.
+
+설정 화면은 저장소 소유 계정으로 로그인해야 열립니다. 이 저장소는 이미 배포되어 있으므로 처음 설치하는 다른 저장소에만 아래 설치 절차를 적용하면 됩니다. 운영 중에는 Actions의 배포 성공 여부와 사이트의 최종 정상 갱신일을 확인하세요.
 
 ## 화면에서 할 수 있는 것
 
