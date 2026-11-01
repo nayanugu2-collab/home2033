@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "mode": "official",
+  "asOf": "2026-11-01",
+  "updatedAt": "2026-11-01T10:57:32.997550+09:00",
+  "districtCode": "47940",
+  "complexes": [
+    {
+      "id": "n-9267ee83509f8d263f3d",
+      "name": "울릉상록",
+      "aliases": [
+        "울릉상록"
+      ],
+      "region": "경상북도 울릉군",
+      "districtCode": "47940",
+      "legalDongCode": "4794025025",
+      "legalDong": "울릉읍 저동리",
+      "jibuns": [
+        "57-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    }
+  ],
+  "trades": [
+    {
+      "id": "28c9c32422b8e18d7a22-0",
+      "complexId": "n-9267ee83509f8d263f3d",
+      "legalDongCode": "4794025025",
+      "date": "2025-12-11",
+      "area": 47.1,
+      "priceManwon": 20200,
+      "floor": "3",
+      "buildYear": 1982,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "abfe6d9779984830b580-1",
+      "complexId": "n-9267ee83509f8d263f3d",
+      "legalDongCode": "4794025025",
+      "date": "2026-01-21",
+      "area": 47.1,
+      "priceManwon": 22500,
+      "floor": "1",
+      "buildYear": 1982,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "1c545f2adfffd2aa4b28-2",
+      "complexId": "n-9267ee83509f8d263f3d",
+      "legalDongCode": "4794025025",
+      "date": "2026-07-31",
+      "area": 47.1,
+      "priceManwon": 18500,
+      "floor": "2",
+      "buildYear": 1982,
+      "dealingType": "중개거래",
+      "canceled": false
+    }
+  ]
+}

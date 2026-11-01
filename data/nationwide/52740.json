@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 2,
+  "mode": "official",
+  "asOf": "2026-11-01",
+  "updatedAt": "2026-11-01T10:59:02.709775+09:00",
+  "districtCode": "52740",
+  "complexes": [
+    {
+      "id": "n-9a3072ed95c8516ed521",
+      "name": "성산빌라(나)",
+      "aliases": [
+        "성산빌라(나)"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025021",
+      "legalDong": "장수읍 장수리",
+      "jibuns": [
+        "304-3"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-eeae7632b7e9ed4003dc",
+      "name": "장수타워팰리스",
+      "aliases": [
+        "장수타워팰리스"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025022",
+      "legalDong": "장수읍 노하리",
+      "jibuns": [
+        "1283"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-662476dbbe66d4ad855f",
+      "name": "장수신천",
+      "aliases": [
+        "장수신천"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025022",
+      "legalDong": "장수읍 노하리",
+      "jibuns": [
+        "377-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-df8fbab42907ee123e26",
+      "name": "장수부경스카이",
+      "aliases": [
+        "장수부경스카이"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025021",
+      "legalDong": "장수읍 장수리",
+      "jibuns": [
+        "671"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-a484e391633102b15b02",
+      "name": "성산빌라(가)",
+      "aliases": [
+        "성산빌라(가)"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025021",
+      "legalDong": "장수읍 장수리",
+      "jibuns": [
+        "304-12"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-d86855bdae2daa6b99f5",
+      "name": "와남",
+      "aliases": [
+        "와남"
+      ],
+      "region": "전북특별자치도 장수군",
+      "districtCode": "52740",
+      "legalDongCode": "5274025021",
+      "legalDong": "장수읍 장수리",
+      "jibuns": [
+        "443-13"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    }
+  ],
+  "trades": [
+    {
+      "id": "9dea694ed1be733df7b2-0",
+      "complexId": "n-9a3072ed95c8516ed521",
+      "legalDongCode": "5274025021",
+      "date": "2025-12-03",
+      "area": 59.87,
+      "priceManwon": 7500,
+      "floor": "4",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "b3d19492ef7a7265e8d1-1",
+      "complexId": "n-eeae7632b7e9ed4003dc",
+      "legalDongCode": "5274025022",
+      "date": "2026-02-14",
+      "area": 71.5277,
+      "priceManwon": 22750,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "4c4822d4743bb305e66f-2",
+      "complexId": "n-eeae7632b7e9ed4003dc",
+      "legalDongCode": "5274025022",
+      "date": "2026-03-24",
+      "area": 84.5373,
+      "priceManwon": 26000,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0d1ea920ea0e46444742-3",
+      "complexId": "n-662476dbbe66d4ad855f",
+      "legalDongCode": "5274025022",
+      "date": "2026-03-05",
+      "area": 59.94,
+      "priceManwon": 7200,
+      "floor": "4",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "7a9b1481185dc9ac6296-4",
+      "complexId": "n-df8fbab42907ee123e26",
+      "legalDongCode": "5274025021",
+      "date": "2026-04-16",
+      "area": 84.9812,
+      "priceManwon": 31500,
+      "floor": "7",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a190c9c4a4c32bb64ea2-5",
+      "complexId": "n-662476dbbe66d4ad855f",
+      "legalDongCode": "5274025022",
+      "date": "2026-04-06",
+      "area": 59.94,
+      "priceManwon": 8250,
+      "floor": "1",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "797cb1ee48b0e7ab940b-6",
+      "complexId": "n-662476dbbe66d4ad855f",
+      "legalDongCode": "5274025022",
+      "date": "2026-05-07",
+      "area": 59.94,
+      "priceManwon": 4300,
+      "floor": "5",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "057846aa0660cfb4fd61-7",
+      "complexId": "n-df8fbab42907ee123e26",
+      "legalDongCode": "5274025021",
+      "date": "2026-06-23",
+      "area": 84.9812,
+      "priceManwon": 31700,
+      "floor": "9",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7f331c6d8d5db55beb0e-8",
+      "complexId": "n-df8fbab42907ee123e26",
+      "legalDongCode": "5274025021",
+      "date": "2026-06-18",
+      "area": 84.9812,
+      "priceManwon": 30600,
+      "floor": "3",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dfaec712bdbe902b447a-9",
+      "complexId": "n-a484e391633102b15b02",
+      "legalDongCode": "5274025021",
+      "date": "2026-07-24",
+      "area": 59.88,
+      "priceManwon": 8200,
+      "floor": "2",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8da22a59bd6e0500bb3f-10",
+      "complexId": "n-df8fbab42907ee123e26",
+      "legalDongCode": "5274025021",
+      "date": "2026-08-07",
+      "area": 68.0401,
+      "priceManwon": 25000,
+      "floor": "14",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6026d4b05a123be9a0ef-11",
+      "complexId": "n-eeae7632b7e9ed4003dc",
+      "legalDongCode": "5274025022",
+      "date": "2026-08-05",
+      "area": 84.5373,
+      "priceManwon": 29000,
+      "floor": "15",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "796385096f48ddb855b2-12",
+      "complexId": "n-d86855bdae2daa6b99f5",
+      "legalDongCode": "5274025021",
+      "date": "2026-09-24",
+      "area": 48.705,
+      "priceManwon": 2900,
+      "floor": "4",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dbcdca57a042c1fc9872-13",
+      "complexId": "n-eeae7632b7e9ed4003dc",
+      "legalDongCode": "5274025022",
+      "date": "2026-10-21",
+      "area": 84.5373,
+      "priceManwon": 25000,
+      "floor": "5",
+      "buildYear": 2014,
+      "dealingType": "직거래",
+      "canceled": false
+    }
+  ]
+}

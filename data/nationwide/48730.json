@@ -1,0 +1,5543 @@
+{
+  "schemaVersion": 2,
+  "mode": "official",
+  "asOf": "2026-11-01",
+  "updatedAt": "2026-11-01T10:57:58.884850+09:00",
+  "districtCode": "48730",
+  "complexes": [
+    {
+      "id": "n-f5d78794bfe29e2d259e",
+      "name": "GS메트로자이",
+      "aliases": [
+        "GS메트로자이"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025325",
+      "legalDong": "칠원읍 오곡리",
+      "jibuns": [
+        "1-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-e4a0fdbc0fb590324b21",
+      "name": "성진맨션",
+      "aliases": [
+        "성진맨션"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "535-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-d95e9d82ec7692b60b8e",
+      "name": "부영벽산블루밍2차",
+      "aliases": [
+        "부영벽산블루밍2차"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025325",
+      "legalDong": "칠원읍 오곡리",
+      "jibuns": [
+        "113"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-b4dc2a29f38502d381ce",
+      "name": "칠서기공",
+      "aliases": [
+        "칠서기공"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873035022",
+      "legalDong": "칠서면 무릉리",
+      "jibuns": [
+        "1058-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-f39a180b63d42f1c7eba",
+      "name": "칠서에이스1단지",
+      "aliases": [
+        "칠서에이스1단지"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873035022",
+      "legalDong": "칠서면 무릉리",
+      "jibuns": [
+        "1122"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-396792b7b9575896a21f",
+      "name": "도항주공1단지",
+      "aliases": [
+        "도항주공1단지"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "310-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-89ee3e57f29d5d8d95d6",
+      "name": "해동",
+      "aliases": [
+        "해동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "448"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-bf71aa75c76eaeb2f585",
+      "name": "대송가동",
+      "aliases": [
+        "대송가동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "103"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-32f00520e366d1869e0d",
+      "name": "칠서에이스2단지",
+      "aliases": [
+        "칠서에이스2단지"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873035022",
+      "legalDong": "칠서면 무릉리",
+      "jibuns": [
+        "1122-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-ad9092807a5259ae419a",
+      "name": "칠원동성",
+      "aliases": [
+        "칠원동성"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025321",
+      "legalDong": "칠원읍 구성리",
+      "jibuns": [
+        "950-4"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-9639071412c3ab748c02",
+      "name": "대경파미르(검암)",
+      "aliases": [
+        "대경파미르(검암)"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "770"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-f52bd161e3cfa48739ae",
+      "name": "동신101동",
+      "aliases": [
+        "동신101동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "224-4"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-50e43973db8b05396763",
+      "name": "대경파미르(도항)",
+      "aliases": [
+        "대경파미르(도항)"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "320"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-99225afe0c2bf40ba0d3",
+      "name": "태완노블리안",
+      "aliases": [
+        "태완노블리안"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "23"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-a1d6706b06d6798953fd",
+      "name": "벽산블루밍",
+      "aliases": [
+        "벽산블루밍"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025325",
+      "legalDong": "칠원읍 오곡리",
+      "jibuns": [
+        "87"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-500d0f98321dff7cfb3b",
+      "name": "무학",
+      "aliases": [
+        "무학"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "184"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-eeac5ef99eed69929cf3",
+      "name": "한국",
+      "aliases": [
+        "한국"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "934-5"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-98b15f586aee68371947",
+      "name": "동신102동103동",
+      "aliases": [
+        "동신102동103동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "225-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5f01a79ac2ef197919ae",
+      "name": "대륭아트빌라",
+      "aliases": [
+        "대륭아트빌라"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025321",
+      "legalDong": "칠원읍 구성리",
+      "jibuns": [
+        "561"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-d3893649093f3be31cfb",
+      "name": "휴니온클래식",
+      "aliases": [
+        "휴니온클래식"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "323-4"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-27f18350250d35ad1eab",
+      "name": "선두",
+      "aliases": [
+        "선두"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025328",
+      "legalDong": "칠원읍 무기리",
+      "jibuns": [
+        "1130-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-de27bf8027215d2113a5",
+      "name": "칠원대동",
+      "aliases": [
+        "칠원대동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025328",
+      "legalDong": "칠원읍 무기리",
+      "jibuns": [
+        "878-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5059795babaa92f89050",
+      "name": "골드캐슬",
+      "aliases": [
+        "골드캐슬"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "963"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-ab3f1a2cc9af8720578f",
+      "name": "은하",
+      "aliases": [
+        "은하"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "587"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-bccbcc2d09289bc6a711",
+      "name": "대송나동",
+      "aliases": [
+        "대송나동"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "102"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-6721f9514e44dafd1325",
+      "name": "천일아라",
+      "aliases": [
+        "천일아라"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "932-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5acf1984193f02a7e092",
+      "name": "서정에이스",
+      "aliases": [
+        "서정에이스"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873033024",
+      "legalDong": "법수면 윤외리",
+      "jibuns": [
+        "168"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-c848172c35e8b82bba4c",
+      "name": "윤창타워",
+      "aliases": [
+        "윤창타워"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025022",
+      "legalDong": "가야읍 검암리",
+      "jibuns": [
+        "934-6"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-ec5b601ef6bff243a041",
+      "name": "안흥빌라트",
+      "aliases": [
+        "안흥빌라트"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "58-83"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-ca5adcf3ef94804f3642",
+      "name": "대한",
+      "aliases": [
+        "대한"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "455-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-72bf3757b29dbd2e34af",
+      "name": "선두2차",
+      "aliases": [
+        "선두2차"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025328",
+      "legalDong": "칠원읍 무기리",
+      "jibuns": [
+        "1125"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-1041ace7af2e0ddec69b",
+      "name": "수정그린",
+      "aliases": [
+        "수정그린"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025326",
+      "legalDong": "칠원읍 예곡리",
+      "jibuns": [
+        "409"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-eeb1811f0351b843a5be",
+      "name": "금안썬타워",
+      "aliases": [
+        "금안썬타워"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025321",
+      "legalDong": "칠원읍 구성리",
+      "jibuns": [
+        "809-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-3fab0e1cdc607b554f43",
+      "name": "골드캐슬2차",
+      "aliases": [
+        "골드캐슬2차"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "122-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5011ca972081c33ae26f",
+      "name": "삼진",
+      "aliases": [
+        "삼진"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873034027",
+      "legalDong": "대산면 구혜리",
+      "jibuns": [
+        "319-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5ad6f4cc577ec718d228",
+      "name": "동명",
+      "aliases": [
+        "동명"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "180"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-9173edaf904fe9028414",
+      "name": "청호",
+      "aliases": [
+        "청호"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025321",
+      "legalDong": "칠원읍 구성리",
+      "jibuns": [
+        "798-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-de3cfd0ed511a8076364",
+      "name": "남경타운",
+      "aliases": [
+        "남경타운"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "33-3"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-6e7b951fdc2ec6e6058f",
+      "name": "남선하이츠",
+      "aliases": [
+        "남선하이츠"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "214-2"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-c04d6fdd158f164bafbf",
+      "name": "전원",
+      "aliases": [
+        "전원"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025021",
+      "legalDong": "가야읍 말산리",
+      "jibuns": [
+        "58-113"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-e48c997de014e8723198",
+      "name": "봉국한마음",
+      "aliases": [
+        "봉국한마음"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873032023",
+      "legalDong": "군북면 소포리",
+      "jibuns": [
+        "1633"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-42176d43969e3e667bf5",
+      "name": "무학",
+      "aliases": [
+        "무학"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873032022",
+      "legalDong": "군북면 중암리",
+      "jibuns": [
+        "131-1"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-fbf909a8a502f76fb5e5",
+      "name": "신영장미맨션",
+      "aliases": [
+        "신영장미맨션"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025322",
+      "legalDong": "칠원읍 용산리",
+      "jibuns": [
+        "317-4"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-28d5878706a9bdb18e98",
+      "name": "로얄베스트",
+      "aliases": [
+        "로얄베스트"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873025024",
+      "legalDong": "가야읍 도항리",
+      "jibuns": [
+        "352"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-68603970fb69a850a08a",
+      "name": "에이리버빌",
+      "aliases": [
+        "에이리버빌"
+      ],
+      "region": "경상남도 함안군",
+      "districtCode": "48730",
+      "legalDongCode": "4873035027",
+      "legalDong": "칠서면 계내리",
+      "jibuns": [
+        "357"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    }
+  ],
+  "trades": [
+    {
+      "id": "0b31054d630c1364f10a-0",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-22",
+      "area": 84.9906,
+      "priceManwon": 20200,
+      "floor": "13",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9336e022d55f013e70bb-1",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2025-11-24",
+      "area": 90.88,
+      "priceManwon": 8000,
+      "floor": "12",
+      "buildYear": 1992,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "35eace0960a3634ff98e-2",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-15",
+      "area": 59.9934,
+      "priceManwon": 15800,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "24edd9d911600e8ba65a-3",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-13",
+      "area": 84.5372,
+      "priceManwon": 26300,
+      "floor": "13",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c4eda646bed6ccb67f8e-4",
+      "complexId": "n-b4dc2a29f38502d381ce",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-29",
+      "area": 59.57,
+      "priceManwon": 6900,
+      "floor": "5",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b6e599e89fb2a9e5938e-5",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-28",
+      "area": 39.15,
+      "priceManwon": 5700,
+      "floor": "13",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4bdcf073efedc574fdf7-6",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2025-11-11",
+      "area": 59.83,
+      "priceManwon": 14700,
+      "floor": "1",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3b35373b5b9c0aecce92-7",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-08",
+      "area": 75.5034,
+      "priceManwon": 18500,
+      "floor": "13",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f47da97846ff7e150a85-8",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-08",
+      "area": 59.9934,
+      "priceManwon": 15700,
+      "floor": "10",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c2e035e21b2d27341589-9",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-04",
+      "area": 59.9934,
+      "priceManwon": 15500,
+      "floor": "13",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d3a7800f66de6f8dd482-10",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-04",
+      "area": 84.5372,
+      "priceManwon": 26250,
+      "floor": "10",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5d582abd8357607906fd-11",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2025-11-27",
+      "area": 83.46,
+      "priceManwon": 12000,
+      "floor": "12",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8bcbc0bc8f2dcf764379-12",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-21",
+      "area": 39.15,
+      "priceManwon": 5300,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dd245d492f665e502dfd-13",
+      "complexId": "n-bf71aa75c76eaeb2f585",
+      "legalDongCode": "4873025021",
+      "date": "2025-11-05",
+      "area": 79.31,
+      "priceManwon": 9700,
+      "floor": "5",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "64124064a390ea5f1efe-14",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-13",
+      "area": 39.15,
+      "priceManwon": 5600,
+      "floor": "9",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6b57f3bd3b76bfe10eb9-15",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2025-11-17",
+      "area": 84.5359,
+      "priceManwon": 9700,
+      "floor": "5",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "41ba47d624830360333d-16",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2025-11-18",
+      "area": 67.3509,
+      "priceManwon": 21100,
+      "floor": "15",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "78cced83330984eb9946-17",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2025-11-17",
+      "area": 66.0,
+      "priceManwon": 9280,
+      "floor": "13",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "b2697b37af6706a393b3-18",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2025-11-14",
+      "area": 59.9821,
+      "priceManwon": 23200,
+      "floor": "7",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f3dbe0d574eb5e02233b-19",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2025-11-14",
+      "area": 51.56,
+      "priceManwon": 12450,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3903398321729f2f4588-20",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-03",
+      "area": 39.15,
+      "priceManwon": 5200,
+      "floor": "6",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ad3f970ae63e782379bd-21",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-11-13",
+      "area": 39.15,
+      "priceManwon": 4900,
+      "floor": "1",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "cdfb1fbea3cf85150880-22",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2025-11-13",
+      "area": 59.9694,
+      "priceManwon": 22000,
+      "floor": "9",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f8e967b3cad8d95f213c-23",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-10",
+      "area": 84.9906,
+      "priceManwon": 20500,
+      "floor": "20",
+      "buildYear": 2006,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "733fc964b04d67aff454-24",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2025-11-11",
+      "area": 78.96,
+      "priceManwon": 11500,
+      "floor": "5",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "fff3bdb6c959161e39ff-25",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2025-11-04",
+      "area": 84.9721,
+      "priceManwon": 18700,
+      "floor": "13",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "493c5cf2f3c7dcce8b6a-26",
+      "complexId": "n-500d0f98321dff7cfb3b",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-19",
+      "area": 80.79,
+      "priceManwon": 8900,
+      "floor": "1",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a394a95401dedcfa2b74-27",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2025-12-20",
+      "area": 49.53,
+      "priceManwon": 7900,
+      "floor": "15",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3a9bfeffe8f1b49054dd-28",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-11",
+      "area": 59.7014,
+      "priceManwon": 20300,
+      "floor": "15",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "10bfff9257498f1ddcc7-29",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2025-12-26",
+      "area": 50.0,
+      "priceManwon": 6300,
+      "floor": "7",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c217f85e9b28de4aa50f-30",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-30",
+      "area": 39.15,
+      "priceManwon": 5200,
+      "floor": "9",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "43458be09a4fd5f77c26-31",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-27",
+      "area": 75.5034,
+      "priceManwon": 18500,
+      "floor": "17",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "61188a408600c08f75a6-32",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-30",
+      "area": 101.9928,
+      "priceManwon": 25000,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6f3721ff6240650db4c9-33",
+      "complexId": "n-5f01a79ac2ef197919ae",
+      "legalDongCode": "4873025321",
+      "date": "2025-12-10",
+      "area": 65.25,
+      "priceManwon": 7200,
+      "floor": "10",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c2cdf0c295f9b4929bd0-34",
+      "complexId": "n-d3893649093f3be31cfb",
+      "legalDongCode": "4873025024",
+      "date": "2025-12-26",
+      "area": 84.92,
+      "priceManwon": 35000,
+      "floor": "6",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5fa1be64955ec68b180c-35",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-27",
+      "area": 39.15,
+      "priceManwon": 6500,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "22506a85183901249a73-36",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-27",
+      "area": 83.46,
+      "priceManwon": 12500,
+      "floor": "11",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c3354c6efc4352ef6eb4-37",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-12",
+      "area": 84.9906,
+      "priceManwon": 18000,
+      "floor": "7",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a19b815ace3a38594cc8-38",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-20",
+      "area": 100.6926,
+      "priceManwon": 24700,
+      "floor": "16",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "857853942e850676749f-39",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2025-12-24",
+      "area": 61.23,
+      "priceManwon": 2500,
+      "floor": "4",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "506f16da37a7437dac69-40",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-15",
+      "area": 39.15,
+      "priceManwon": 5200,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2cb5ae6d5c5719cf5631-41",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2025-12-23",
+      "area": 66.0,
+      "priceManwon": 8900,
+      "floor": "6",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c45e32cb4edf55e0039b-42",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2025-12-05",
+      "area": 59.62,
+      "priceManwon": 8500,
+      "floor": "3",
+      "buildYear": 1998,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "e0314e93184ff1f0dd73-43",
+      "complexId": "n-5059795babaa92f89050",
+      "legalDongCode": "4873025022",
+      "date": "2025-12-19",
+      "area": 84.8504,
+      "priceManwon": 21900,
+      "floor": "10",
+      "buildYear": 2011,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "db919fd6854b5486a61c-44",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-22",
+      "area": 84.9906,
+      "priceManwon": 19250,
+      "floor": "9",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7475d91988b4444ed93b-45",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-16",
+      "area": 84.96,
+      "priceManwon": 12500,
+      "floor": "2",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a953e7c7698f06dd949c-46",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2025-12-19",
+      "area": 84.5359,
+      "priceManwon": 10500,
+      "floor": "6",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7a3da5c22bd8e72ad66b-47",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-05",
+      "area": 101.9928,
+      "priceManwon": 23100,
+      "floor": "11",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c21f770197c080e25bcd-48",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-03",
+      "area": 84.9721,
+      "priceManwon": 18300,
+      "floor": "4",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "407641e0a369e879d99e-49",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-02",
+      "area": 84.9906,
+      "priceManwon": 21300,
+      "floor": "9",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5a65760de842d671e50f-50",
+      "complexId": "n-b4dc2a29f38502d381ce",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-14",
+      "area": 59.57,
+      "priceManwon": 8100,
+      "floor": "12",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aaaca449c31df16345a8-51",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2025-12-17",
+      "area": 84.94,
+      "priceManwon": 10000,
+      "floor": "11",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d8934778c6a160305e4f-52",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2025-12-18",
+      "area": 59.7,
+      "priceManwon": 8400,
+      "floor": "3",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a2a912ac0f5c4c6f0a18-53",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2025-12-19",
+      "area": 59.4144,
+      "priceManwon": 6830,
+      "floor": "6",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b99918ba39f55d0d8df8-54",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-11",
+      "area": 59.52,
+      "priceManwon": 8000,
+      "floor": "13",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "82babf57935467b2f70e-55",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-11",
+      "area": 71.226,
+      "priceManwon": 22500,
+      "floor": "13",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9aaf7c8f5d59a4fe02a3-56",
+      "complexId": "n-bccbcc2d09289bc6a711",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-12",
+      "area": 79.91,
+      "priceManwon": 8300,
+      "floor": "5",
+      "buildYear": 1990,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "a2b5899a11c8c881585a-57",
+      "complexId": "n-6721f9514e44dafd1325",
+      "legalDongCode": "4873025022",
+      "date": "2025-12-15",
+      "area": 57.59,
+      "priceManwon": 7500,
+      "floor": "4",
+      "buildYear": 1990,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "71a02a2b078ee24f34b0-58",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2025-12-15",
+      "area": 59.9863,
+      "priceManwon": 20000,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "9f1c6c6498945ac4698e-59",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2025-12-06",
+      "area": 84.94,
+      "priceManwon": 9550,
+      "floor": "13",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "254a46a96b0ea5e36e7c-60",
+      "complexId": "n-5acf1984193f02a7e092",
+      "legalDongCode": "4873033024",
+      "date": "2025-12-15",
+      "area": 78.22,
+      "priceManwon": 10000,
+      "floor": "8",
+      "buildYear": 2011,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "6e2ffec69f239f15883f-61",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-15",
+      "area": 39.15,
+      "priceManwon": 4900,
+      "floor": "10",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e2b082a349449ccead73-62",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-04",
+      "area": 59.52,
+      "priceManwon": 8350,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ded05f2ada5c6022ea1b-63",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-10",
+      "area": 59.52,
+      "priceManwon": 7000,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "aee0063c5ceee4a51974-64",
+      "complexId": "n-c848172c35e8b82bba4c",
+      "legalDongCode": "4873025022",
+      "date": "2025-12-11",
+      "area": 84.7524,
+      "priceManwon": 23200,
+      "floor": "10",
+      "buildYear": 2010,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "62268a7a0d4fa1d8a526-65",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-08",
+      "area": 59.9694,
+      "priceManwon": 21900,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1cd6a5faec3d8130112d-66",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2025-12-08",
+      "area": 59.62,
+      "priceManwon": 6200,
+      "floor": "9",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "69cc4e05039f8e4f7d96-67",
+      "complexId": "n-ec5b601ef6bff243a041",
+      "legalDongCode": "4873025021",
+      "date": "2025-12-04",
+      "area": 84.92,
+      "priceManwon": 19700,
+      "floor": "10",
+      "buildYear": 2002,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b8e323e5d03de54d6d3c-68",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2025-12-05",
+      "area": 84.9906,
+      "priceManwon": 18800,
+      "floor": "20",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "74363dab2d18b30ac9be-69",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2025-12-05",
+      "area": 59.52,
+      "priceManwon": 8600,
+      "floor": "6",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5e7f5aceb3031b96bb97-70",
+      "complexId": "n-d3893649093f3be31cfb",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-30",
+      "area": 84.97,
+      "priceManwon": 36000,
+      "floor": "15",
+      "buildYear": 2018,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "f00d6d9a34292ea261f9-71",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-26",
+      "area": 75.5034,
+      "priceManwon": 18000,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "834c48e0913fec5b10b1-72",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-31",
+      "area": 59.52,
+      "priceManwon": 7500,
+      "floor": "3",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "949a860d795728b6c2e6-73",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-31",
+      "area": 59.9934,
+      "priceManwon": 15500,
+      "floor": "5",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aab99eb04f6d5296ddbb-74",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-01-16",
+      "area": 61.23,
+      "priceManwon": 3000,
+      "floor": "3",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "a1c867827234ce087198-75",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-23",
+      "area": 84.9906,
+      "priceManwon": 19000,
+      "floor": "15",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d1be25e3d527868b5b77-76",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-01-29",
+      "area": 90.54,
+      "priceManwon": 12250,
+      "floor": "8",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ed705046988f96eeecd7-77",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-31",
+      "area": 39.15,
+      "priceManwon": 5300,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e2161d0db21564edc586-78",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-01-29",
+      "area": 59.4144,
+      "priceManwon": 5900,
+      "floor": "3",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6be1e2b9a40d5c9c3ade-79",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-19",
+      "area": 84.9721,
+      "priceManwon": 19800,
+      "floor": "8",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "09aee88f6181a3748832-80",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-17",
+      "area": 39.15,
+      "priceManwon": 5050,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9af05ce94f0d09add8be-81",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-22",
+      "area": 71.226,
+      "priceManwon": 21900,
+      "floor": "15",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7e9ffbd31f151109aca2-82",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-12",
+      "area": 59.9934,
+      "priceManwon": 14700,
+      "floor": "13",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "111b8ff2e06ff19361c1-83",
+      "complexId": "n-5f01a79ac2ef197919ae",
+      "legalDongCode": "4873025321",
+      "date": "2026-01-30",
+      "area": 65.25,
+      "priceManwon": 4800,
+      "floor": "1",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b4ee488967903c3282b0-84",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-01-15",
+      "area": 67.3509,
+      "priceManwon": 20300,
+      "floor": "16",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8f9e445baf826983b260-85",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-01-28",
+      "area": 84.96,
+      "priceManwon": 11700,
+      "floor": "15",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "bcec324844c0bbb55b4e-86",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-22",
+      "area": 84.9906,
+      "priceManwon": 19000,
+      "floor": "18",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a091dd15e0df63caf828-87",
+      "complexId": "n-ca5adcf3ef94804f3642",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-20",
+      "area": 57.85,
+      "priceManwon": 6700,
+      "floor": "1",
+      "buildYear": 1989,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "64898ba17642d482295c-88",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-26",
+      "area": 59.9934,
+      "priceManwon": 15600,
+      "floor": "14",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ad325f608d7ee7426b43-89",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-17",
+      "area": 84.9906,
+      "priceManwon": 18300,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e3b5f1585b403e1f83f4-90",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-22",
+      "area": 59.52,
+      "priceManwon": 8600,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "20f50a75a14fa13ffe4f-91",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-22",
+      "area": 59.9821,
+      "priceManwon": 22500,
+      "floor": "11",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3896feae9a4b1e4f0719-92",
+      "complexId": "n-72bf3757b29dbd2e34af",
+      "legalDongCode": "4873025328",
+      "date": "2026-01-13",
+      "area": 59.42,
+      "priceManwon": 3900,
+      "floor": "5",
+      "buildYear": 1994,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "b6c7c9995e756bb1f4ba-93",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-20",
+      "area": 84.9321,
+      "priceManwon": 32700,
+      "floor": "10",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2fa3381239e9650468c1-94",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-10",
+      "area": 59.9934,
+      "priceManwon": 15300,
+      "floor": "4",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ce674dbf2f523ef9e072-95",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-01-14",
+      "area": 84.7127,
+      "priceManwon": 32900,
+      "floor": "16",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7fb3b6fd7da8b0e92926-96",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-10",
+      "area": 59.52,
+      "priceManwon": 7400,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "73ea8b5b077d4e1cb9e6-97",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-04",
+      "area": 84.4426,
+      "priceManwon": 25800,
+      "floor": "13",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c91c172ec2fd03f6141b-98",
+      "complexId": "n-1041ace7af2e0ddec69b",
+      "legalDongCode": "4873025326",
+      "date": "2026-01-13",
+      "area": 83.2,
+      "priceManwon": 7500,
+      "floor": "5",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "e2425bc790473b3c7e84-99",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-04",
+      "area": 84.9721,
+      "priceManwon": 21200,
+      "floor": "13",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b3da4e1d23e62634eeca-100",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-12",
+      "area": 59.9821,
+      "priceManwon": 22500,
+      "floor": "10",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2e39480f4022e9604089-101",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-01-09",
+      "area": 59.9694,
+      "priceManwon": 23000,
+      "floor": "7",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2f6733b7ddb63611e615-102",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-01-09",
+      "area": 84.94,
+      "priceManwon": 8800,
+      "floor": "11",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "76dd11a511fd3d703426-103",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-07",
+      "area": 84.6,
+      "priceManwon": 16200,
+      "floor": "14",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f6bbcb106cfa7931bb59-104",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-01-05",
+      "area": 59.4144,
+      "priceManwon": 6580,
+      "floor": "6",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "45f522bb249733b93578-105",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-07",
+      "area": 39.15,
+      "priceManwon": 5900,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "19256af5a3b06686aac0-106",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-01-04",
+      "area": 39.15,
+      "priceManwon": 5300,
+      "floor": "3",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "05bd7d9cb77f8ac84f14-107",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-01-03",
+      "area": 59.9934,
+      "priceManwon": 15200,
+      "floor": "15",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "481f1548bb4508729c65-108",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-01-05",
+      "area": 58.4,
+      "priceManwon": 6300,
+      "floor": "1",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d26e85a8d8e41c517b4b-109",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-01-06",
+      "area": 59.7,
+      "priceManwon": 4850,
+      "floor": "5",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8197ca504fc12f83ea2b-110",
+      "complexId": "n-eeb1811f0351b843a5be",
+      "legalDongCode": "4873025321",
+      "date": "2026-02-02",
+      "area": 59.62,
+      "priceManwon": 9000,
+      "floor": "2",
+      "buildYear": 2002,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d5742bbdfe25a044143f-111",
+      "complexId": "n-1041ace7af2e0ddec69b",
+      "legalDongCode": "4873025326",
+      "date": "2026-02-23",
+      "area": 83.2,
+      "priceManwon": 6000,
+      "floor": "3",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "1d38a202e6f2cd328c2a-112",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-02-12",
+      "area": 84.5372,
+      "priceManwon": 24000,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "35f4a2792462e79fdd6a-113",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-27",
+      "area": 58.4,
+      "priceManwon": 6700,
+      "floor": "2",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "37da22e73e413b40d46c-114",
+      "complexId": "n-d3893649093f3be31cfb",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-23",
+      "area": 84.92,
+      "priceManwon": 36000,
+      "floor": "9",
+      "buildYear": 2018,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "ef500d046cd2a865d768-115",
+      "complexId": "n-d3893649093f3be31cfb",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-23",
+      "area": 84.97,
+      "priceManwon": 35000,
+      "floor": "4",
+      "buildYear": 2018,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "5dd9429a769033f6ada6-116",
+      "complexId": "n-6721f9514e44dafd1325",
+      "legalDongCode": "4873025022",
+      "date": "2026-02-27",
+      "area": 61.71,
+      "priceManwon": 5950,
+      "floor": "5",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1fafc0441f0f7dfaea65-117",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-02-28",
+      "area": 84.9314,
+      "priceManwon": 27000,
+      "floor": "15",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b2d0bbe5d41af3285694-118",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-02-09",
+      "area": 75.0563,
+      "priceManwon": 17500,
+      "floor": "3",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a20a93af275519772bcd-119",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-28",
+      "area": 84.9321,
+      "priceManwon": 34000,
+      "floor": "5",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "99fd1e7c40c54716db7a-120",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-26",
+      "area": 84.9321,
+      "priceManwon": 35000,
+      "floor": "5",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8fb2c1b5ffb780b233c6-121",
+      "complexId": "n-3fab0e1cdc607b554f43",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-20",
+      "area": 84.9795,
+      "priceManwon": 29500,
+      "floor": "6",
+      "buildYear": 2016,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "926af5f255fafa8faa4b-122",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-21",
+      "area": 59.83,
+      "priceManwon": 13300,
+      "floor": "5",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "821060f7d9b753ef4931-123",
+      "complexId": "n-5011ca972081c33ae26f",
+      "legalDongCode": "4873034027",
+      "date": "2026-02-20",
+      "area": 54.34,
+      "priceManwon": 4000,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "f4cd8392495729882a94-124",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-02-18",
+      "area": 59.4144,
+      "priceManwon": 6750,
+      "floor": "3",
+      "buildYear": 2003,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "650f7d022c603b5c0c8b-125",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-14",
+      "area": 58.4,
+      "priceManwon": 7300,
+      "floor": "9",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1e3e4c47b207acf8e307-126",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-02-12",
+      "area": 59.4144,
+      "priceManwon": 6700,
+      "floor": "7",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "476ed73bd47fc063ac6c-127",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-02-01",
+      "area": 53.13,
+      "priceManwon": 7250,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c6f04dfbcd222704bb36-128",
+      "complexId": "n-5ad6f4cc577ec718d228",
+      "legalDongCode": "4873025021",
+      "date": "2026-02-12",
+      "area": 71.44,
+      "priceManwon": 12100,
+      "floor": "1",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a4fb4d3b3d80f63d7ab9-129",
+      "complexId": "n-1041ace7af2e0ddec69b",
+      "legalDongCode": "4873025326",
+      "date": "2026-02-07",
+      "area": 83.2,
+      "priceManwon": 7600,
+      "floor": "6",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0a3adf9092fe3d99136b-130",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-02-03",
+      "area": 59.4144,
+      "priceManwon": 7700,
+      "floor": "6",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "872a6fd805003191d618-131",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-07",
+      "area": 51.56,
+      "priceManwon": 12500,
+      "floor": "1",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a7189437c95746ed36e8-132",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2026-02-06",
+      "area": 84.6,
+      "priceManwon": 13200,
+      "floor": "2",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "689c1a8f1ff60509d615-133",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-27",
+      "area": 71.226,
+      "priceManwon": 21900,
+      "floor": "14",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f171125715c70c43c082-134",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-26",
+      "area": 84.9906,
+      "priceManwon": 18000,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7b4ca75476b6e87e8b54-135",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-23",
+      "area": 71.226,
+      "priceManwon": 22300,
+      "floor": "11",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1b9fd2c15a126350e29c-136",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-21",
+      "area": 84.9906,
+      "priceManwon": 18000,
+      "floor": "5",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9e12479c469a442d3b69-137",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-21",
+      "area": 84.9962,
+      "priceManwon": 19200,
+      "floor": "1",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aa41c10173987e329853-138",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-20",
+      "area": 59.9934,
+      "priceManwon": 15000,
+      "floor": "2",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "eb69a17995393cd63cdd-139",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-31",
+      "area": 84.7127,
+      "priceManwon": 33700,
+      "floor": "6",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1d0fcba8faead94a4501-140",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-03-25",
+      "area": 59.4144,
+      "priceManwon": 8100,
+      "floor": "3",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "50918433c7d155dd5e1a-141",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-12",
+      "area": 90.88,
+      "priceManwon": 10400,
+      "floor": "12",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f476621f405d64e29053-142",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-30",
+      "area": 59.7,
+      "priceManwon": 5250,
+      "floor": "5",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "28fd2f8c80989302c13a-143",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-25",
+      "area": 49.53,
+      "priceManwon": 8600,
+      "floor": "15",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8bbaad7d96092bd713a5-144",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-03-23",
+      "area": 59.97,
+      "priceManwon": 7000,
+      "floor": "7",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dde5a22b547702f7c98f-145",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-13",
+      "area": 53.13,
+      "priceManwon": 8050,
+      "floor": "13",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9a91091fd1a58adffa9a-146",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-24",
+      "area": 84.5372,
+      "priceManwon": 26000,
+      "floor": "7",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "819bcc2c7efc59d6e6c3-147",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-24",
+      "area": 84.5372,
+      "priceManwon": 26000,
+      "floor": "13",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e4d4d6083a559bed11fe-148",
+      "complexId": "n-bf71aa75c76eaeb2f585",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-23",
+      "area": 79.31,
+      "priceManwon": 9400,
+      "floor": "4",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "959e2b3a4537d1ea7bfe-149",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-17",
+      "area": 53.13,
+      "priceManwon": 7000,
+      "floor": "9",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "300119ed6d2130af0e50-150",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-03-09",
+      "area": 59.9863,
+      "priceManwon": 20500,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "55e9135c18c573e96421-151",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-17",
+      "area": 39.15,
+      "priceManwon": 5500,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e4e709467b771c8a83ce-152",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-03-18",
+      "area": 58.4,
+      "priceManwon": 6600,
+      "floor": "9",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a5a73bac188d2bfaf805-153",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-13",
+      "area": 39.15,
+      "priceManwon": 5700,
+      "floor": "15",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "45330044d62b8fbcf99e-154",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-14",
+      "area": 39.15,
+      "priceManwon": 5150,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a53a33a705d918eb974f-155",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-03-16",
+      "area": 71.226,
+      "priceManwon": 22400,
+      "floor": "15",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6a2280eb35fb37387d75-156",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2026-03-14",
+      "area": 66.0,
+      "priceManwon": 9500,
+      "floor": "7",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "df088604bdecaacb9e4a-157",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-02",
+      "area": 84.96,
+      "priceManwon": 10500,
+      "floor": "7",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e4742330780f59f5562b-158",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-05",
+      "area": 59.52,
+      "priceManwon": 7500,
+      "floor": "12",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "04d02833accf30bfad24-159",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-11",
+      "area": 59.9694,
+      "priceManwon": 23700,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b898d8fc329fa5547b1b-160",
+      "complexId": "n-9173edaf904fe9028414",
+      "legalDongCode": "4873025321",
+      "date": "2026-03-11",
+      "area": 84.91,
+      "priceManwon": 7500,
+      "floor": "2",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "47616ef66cb31fe9317b-161",
+      "complexId": "n-5acf1984193f02a7e092",
+      "legalDongCode": "4873033024",
+      "date": "2026-03-11",
+      "area": 81.71,
+      "priceManwon": 8400,
+      "floor": "3",
+      "buildYear": 2011,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b86ce6b8c646a120de9c-162",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-10",
+      "area": 83.46,
+      "priceManwon": 12000,
+      "floor": "4",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e493672ddf0c1518a642-163",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-09",
+      "area": 90.88,
+      "priceManwon": 9400,
+      "floor": "10",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f8e4ec1b5426626e7082-164",
+      "complexId": "n-de3cfd0ed511a8076364",
+      "legalDongCode": "4873025021",
+      "date": "2026-03-11",
+      "area": 59.92,
+      "priceManwon": 10300,
+      "floor": "15",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a10ed881274af77384f1-165",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-03-04",
+      "area": 59.9821,
+      "priceManwon": 23000,
+      "floor": "11",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f92411622a37e9953b77-166",
+      "complexId": "n-72bf3757b29dbd2e34af",
+      "legalDongCode": "4873025328",
+      "date": "2026-03-10",
+      "area": 59.42,
+      "priceManwon": 3000,
+      "floor": "2",
+      "buildYear": 1994,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "69c0f645a5bc0cbc3f1d-167",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-09",
+      "area": 67.3509,
+      "priceManwon": 20500,
+      "floor": "6",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e90f2c6919fb44013f4c-168",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-06",
+      "area": 39.15,
+      "priceManwon": 5700,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0d19ef2064029ebf2a90-169",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-05",
+      "area": 67.3509,
+      "priceManwon": 21000,
+      "floor": "14",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c3d0ba09e144cc71bd30-170",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-04",
+      "area": 53.13,
+      "priceManwon": 8300,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7fb3d7d9a60df2960755-171",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-03-07",
+      "area": 84.9314,
+      "priceManwon": 24000,
+      "floor": "20",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "89c8137eb4cdfce4f33c-172",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-03",
+      "area": 53.13,
+      "priceManwon": 7200,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "992490700e23de092359-173",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-03-03",
+      "area": 53.13,
+      "priceManwon": 7200,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6515b300fc20aa8f8f8b-174",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-03-03",
+      "area": 51.56,
+      "priceManwon": 12400,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6c3217a712d3fbe4bc76-175",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-28",
+      "area": 84.4426,
+      "priceManwon": 22800,
+      "floor": "1",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "db49ec66f98cb21e8422-176",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-04-29",
+      "area": 49.53,
+      "priceManwon": 7300,
+      "floor": "10",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0c623370fcde06dd2a44-177",
+      "complexId": "n-5011ca972081c33ae26f",
+      "legalDongCode": "4873034027",
+      "date": "2026-04-29",
+      "area": 56.74,
+      "priceManwon": 2700,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "7476116d70a1eb04c81f-178",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-23",
+      "area": 84.9906,
+      "priceManwon": 18650,
+      "floor": "12",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e857727e088ca3f4e51e-179",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-20",
+      "area": 84.9906,
+      "priceManwon": 18500,
+      "floor": "10",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "485851197309d705fb7c-180",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-20",
+      "area": 75.5034,
+      "priceManwon": 17700,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "38afe1a9c900c0751464-181",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-09",
+      "area": 84.9906,
+      "priceManwon": 18500,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "be7bd8793058ee4de0a3-182",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-08",
+      "area": 59.8352,
+      "priceManwon": 20500,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c3baf37ebc6c6471a191-183",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-04-27",
+      "area": 59.62,
+      "priceManwon": 6100,
+      "floor": "2",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5a2435db76b022a38341-184",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-24",
+      "area": 75.5034,
+      "priceManwon": 19000,
+      "floor": "14",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aa46a543fa4eafac153f-185",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-23",
+      "area": 101.9928,
+      "priceManwon": 26000,
+      "floor": "18",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4ca570986de554e67a1b-186",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-14",
+      "area": 59.9934,
+      "priceManwon": 15700,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "568e67428e7c6a6ccb59-187",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-04-23",
+      "area": 81.6,
+      "priceManwon": 9900,
+      "floor": "8",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c2610690670dbf9563bb-188",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-10",
+      "area": 75.0563,
+      "priceManwon": 17800,
+      "floor": "18",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "07aa1dca39cca1859356-189",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-04-15",
+      "area": 83.46,
+      "priceManwon": 11500,
+      "floor": "3",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a47263da1bb35832a9f5-190",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-04-15",
+      "area": 53.13,
+      "priceManwon": 7000,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "36400e630989e5e46198-191",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-04-16",
+      "area": 39.15,
+      "priceManwon": 5500,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "425ac2bf91e4654aa362-192",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-04-16",
+      "area": 53.13,
+      "priceManwon": 7450,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3d9b97efe48de5433057-193",
+      "complexId": "n-1041ace7af2e0ddec69b",
+      "legalDongCode": "4873025326",
+      "date": "2026-04-12",
+      "area": 83.2,
+      "priceManwon": 7000,
+      "floor": "6",
+      "buildYear": 1993,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6758d424c50cc024d9fe-194",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-04-13",
+      "area": 74.57,
+      "priceManwon": 8500,
+      "floor": "15",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "47fb57cb590603027985-195",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-04-17",
+      "area": 59.9694,
+      "priceManwon": 23500,
+      "floor": "7",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6a28d68d6740fe3da8d9-196",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-04-01",
+      "area": 53.13,
+      "priceManwon": 7400,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "51124a44c89394fac695-197",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-04-16",
+      "area": 61.23,
+      "priceManwon": 3000,
+      "floor": "3",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0d57b969aaab07349550-198",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-15",
+      "area": 75.5034,
+      "priceManwon": 16300,
+      "floor": "15",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "59b952bd77621fb48aba-199",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-04-15",
+      "area": 58.4,
+      "priceManwon": 7000,
+      "floor": "15",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d6c539b82d709a94fe67-200",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-04-05",
+      "area": 59.52,
+      "priceManwon": 8700,
+      "floor": "7",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "51b92956e557ed6feaa9-201",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-04-11",
+      "area": 59.83,
+      "priceManwon": 12000,
+      "floor": "5",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1e23ba92647ffa701c6f-202",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-04-10",
+      "area": 51.56,
+      "priceManwon": 11500,
+      "floor": "2",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d29569bf2bda9411c6d2-203",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-04-09",
+      "area": 84.7127,
+      "priceManwon": 32500,
+      "floor": "1",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5358e553764c67888a9e-204",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-04-07",
+      "area": 49.53,
+      "priceManwon": 8200,
+      "floor": "3",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "585f8a43e148bbeb1c17-205",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-04-07",
+      "area": 51.56,
+      "priceManwon": 13000,
+      "floor": "4",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f32f32fbcfddc3462c31-206",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-04-06",
+      "area": 51.56,
+      "priceManwon": 12800,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7efdfe353ff9ff4e5703-207",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-04-05",
+      "area": 84.9721,
+      "priceManwon": 18500,
+      "floor": "6",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9b1272ff53a94925aee8-208",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-05-31",
+      "area": 59.9694,
+      "priceManwon": 22500,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2172c0d1ff46c58f96f8-209",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-05-29",
+      "area": 59.4144,
+      "priceManwon": 6700,
+      "floor": "1",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6056787794a56cc5f1f7-210",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-23",
+      "area": 84.9721,
+      "priceManwon": 17500,
+      "floor": "19",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c728562224db402f4ad1-211",
+      "complexId": "n-5acf1984193f02a7e092",
+      "legalDongCode": "4873033024",
+      "date": "2026-05-18",
+      "area": 81.71,
+      "priceManwon": 9300,
+      "floor": "4",
+      "buildYear": 2011,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "16da5669a9fdd3167fc0-212",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-26",
+      "area": 126.6159,
+      "priceManwon": 27800,
+      "floor": "4",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "fe1b5ebd9e1bf63d43f2-213",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-05-18",
+      "area": 49.53,
+      "priceManwon": 8950,
+      "floor": "17",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "401cb0134bf3f42a6c96-214",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-05-30",
+      "area": 59.62,
+      "priceManwon": 5800,
+      "floor": "4",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c25596fb5a0c27c4ae28-215",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-05-20",
+      "area": 59.4144,
+      "priceManwon": 6700,
+      "floor": "9",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a13ea536eaec0ee1ac3c-216",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-05-27",
+      "area": 59.52,
+      "priceManwon": 7500,
+      "floor": "3",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "31b151434f5357608e15-217",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-05-28",
+      "area": 51.56,
+      "priceManwon": 11600,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "cce3f42896ff52795cfa-218",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-05-26",
+      "area": 84.7127,
+      "priceManwon": 33100,
+      "floor": "17",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "640523288006ee39166b-219",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-26",
+      "area": 84.9906,
+      "priceManwon": 19000,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "eba28d2e407cd385d651-220",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-09",
+      "area": 84.9906,
+      "priceManwon": 17600,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "70015a3bb47634641957-221",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-26",
+      "area": 84.9906,
+      "priceManwon": 17900,
+      "floor": "9",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6e811d18504cc90fd79f-222",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-25",
+      "area": 84.9906,
+      "priceManwon": 17900,
+      "floor": "18",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "31b3f8064aca08a6c4a2-223",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-15",
+      "area": 59.9934,
+      "priceManwon": 15200,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8fe8fbddbd84aa01167b-224",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-19",
+      "area": 84.9906,
+      "priceManwon": 18100,
+      "floor": "3",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aaa78ab18a61cbbce561-225",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-05-19",
+      "area": 74.57,
+      "priceManwon": 8400,
+      "floor": "7",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9cfb245f4caf43448a10-226",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-18",
+      "area": 84.9906,
+      "priceManwon": 17800,
+      "floor": "1",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c22cecee3caaec2eb3f9-227",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-05-11",
+      "area": 84.9314,
+      "priceManwon": 25500,
+      "floor": "1",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8ccb21d0629de537207a-228",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-05-10",
+      "area": 59.52,
+      "priceManwon": 7500,
+      "floor": "1",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "04d481a51ba1d41816fc-229",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-05-04",
+      "area": 53.13,
+      "priceManwon": 6800,
+      "floor": "1",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a381191521075b8d2a61-230",
+      "complexId": "n-de3cfd0ed511a8076364",
+      "legalDongCode": "4873025021",
+      "date": "2026-05-11",
+      "area": 59.92,
+      "priceManwon": 12100,
+      "floor": "11",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "504511e8f89d8cbe1c98-231",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-05-14",
+      "area": 59.4144,
+      "priceManwon": 5500,
+      "floor": "1",
+      "buildYear": 2003,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0b037f401c99db2183ce-232",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2026-05-13",
+      "area": 84.6,
+      "priceManwon": 10900,
+      "floor": "1",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "504511e8f89d8cbe1c98-233",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-05-14",
+      "area": 59.4144,
+      "priceManwon": 5500,
+      "floor": "1",
+      "buildYear": 2003,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "7f84c1777ca3b45132c6-234",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-05-12",
+      "area": 53.13,
+      "priceManwon": 6800,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "969b5b5af7a05424ab29-235",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-05-01",
+      "area": 59.9934,
+      "priceManwon": 15400,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0268f0e594a169b83089-236",
+      "complexId": "n-6e7b951fdc2ec6e6058f",
+      "legalDongCode": "4873025024",
+      "date": "2026-05-08",
+      "area": 84.91,
+      "priceManwon": 13500,
+      "floor": "2",
+      "buildYear": 1996,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "87c6cc20ea2a1cdf146b-237",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-05-07",
+      "area": 84.54,
+      "priceManwon": 9300,
+      "floor": "1",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0256f4b37f71d7999bb2-238",
+      "complexId": "n-c04d6fdd158f164bafbf",
+      "legalDongCode": "4873025021",
+      "date": "2026-05-06",
+      "area": 79.96,
+      "priceManwon": 14500,
+      "floor": "2",
+      "buildYear": 1995,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "95ba8c2cebc401e67843-239",
+      "complexId": "n-5059795babaa92f89050",
+      "legalDongCode": "4873025022",
+      "date": "2026-05-04",
+      "area": 84.8504,
+      "priceManwon": 22500,
+      "floor": "9",
+      "buildYear": 2011,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "524bd78d9fb7dc4ba619-240",
+      "complexId": "n-de3cfd0ed511a8076364",
+      "legalDongCode": "4873025021",
+      "date": "2026-06-26",
+      "area": 59.92,
+      "priceManwon": 10000,
+      "floor": "8",
+      "buildYear": 1997,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "340582c043862359f517-241",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-17",
+      "area": 75.0563,
+      "priceManwon": 16800,
+      "floor": "7",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7334a2766fa6b7eb6382-242",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-17",
+      "area": 59.9934,
+      "priceManwon": 15500,
+      "floor": "5",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5f95199b04d6f6bfd700-243",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-17",
+      "area": 84.4426,
+      "priceManwon": 26500,
+      "floor": "13",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2c37fafc97cc4324db09-244",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-10",
+      "area": 59.9934,
+      "priceManwon": 16000,
+      "floor": "20",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1ded6da263154940951f-245",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-10",
+      "area": 84.9906,
+      "priceManwon": 19000,
+      "floor": "8",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d834063452849b157eac-246",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-06-23",
+      "area": 84.9906,
+      "priceManwon": 18000,
+      "floor": "11",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0745651c9811b5fb40e2-247",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-06-25",
+      "area": 59.4144,
+      "priceManwon": 6300,
+      "floor": "1",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e5ab5a868bf2eb12d10e-248",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-06-25",
+      "area": 59.52,
+      "priceManwon": 7500,
+      "floor": "10",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d9c0360a290152afb9fb-249",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-06-24",
+      "area": 61.23,
+      "priceManwon": 3000,
+      "floor": "2",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a7653858db92577e02fe-250",
+      "complexId": "n-f52bd161e3cfa48739ae",
+      "legalDongCode": "4873025024",
+      "date": "2026-06-24",
+      "area": 84.6,
+      "priceManwon": 14500,
+      "floor": "4",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4941f26483ab480acaa0-251",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-06-24",
+      "area": 59.52,
+      "priceManwon": 7450,
+      "floor": "12",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6b01de9f9e60f2ea2f17-252",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-06-23",
+      "area": 50.0,
+      "priceManwon": 6900,
+      "floor": "9",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ff73c88e36d60e34e92f-253",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-06-15",
+      "area": 51.56,
+      "priceManwon": 11000,
+      "floor": "2",
+      "buildYear": 2004,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "4e24b38caa3406d8c1f1-254",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-06-12",
+      "area": 84.5359,
+      "priceManwon": 9500,
+      "floor": "2",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6256bc337fdf9e34b39f-255",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-06-10",
+      "area": 39.15,
+      "priceManwon": 5950,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "830799783894b41d8208-256",
+      "complexId": "n-e48c997de014e8723198",
+      "legalDongCode": "4873032023",
+      "date": "2026-06-04",
+      "area": 57.1398,
+      "priceManwon": 8800,
+      "floor": "3",
+      "buildYear": 2013,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4e95cde84a72ba01777c-257",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-06-05",
+      "area": 59.7,
+      "priceManwon": 6500,
+      "floor": "5",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "228e5313aecd4ebc12cb-258",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-29",
+      "area": 59.9934,
+      "priceManwon": 15800,
+      "floor": "16",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a08ba6ffe30088d635ed-259",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-17",
+      "area": 84.5372,
+      "priceManwon": 26400,
+      "floor": "11",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0e7a535a14def593c55d-260",
+      "complexId": "n-9173edaf904fe9028414",
+      "legalDongCode": "4873025321",
+      "date": "2026-07-16",
+      "area": 84.91,
+      "priceManwon": 7500,
+      "floor": "5",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "fc12d25d8f4071851d86-261",
+      "complexId": "n-eeb1811f0351b843a5be",
+      "legalDongCode": "4873025321",
+      "date": "2026-07-30",
+      "area": 59.62,
+      "priceManwon": 9100,
+      "floor": "5",
+      "buildYear": 2002,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "cdab287aab9e57d6a517-262",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-07-09",
+      "area": 59.7,
+      "priceManwon": 6700,
+      "floor": "2",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ba01c3d44f42a3ae2f00-263",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-25",
+      "area": 84.9906,
+      "priceManwon": 21000,
+      "floor": "14",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "12d200fd0164d506b4ff-264",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-25",
+      "area": 84.5372,
+      "priceManwon": 29650,
+      "floor": "18",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d13a77bd27de46da26c3-265",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-23",
+      "area": 84.9906,
+      "priceManwon": 20500,
+      "floor": "17",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6fdff18d8864ee5711f2-266",
+      "complexId": "n-de3cfd0ed511a8076364",
+      "legalDongCode": "4873025021",
+      "date": "2026-07-31",
+      "area": 84.88,
+      "priceManwon": 17300,
+      "floor": "5",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6aa4cc43800a89d03300-267",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-25",
+      "area": 59.52,
+      "priceManwon": 7700,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "48329cb11eff778bbf4b-268",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-14",
+      "area": 84.9721,
+      "priceManwon": 18500,
+      "floor": "14",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "36bbf8dff3977950a4e0-269",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-07-28",
+      "area": 59.83,
+      "priceManwon": 13500,
+      "floor": "4",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "aaf2f982759d2006b06f-270",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-13",
+      "area": 53.13,
+      "priceManwon": 7950,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a3861e00cc33943d4589-271",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-04",
+      "area": 84.9962,
+      "priceManwon": 20500,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "39eb55231425b3c409f3-272",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-28",
+      "area": 59.9934,
+      "priceManwon": 18000,
+      "floor": "16",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c87706b8df754e702839-273",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-04",
+      "area": 59.9934,
+      "priceManwon": 14800,
+      "floor": "2",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "93bc188fb8b0d4bba01d-274",
+      "complexId": "n-5011ca972081c33ae26f",
+      "legalDongCode": "4873034027",
+      "date": "2026-07-25",
+      "area": 56.74,
+      "priceManwon": 2500,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "19fefa11c6450a3398ec-275",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-07-14",
+      "area": 49.53,
+      "priceManwon": 8550,
+      "floor": "5",
+      "buildYear": 2000,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "23aa32fe2aa16aa42043-276",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-07-16",
+      "area": 51.56,
+      "priceManwon": 12800,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "da8b8d75398eac9c091b-277",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-07-23",
+      "area": 74.57,
+      "priceManwon": 7000,
+      "floor": "2",
+      "buildYear": 1998,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "0fac1a82dde35f910a3b-278",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-18",
+      "area": 53.13,
+      "priceManwon": 7100,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "07ff41c4580da12884bb-279",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-11",
+      "area": 59.52,
+      "priceManwon": 8400,
+      "floor": "10",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1aea3c021ff969e1d301-280",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-07-25",
+      "area": 100.6926,
+      "priceManwon": 22000,
+      "floor": "3",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3f0e839067ea9a218297-281",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-21",
+      "area": 59.52,
+      "priceManwon": 8500,
+      "floor": "6",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "24f3ec2de10805edd0e2-282",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-07-16",
+      "area": 84.5359,
+      "priceManwon": 13300,
+      "floor": "9",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2ca38e3ca54de1ae4985-283",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-07-14",
+      "area": 83.46,
+      "priceManwon": 11300,
+      "floor": "7",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0a66f29dc1bd7ac7edad-284",
+      "complexId": "n-1041ace7af2e0ddec69b",
+      "legalDongCode": "4873025326",
+      "date": "2026-07-21",
+      "area": 83.2,
+      "priceManwon": 8000,
+      "floor": "1",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "a10990c8d796e87cc19a-285",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-07-21",
+      "area": 84.7127,
+      "priceManwon": 33700,
+      "floor": "4",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5bc63d8b0d29a09f266a-286",
+      "complexId": "n-500d0f98321dff7cfb3b",
+      "legalDongCode": "4873025021",
+      "date": "2026-07-16",
+      "area": 80.79,
+      "priceManwon": 8500,
+      "floor": "5",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0538a38db9d9c4e96d6b-287",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-07-15",
+      "area": 59.7,
+      "priceManwon": 3600,
+      "floor": "6",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8e37ed8f4ffb3e6c7949-288",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-07-15",
+      "area": 51.56,
+      "priceManwon": 11250,
+      "floor": "1",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "bcdd17ae16e4877a7adb-289",
+      "complexId": "n-5f01a79ac2ef197919ae",
+      "legalDongCode": "4873025321",
+      "date": "2026-07-14",
+      "area": 65.25,
+      "priceManwon": 6300,
+      "floor": "6",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "179ee1ab699db69fafe6-290",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-07-09",
+      "area": 39.15,
+      "priceManwon": 5800,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "590307b62a343f1bc340-291",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-07-01",
+      "area": 61.23,
+      "priceManwon": 3800,
+      "floor": "1",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dab77796d666b8a369ef-292",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-31",
+      "area": 39.15,
+      "priceManwon": 5100,
+      "floor": "8",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "792026738e173d1946d8-293",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-27",
+      "area": 84.9906,
+      "priceManwon": 19000,
+      "floor": "2",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d56521056da79c822807-294",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-24",
+      "area": 84.4426,
+      "priceManwon": 22800,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4a6db84e1ebb51a944ea-295",
+      "complexId": "n-42176d43969e3e667bf5",
+      "legalDongCode": "4873032022",
+      "date": "2026-08-24",
+      "area": 84.99,
+      "priceManwon": 8950,
+      "floor": "11",
+      "buildYear": 1997,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "95c5b63747b857e1df5d-296",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-25",
+      "area": 59.52,
+      "priceManwon": 8000,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7a08c9c6b3eba8a125fb-297",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-24",
+      "area": 39.15,
+      "priceManwon": 5100,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "460a081710213b5d1415-298",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-28",
+      "area": 59.9934,
+      "priceManwon": 15500,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1a14361288f7e1a0c43b-299",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-08-26",
+      "area": 61.23,
+      "priceManwon": 2700,
+      "floor": "3",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "4e273f7a540a15826334-300",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-28",
+      "area": 84.4426,
+      "priceManwon": 26000,
+      "floor": "7",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "441bdcf64d41202d9a82-301",
+      "complexId": "n-de3cfd0ed511a8076364",
+      "legalDongCode": "4873025021",
+      "date": "2026-08-08",
+      "area": 59.92,
+      "priceManwon": 10000,
+      "floor": "16",
+      "buildYear": 1997,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "22fec3cfde07e1538aeb-302",
+      "complexId": "n-fbf909a8a502f76fb5e5",
+      "legalDongCode": "4873025322",
+      "date": "2026-08-24",
+      "area": 83.57,
+      "priceManwon": 8300,
+      "floor": "1",
+      "buildYear": 1993,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8c402a70e076217b89f2-303",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-22",
+      "area": 75.0563,
+      "priceManwon": 17000,
+      "floor": "18",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "457a80a09b51d5ae8ddc-304",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-13",
+      "area": 84.5372,
+      "priceManwon": 25600,
+      "floor": "6",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "1ac5d8f62dbe7bff7fc7-305",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-20",
+      "area": 53.13,
+      "priceManwon": 7400,
+      "floor": "7",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dc6eaa050becfca63ade-306",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-21",
+      "area": 59.52,
+      "priceManwon": 8700,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c52734b302b95e676595-307",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-08-19",
+      "area": 58.4,
+      "priceManwon": 6000,
+      "floor": "15",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "912c8b153d0f9b1a6088-308",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-08-11",
+      "area": 51.56,
+      "priceManwon": 11500,
+      "floor": "1",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "891b105dc41dc6e74793-309",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-19",
+      "area": 53.13,
+      "priceManwon": 8700,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "cfccab96b08316e45535-310",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-08-12",
+      "area": 51.56,
+      "priceManwon": 13000,
+      "floor": "3",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dcdb3bc320ff165f1715-311",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-06",
+      "area": 84.9721,
+      "priceManwon": 19500,
+      "floor": "18",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "16228474ccbd020a4eb9-312",
+      "complexId": "n-ad9092807a5259ae419a",
+      "legalDongCode": "4873025321",
+      "date": "2026-08-05",
+      "area": 59.4144,
+      "priceManwon": 6300,
+      "floor": "7",
+      "buildYear": 2003,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "83f1b9bc2e6d0744a704-313",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-08",
+      "area": 59.52,
+      "priceManwon": 8900,
+      "floor": "15",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "60a0489cbc8372392bb7-314",
+      "complexId": "n-5acf1984193f02a7e092",
+      "legalDongCode": "4873033024",
+      "date": "2026-08-13",
+      "area": 78.22,
+      "priceManwon": 11700,
+      "floor": "4",
+      "buildYear": 2011,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f1fd5c93599018c9376c-315",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-08",
+      "area": 39.15,
+      "priceManwon": 5600,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "bd9739abb4cc7af37791-316",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-04",
+      "area": 84.9906,
+      "priceManwon": 17000,
+      "floor": "16",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c82685c14522207d125d-317",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-08-07",
+      "area": 55.08,
+      "priceManwon": 3200,
+      "floor": "5",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "fb4f0fc93dae348dc7d3-318",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-08-06",
+      "area": 59.9694,
+      "priceManwon": 24000,
+      "floor": "14",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "341ea4bff2bcab0ad7f2-319",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-08-07",
+      "area": 53.13,
+      "priceManwon": 7000,
+      "floor": "5",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ed4835bbbd0d47171df2-320",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-08-03",
+      "area": 59.7,
+      "priceManwon": 4800,
+      "floor": "6",
+      "buildYear": 1995,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "0821ec58c2b770ec35ed-321",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-08-03",
+      "area": 49.53,
+      "priceManwon": 8300,
+      "floor": "9",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ac30de685dd95d96586e-322",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-08-01",
+      "area": 84.9906,
+      "priceManwon": 18000,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dd996f7a2cde7b3b99b1-323",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-09-15",
+      "area": 100.6926,
+      "priceManwon": 23500,
+      "floor": "9",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "d7f39f7da191e72daa0a-324",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-09-19",
+      "area": 84.9721,
+      "priceManwon": 18500,
+      "floor": "12",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "480574132eb3a4107db9-325",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-09-29",
+      "area": 84.9314,
+      "priceManwon": 26800,
+      "floor": "1",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "3cf9f02d64f1da5691b8-326",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-09-23",
+      "area": 53.13,
+      "priceManwon": 7000,
+      "floor": "10",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "02384c8bc5df5782a7cc-327",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-09-28",
+      "area": 59.52,
+      "priceManwon": 7300,
+      "floor": "1",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "66e4a69bcbff2eeffb18-328",
+      "complexId": "n-27f18350250d35ad1eab",
+      "legalDongCode": "4873025328",
+      "date": "2026-09-30",
+      "area": 61.23,
+      "priceManwon": 2600,
+      "floor": "5",
+      "buildYear": 1991,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "e50bbdac2cf82b38814e-329",
+      "complexId": "n-99225afe0c2bf40ba0d3",
+      "legalDongCode": "4873025021",
+      "date": "2026-09-29",
+      "area": 59.9694,
+      "priceManwon": 23900,
+      "floor": "8",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ba26216720e19414c43b-330",
+      "complexId": "n-ab3f1a2cc9af8720578f",
+      "legalDongCode": "4873025022",
+      "date": "2026-09-09",
+      "area": 59.7,
+      "priceManwon": 6400,
+      "floor": "1",
+      "buildYear": 1995,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "be9a175719a7bcea9ff0-331",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-09-17",
+      "area": 59.52,
+      "priceManwon": 7800,
+      "floor": "2",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "ec1a7b8485c64d6b05f9-332",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-09-19",
+      "area": 84.8369,
+      "priceManwon": 32500,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "023197433d4a141dad7a-333",
+      "complexId": "n-500d0f98321dff7cfb3b",
+      "legalDongCode": "4873025021",
+      "date": "2026-09-21",
+      "area": 80.79,
+      "priceManwon": 8000,
+      "floor": "5",
+      "buildYear": 1990,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "42e7fa0e69a247aaacf4-334",
+      "complexId": "n-5acf1984193f02a7e092",
+      "legalDongCode": "4873033024",
+      "date": "2026-09-21",
+      "area": 78.22,
+      "priceManwon": 8500,
+      "floor": "9",
+      "buildYear": 2011,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b1b84071b41e38588b91-335",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-09-17",
+      "area": 84.96,
+      "priceManwon": 12600,
+      "floor": "13",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e7812616a094a876f789-336",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-09-11",
+      "area": 59.9934,
+      "priceManwon": 15000,
+      "floor": "4",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "c339b8f0ebd75a53cc78-337",
+      "complexId": "n-28d5878706a9bdb18e98",
+      "legalDongCode": "4873025024",
+      "date": "2026-09-14",
+      "area": 84.47,
+      "priceManwon": 21000,
+      "floor": "6",
+      "buildYear": 2010,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "e8dc1cd9292f2ab91799-338",
+      "complexId": "n-89ee3e57f29d5d8d95d6",
+      "legalDongCode": "4873025021",
+      "date": "2026-09-14",
+      "area": 78.96,
+      "priceManwon": 12000,
+      "floor": "7",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "33c62ffa7f596b99515b-339",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-09-08",
+      "area": 53.13,
+      "priceManwon": 6900,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "caa681dc22407d360025-340",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-09-11",
+      "area": 71.226,
+      "priceManwon": 21500,
+      "floor": "2",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f462fe3f3adf6227d035-341",
+      "complexId": "n-d95e9d82ec7692b60b8e",
+      "legalDongCode": "4873025325",
+      "date": "2026-09-09",
+      "area": 84.4426,
+      "priceManwon": 23950,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "81a1d4eec8e22c5d628d-342",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-09-03",
+      "area": 51.56,
+      "priceManwon": 12500,
+      "floor": "2",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "50547821ec2e44344f28-343",
+      "complexId": "n-de27bf8027215d2113a5",
+      "legalDongCode": "4873025328",
+      "date": "2026-09-01",
+      "area": 74.57,
+      "priceManwon": 8300,
+      "floor": "10",
+      "buildYear": 1998,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a72ed014264be4465c73-344",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-23",
+      "area": 39.15,
+      "priceManwon": 5400,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "816981f8c5c13be5b492-345",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-19",
+      "area": 59.52,
+      "priceManwon": 7800,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "70018a6d0591cc3c562d-346",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-27",
+      "area": 59.9934,
+      "priceManwon": 14800,
+      "floor": "4",
+      "buildYear": 2006,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "936e97435a14ebf15293-347",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-03",
+      "area": 100.6926,
+      "priceManwon": 24000,
+      "floor": "18",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b44e145c9ac853b3940d-348",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-03",
+      "area": 84.9721,
+      "priceManwon": 19800,
+      "floor": "6",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9ca7b4b95a65d69ca766-349",
+      "complexId": "n-9639071412c3ab748c02",
+      "legalDongCode": "4873025022",
+      "date": "2026-10-27",
+      "area": 67.3509,
+      "priceManwon": 20300,
+      "floor": "13",
+      "buildYear": 2012,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "72c4b857464548d0b769-350",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-15",
+      "area": 39.15,
+      "priceManwon": 5950,
+      "floor": "3",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "88b39213b0663fd9db71-351",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-21",
+      "area": 39.15,
+      "priceManwon": 5250,
+      "floor": "12",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "b3fe4a0755205f76e4f8-352",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-20",
+      "area": 53.13,
+      "priceManwon": 6900,
+      "floor": "9",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "bd46a5f68b2ca712da1e-353",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-21",
+      "area": 58.4,
+      "priceManwon": 6400,
+      "floor": "5",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8c6803c67ebbe17d0d7b-354",
+      "complexId": "n-d3893649093f3be31cfb",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-06",
+      "area": 84.98,
+      "priceManwon": 34700,
+      "floor": "14",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "97975db29f91d8561195-355",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-20",
+      "area": 84.9906,
+      "priceManwon": 19500,
+      "floor": "6",
+      "buildYear": 2006,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "98afe3018d5aefe36371-356",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-20",
+      "area": 84.9906,
+      "priceManwon": 19500,
+      "floor": "11",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "05024c9b88c914b2c291-357",
+      "complexId": "n-a1d6706b06d6798953fd",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-03",
+      "area": 75.0563,
+      "priceManwon": 17000,
+      "floor": "12",
+      "buildYear": 2008,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "734e8d2e19778ecf4661-358",
+      "complexId": "n-eeac5ef99eed69929cf3",
+      "legalDongCode": "4873025022",
+      "date": "2026-10-15",
+      "area": 49.53,
+      "priceManwon": 7900,
+      "floor": "9",
+      "buildYear": 2000,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "e9938f5aca452407c7ec-359",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-09",
+      "area": 59.9934,
+      "priceManwon": 14800,
+      "floor": "2",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "5bf1d9054d0d1fc5528a-360",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-17",
+      "area": 39.15,
+      "priceManwon": 5250,
+      "floor": "14",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "6decca60be1a1d48073d-361",
+      "complexId": "n-32f00520e366d1869e0d",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-13",
+      "area": 59.52,
+      "priceManwon": 7900,
+      "floor": "11",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f50a117c2bfae2603e3f-362",
+      "complexId": "n-50e43973db8b05396763",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-14",
+      "area": 84.9321,
+      "priceManwon": 33250,
+      "floor": "3",
+      "buildYear": 2014,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "2ed78744ba3f56826cea-363",
+      "complexId": "n-f39a180b63d42f1c7eba",
+      "legalDongCode": "4873035022",
+      "date": "2026-10-02",
+      "area": 59.52,
+      "priceManwon": 8300,
+      "floor": "4",
+      "buildYear": 2001,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "a43d27319fb06b1687a7-364",
+      "complexId": "n-396792b7b9575896a21f",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-12",
+      "area": 59.83,
+      "priceManwon": 12700,
+      "floor": "5",
+      "buildYear": 2004,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "9a41aec4ca99d463f8ef-365",
+      "complexId": "n-98b15f586aee68371947",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-10",
+      "area": 58.4,
+      "priceManwon": 6400,
+      "floor": "9",
+      "buildYear": 1991,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "8ba6fe166f94e8ec024e-366",
+      "complexId": "n-e4a0fdbc0fb590324b21",
+      "legalDongCode": "4873025022",
+      "date": "2026-10-07",
+      "area": 81.6,
+      "priceManwon": 7700,
+      "floor": "13",
+      "buildYear": 1992,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "138bb9ded4b97df84f1f-367",
+      "complexId": "n-68603970fb69a850a08a",
+      "legalDongCode": "4873035027",
+      "date": "2026-10-08",
+      "area": 65.7075,
+      "priceManwon": 5000,
+      "floor": "1",
+      "buildYear": 2011,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "87ea93f0cccc370073e2-368",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-09",
+      "area": 84.9906,
+      "priceManwon": 19400,
+      "floor": "15",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "f6f726c94a9ffbcf26c5-369",
+      "complexId": "n-f5d78794bfe29e2d259e",
+      "legalDongCode": "4873025325",
+      "date": "2026-10-06",
+      "area": 59.9934,
+      "priceManwon": 15500,
+      "floor": "9",
+      "buildYear": 2006,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "60d2fbab5877e0c165d7-370",
+      "complexId": "n-6e7b951fdc2ec6e6058f",
+      "legalDongCode": "4873025024",
+      "date": "2026-10-07",
+      "area": 59.96,
+      "priceManwon": 8000,
+      "floor": "8",
+      "buildYear": 1996,
+      "dealingType": "중개거래",
+      "canceled": false
+    }
+  ]
+}
