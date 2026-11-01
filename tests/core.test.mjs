@@ -1,9 +1,31 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { areaClass, calculate, comparison, constructionLabel, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, shiftMonth, summary, validTrades, watchPreferences } from "../assets/core.js";
+import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
 
 const today = "2026-10-26";
+test("personal asset gap adds available cash once and preserves a surplus", () => {
+  assert.deepEqual(assetComparison(200000, 120000, 2), {available:14, gap:6});
+  assert.deepEqual(assetComparison(130000, 120000, 2), {available:14, gap:-1});
+  assert.deepEqual(assetComparison(140000, 120000, 2), {available:14, gap:0});
+  assert.equal(comparison(200000, 120000).ratio, 200000 / 120000);
+});
+test("missing prices or invalid cash never turn into a fabricated budget", () => {
+  for (const [price, house, cash] of [[null,120000,2],[200000,null,2],[200000,0,2],[200000,120000,-1],[200000,120000,null],[200000,120000,Infinity]])
+    assert.deepEqual(assetComparison(price,house,cash), {available:null,gap:null});
+});
+test("custom baseline separates apartments and exact areas including 101 square metres", () => {
+  const rows = [trade({complexId:"mine",area:101.8}),trade({complexId:"mine",area:101.9}),trade({complexId:"other",area:101.8}),trade({complexId:"mine",area:59.87})];
+  assert.equal(referenceTrades(rows,"mine","101.8").length,1);
+  assert.equal(referenceTrades(rows,"mine","band59").length,1);
+  assert.equal(referenceTrades(rows,"mine","band74").length,0);
+  assert.equal(referenceTrades(rows,"mine","bad").length,0);
+});
+test("persisted tracker validates mode, reference ID, area and cash", () => {
+  assert.deepEqual(trackerPreferences(null),{mode:"standard",id:"base",area:"band59",cash:0});
+  assert.deepEqual(trackerPreferences({mode:"personal",id:"n-abc",area:"101.8",cash:2.25}),{mode:"personal",id:"n-abc",area:"101.8",cash:2.25});
+  assert.deepEqual(trackerPreferences({mode:"bad",id:"<script>",area:"-1",cash:-3}),{mode:"standard",id:"base",area:"band59",cash:0});
+});
 test("1.5 ratio excludes strictly below threshold and keeps unknown separately", () => {
   assert.equal(passesRatio(1.49999, 1.5), false);
   assert.equal(passesRatio(1.5, 1.5), true);
@@ -184,6 +206,14 @@ test("2033 plan converts manwon, includes debt, savings, bonuses, loan and costs
 test("no double count when buying in the current month", () => {
   const r = calculate({ ...plan, targetMonth: "2026-10" }, today);
   assert.equal(r.months, 0); assert.equal(r.savings, 0);
+});
+test("sale capital gains tax reduces net proceeds once, while acquisition tax remains a purchase cost", () => {
+  const before = calculate(plan, today), after = calculate({...plan,saleTax:0.05},today);
+  assert.ok(Math.abs(after.netSale - 3.95) < 1e-9);
+  assert.ok(Math.abs(after.shortage - before.shortage - 0.05) < 1e-9);
+  assert.equal(after.totalCost, before.totalCost);
+  assert.throws(() => calculate({...plan,saleTax:-1},today));
+  assert.throws(() => calculate({...plan,saleTax:NaN},today));
 });
 test("surplus and negative sale equity handled without clamping debts", () => {
   assert.ok(calculate({ ...plan, targetPrice: 1 }, today).surplus > 0);

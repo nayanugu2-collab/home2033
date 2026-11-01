@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#132e2a">
-  <meta name="description" content="동천센트럴자이 59㎡를 기준으로 상급지 실거래가와 2033년 갈아타기 필요 자금을 비교합니다.">
+  <meta name="description" content="동천 기준 또는 내 아파트와 보유 현금을 기준으로 전국 아파트 실거래가와 갈아타기 필요 자금을 비교합니다.">
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=watchlist-spacing">
-  <script type="module" src="./assets/app.js?v=watchlist-v2"></script>
+  <link rel="stylesheet" href="./assets/styles.css?v=personal-tracker">
+  <script type="module" src="./assets/app.js?v=personal-tracker"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -21,22 +21,27 @@
 </header>
 <main id="main">
   <section class="intro">
-    <div><div class="eyebrow"><span class="live-dot"></span> MY NEXT CHAPTER · 2033</div><h1>다음 집까지,<br class="mobile-break"> 지금 얼마나 남았을까.</h1><p>동천센트럴자이와 관심 단지의 실거래 가격 차이를 차곡차곡 기록합니다.</p></div>
+    <div><div class="eyebrow"><span class="live-dot"></span> MY NEXT CHAPTER · 2033</div><h1>다음 집까지,<br class="mobile-break"> 지금 얼마나 남았을까.</h1><p>내 집과 보유 현금을 기준으로 다음 집까지의 거리를 확인합니다.</p></div>
     <a class="text-link" href="#calculator">2033 자금 계획 <span>↗</span></a>
   </section>
   <div id="notice" class="notice" role="status" aria-live="polite">공식 실거래 데이터를 불러오고 있습니다.</div>
   <div class="data-toolbar"><div><span class="status-dot" id="modeDot"></span><b id="modeLabel">공식 데이터</b><span id="updateLabel">갱신 전</span></div><div class="toolbar-buttons"><button class="link-button" id="refresh" type="button">↻ 새로고침</button><button class="outline-button" id="demoToggle" type="button">샘플로 둘러보기</button></div></div>
+  <section class="panel tracker-panel" aria-label="트래커 기준 설정">
+    <div class="tracker-heading"><div><span class="eyebrow muted">MY REFERENCE</span><h2>어떤 기준으로 비교할까요?</h2></div><div class="segmented" role="group" aria-label="트래커 선택"><button type="button" data-tracker="standard" class="selected" aria-pressed="true">동천 기준</button><button type="button" data-tracker="personal" aria-pressed="false">내 집 + 자산</button></div></div>
+    <div id="personalSettings" hidden><div class="tracker-fields"><label>내 아파트 검색<input type="search" id="baseSearch" placeholder="지역·아파트 이름으로 전국 검색" autocomplete="off"></label><label>내 집 전용면적<select id="baseType"><option value="band59">59㎡급 전체 타입</option></select></label><label>추가 보유 현금·금융자산 <span>억원</span><input id="trackerCash" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label></div><p id="baseSearchStatus" class="small muted" role="status" aria-live="polite">아파트 이름을 입력하면 전국 검색 명부를 불러옵니다.</p><div id="baseSearchRows" class="catalog-list"></div><div class="tracker-budget"><span>내 집 실거래 기준가 + 추가 현금</span><strong id="trackerBudget">—</strong><small id="trackerFormula"></small></div><p class="field-help">집에 묶인 금액을 제외한 추가 현금·처분 가능한 금융자산만 입력하세요. 이 비교는 주택 매각대금 전액 + 현금이며, 대출·양도세·취득세·거래비용은 아래 자금 계획에서 따로 차감합니다.</p><button id="applyTracker" type="button" class="outline-button">이 기준·현금을 자금 계획에 반영</button></div>
+    <p id="trackerState" class="small muted" role="status" aria-live="polite">기본값: 동천센트럴자이 59㎡급</p>
+  </section>
   <section class="overview" aria-label="실거래 요약">
     <article class="base-card">
       <div class="card-top"><span class="tiny-label">비교의 출발점</span><span class="pill light">MY HOME</span></div>
-      <h2>동천센트럴자이 <span>전용 59㎡급</span></h2>
+      <h2><span id="baseName">동천센트럴자이</span> <span id="baseAreaLabel">전용 59㎡급</span></h2>
       <p id="baseAge">건축연도 확인 중</p>
       <div class="base-price" id="basePrice">—<small>억원</small></div>
       <p id="baseDetail">최근 10건 평균 확인 전</p>
-      <div class="base-foot"><span>최초 매수가 <b>11.20억</b></span><span>현재 비교 기준과 별도</span></div>
+      <div class="base-foot"><span id="basePurchase">최초 매수가 <b>11.20억</b></span><span>현금 제외 · 주택 실거래 기준가</span></div>
     </article>
     <article class="summary-card"><div class="tiny-label">거래가 확인된 관심 단지</div><strong id="summaryCount">—</strong><div class="summary-caption" id="summaryCoverage">전체 후보 확인 중</div><span class="stat-symbol">▦</span></article>
-    <article class="summary-card"><div class="tiny-label">가장 가까운 가격 격차</div><strong id="minGap">—</strong><div class="summary-caption" id="minGapDetail">기준 실거래가가 필요합니다</div><span class="stat-symbol">↗</span></article>
+    <article class="summary-card"><div class="tiny-label" id="minGapLabel">가장 가까운 가격 격차</div><strong id="minGap">—</strong><div class="summary-caption" id="minGapDetail">기준 실거래가가 필요합니다</div><span class="stat-symbol">↗</span></article>
   </section>
   <section id="monitor" class="monitor-section">
     <div class="section-heading"><div><span class="eyebrow muted">01 / MARKET WATCH</span><h2>관심 단지 모니터</h2></div><span class="muted small">최근 12개월 실거래</span></div>
@@ -53,7 +58,7 @@
       <p class="small muted" id="ratioNote"></p>
     </div>
     <div class="list-heading"><span id="resultCount">단지 확인 중</span><span class="muted small">금액 단위: 억원 · 행을 눌러 상세 비교</span></div>
-    <div class="table-container panel"><table class="apartments"><caption class="sr-only">지역별 단지 실거래가, 선택한 비교 가격과 기준 주택 대비 격차</caption><thead><tr><th>단지 / 지역</th><th id="priceColumnLabel">최근 10건 평균</th><th>3개월 중앙값</th><th>6개월 중앙값</th><th>기준 대비 격차</th><th>배율</th><th><span class="sr-only">상세</span></th></tr></thead><tbody id="apartmentRows"></tbody></table><div id="noResults" class="empty" hidden>조건에 맞는 관심 단지가 없습니다. 배율·지역·면적·검색어를 바꾸거나 위 검색에서 관심 단지를 추가하세요.</div></div>
+    <div class="table-container panel"><table class="apartments"><caption class="sr-only">지역별 단지 실거래가, 선택한 비교 가격과 기준 주택 대비 격차</caption><thead><tr><th>단지 / 지역</th><th id="priceColumnLabel">최근 10건 평균</th><th>3개월 중앙값</th><th>6개월 중앙값</th><th>주택 가격 차이</th><th>배율</th><th id="assetColumnLabel" hidden>내 집 + 현금 차액</th><th><span class="sr-only">상세</span></th></tr></thead><tbody id="apartmentRows"></tbody></table><div id="noResults" class="empty" hidden>조건에 맞는 관심 단지가 없습니다. 배율·지역·면적·검색어를 바꾸거나 위 검색에서 관심 단지를 추가하세요.</div></div>
     <p class="small muted">평균은 최대 10건으로 계산하고 10건 미만이면 실제 사용 건수를 표시합니다. 평균·중앙값 표본이 3건 미만이면 ‘거래 부족’입니다. 선택 면적의 거래가 없으면 가격을 비워 둡니다. 국민임대 단지는 안내용으로 표시하며 매매 비교·매수 계산에서 제외합니다.</p>
   </section>
   <section class="detail-section" id="detail" aria-label="선택 단지 상세">
@@ -62,7 +67,7 @@
       <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName">단지를 선택하세요</h3><p class="small" id="selectedAge"></p><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
       <div class="selected-metrics" id="selectedMetrics"></div>
       <p class="small muted" id="selectedPriceDetail"></p>
-      <div class="charts"><div class="chart-panel"><h4>실거래가 추세 <span>월별 중앙값 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지</span><span><i class="base-legend"></i>동천센트럴자이 59㎡급</span></div><div id="priceChart" class="chart"></div></div><div class="chart-panel"><h4>가격 격차 추세 <span>같은 계약월끼리 비교 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지 − 기준 주택</span></div><div id="gapChart" class="chart"></div></div></div>
+      <div class="charts"><div class="chart-panel"><h4>실거래가 추세 <span>월별 중앙값 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지</span><span><i class="base-legend"></i><span id="chartBaseLabel">동천센트럴자이 59㎡급</span></span></div><div id="priceChart" class="chart"></div></div><div class="chart-panel"><h4>가격 격차 추세 <span>같은 계약월끼리 비교 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지 − 기준 주택</span></div><div id="gapChart" class="chart"></div></div></div><p class="small muted" id="gapChartNote"></p>
       <p class="small muted">거래가 없는 월은 선을 끊습니다. 격차는 두 단지 모두 거래가 있는 월에만 계산합니다. 첫 달은 12개월 시작일 이후의 거래만 포함합니다.</p>
       <details><summary>월별 거래 건수와 가격 보기</summary><div class="scroll-table"><table class="history-table"><thead><tr><th>계약월</th><th>선택 단지</th><th>표본</th><th>기준 주택</th><th>표본</th><th>격차</th></tr></thead><tbody id="monthlyRows"></tbody></table></div></details>
       <div class="trade-ledger"><h4>최근 실거래 내역 <span>최대 10건 · 전용면적별 표시</span></h4><div id="recentTrades"></div></div>
@@ -88,16 +93,22 @@
         <div class="form-section"><h3><span>03</span> 목표 주택과 거래비용</h3><label>목표 단지<select id="targetComplex"></select></label><p class="field-help" id="targetHint"></p><div class="form-grid">
           <label>가정한 목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="선택 단지 가격 연동"></label>
           <label>취득세 예상액 <span>억원</span><input id="tax" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+          <label>매도 양도세·지방소득세 합계 <span>억원</span><input id="saleTax" type="number" min="0" step="0.0001" value="0" inputmode="decimal"></label>
           <label>기타 거래비용 <span>억원</span><input id="fees" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-        </div><button type="button" class="link-button" id="resetTarget">목표 매수가를 선택 단지 가격에 연동</button><p class="field-help">취득세·중개보수·매도 세금·등기·이사비 등을 직접 입력하세요. 세금이나 대출 한도는 자동 산정하지 않습니다.</p></div>
+        </div><button type="button" class="link-button" id="resetTarget">목표 매수가를 선택 단지 가격에 연동</button><p class="field-help">취득세 항목에는 지방교육세·농어촌특별세를 포함한 취득 관련 세금 합계를, 양도세 항목에는 지방소득세 포함 금액을 입력하세요. 기타 비용에는 세금을 중복 입력하지 마세요. 세액 기본값 0은 비과세 판정이 아닌 미입력 가정입니다. <a href="#taxGuide">세금 적용 기준 보기 ↓</a></p></div>
         <div class="form-actions"><span class="small muted" id="saveState">금액 기본값 0 · 실제 잔액을 입력하세요</span><button type="button" class="outline-button" id="resetCalculator">입력 초기화</button></div>
       </form>
       <aside class="plan-result"><div class="eyebrow">YOUR NEXT HOME</div><h3 id="planTarget">2033년의 다음 집</h3><p id="planSubtitle">선택 단지와 자금 계획을 연결합니다.</p><div class="result-main"><span>추가로 필요한 자기자본</span><strong id="shortage">—<small>억원</small></strong><span id="surplus"></span></div><div id="calcError" role="status" aria-live="polite"></div><div class="fund-flow"><div><span>매도 후 순자금</span><b id="netSale">—</b></div><div><span>금융자산</span><b id="assetResult">—</b></div><div><span>추가 저축 + 성과급</span><b id="savingsResult">—</b></div><div class="flow-total"><span>예상 자기자본</span><b id="equityResult">—</b></div><div><span>+ 신규 주담대</span><b id="loanResult">—</b></div><div class="flow-total"><span>총 조달 가능액</span><b id="availableResult">—</b></div><div><span>목표 매수가 + 비용</span><b id="costResult">—</b></div></div><p class="plan-note" id="savingMonths"></p><p class="plan-note">현재 실거래가를 미래 매수가의 가정값으로 사용합니다. 집값·금리·투자수익률·물가 변화는 반영하지 않습니다.</p></aside>
     </div>
   </section>
+  <section class="panel method-section" id="taxGuide">
+    <div class="section-heading"><div><span class="eyebrow muted">TAX & COST</span><h2>세금은 어떻게 반영하나요?</h2></div><span class="pill">2026.11.01 확인</span></div>
+    <p class="small muted">현재 제도에 대한 계획용 안내입니다. 2033년 세율을 확정하지 않으며, 아래 조건에 맞는지 확인한 추정액을 자금 계획에 입력하세요. 세금 0 입력은 자동 비과세 판정이 아닙니다.</p>
+    <div class="method-grid"><div><h3>팔 때: 양도세</h3><p>매도가 − 취득가 − 인정 필요경비가 양도차익의 출발점입니다. 비과세·장기보유특별공제·기본공제 후 과세표준에 세율을 적용합니다. 일반 기본세율은 6~45% 누진 구조이며, 지방소득세도 별도 고려합니다.</p><p>1세대 1주택 비과세는 통상 2년 보유가 기본이고, 취득 시기·조정대상지역 여부에 따라 거주요건 등이 붙습니다. 요건을 충족해도 매도가가 12억원을 넘으면 전체 양도차익 중 (매도가 − 12억) ÷ 매도가에 해당하는 부분이 과세 대상입니다. 12억원 초과분 자체에 고정 세율을 곱하는 방식이 아닙니다.</p><p><a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8799&amp;mi=12271" target="_blank" rel="noopener">국세청 고가주택 계산식 ↗</a> · <a href="https://www.nts.go.kr/tax/sub/1.1.3.%EC%84%B8%EC%95%A1%EA%B3%84%EC%82%B0%ED%9D%90%EB%A6%84.html" target="_blank" rel="noopener">국세청 계산 흐름 ↗</a></p></div><div><h3>살 때: 취득 관련 세금</h3><p>일반 주택 유상취득 기본세율은 6억원 이하 1%, 6억 초과~9억원 이하 (가격을 억원으로 환산한 수치 × 2/3 − 3)%, 9억원 초과 3%입니다. 지방교육세와 면적·소재지 등에 따른 농어촌특별세도 합산해야 합니다.</p><p>예: 일반세율·감면 없음·도시지역 전용 84㎡인 20억원 주택은 취득세 6,000만원 + 지방교육세 600만원 = 약 6,600만원(0.66억)을 예산에 반영합니다. 다주택·법인 중과, 감면, 일시적 2주택 처분 요건 등은 따로 판단합니다.</p><p><a href="https://law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1021846727" target="_blank" rel="noopener">지방세법 취득세율 ↗</a> · <a href="https://etax.seoul.go.kr/jsp/CtView.jsp?ctPage=/info/CON03_02_03_01.html&amp;gl_gubun=l&amp;gnb_id=0602&amp;lnb_id=0602" target="_blank" rel="noopener">서울 ETAX 주택 수·중과 안내 ↗</a> · <a href="https://www.goheung.go.kr/contentsView.do?pageId=www527" target="_blank" rel="noopener">취득 관련 합계 세율 예시 ↗</a></p></div><div><h3>이 사이트의 적용 방식</h3><p>상단 트래커는 집 가격 + 추가 현금의 단순 비교입니다. 아래 자금 계획에서는 매도가에서 대출·가족 차입금·양도세를 빼고, 현금·저축·신규 대출을 더합니다. 목표 집 가격에는 취득 관련 세금과 기타 거래비용을 더해 최종 부족액을 구합니다.</p><p>양도세 계산에는 취득일·취득가·필요경비·보유/거주기간·세대 주택 수·명의별 지분·매도 순서 등이 필요합니다. 확인한 양도세와 지방소득세 합계를 한 번만 입력하고, 취득세 항목에도 관련 부가세목을 포함한 합계를 입력하세요. 중개보수·등기·이사비는 기타 비용에 넣습니다.</p><p><a href="https://www.hometax.go.kr/" target="_blank" rel="noopener">홈택스 모의계산 ↗</a> · <a href="https://www.wetax.go.kr/" target="_blank" rel="noopener">위택스 지방세 확인 ↗</a></p></div></div>
+  </section>
   <section class="panel method-section" id="method">
     <div class="section-heading"><div><span class="eyebrow muted">BEHIND THE NUMBERS</span><h2>숫자를 읽기 전에</h2></div><span class="pill">출처가 있는 비교</span></div>
-    <div class="method-grid"><div><h3>공식 실거래, 계약일 기준</h3><p>국토교통부 매매 실거래가 상세 API에서 수집합니다. 해제 거래를 제외하며 신고·정정·해제 반영이 지연될 수 있습니다.</p></div><div><h3>주소와 면적까지 확인</h3><p>10자리 법정동 코드, 법정동명, 명시된 단지명 별칭, 지번 또는 검증된 도로명과 건물번호를 확인합니다. 모호한 거래는 제외합니다.</p></div><div><h3>최근 10건 평균으로 비교</h3><p>기본값은 기준 주택 59㎡급과 비교 단지의 최근 10건 산술평균입니다. 10건 미만이면 있는 거래만 사용합니다. 최근 1건·3개월·6개월 중앙값 선택 시 기준 주택은 최근 1건이며, 최초 매수가는 참고 정보입니다.</p></div></div>
+    <div class="method-grid"><div><h3>공식 실거래, 계약일 기준</h3><p>국토교통부 매매 실거래가 상세 API에서 수집합니다. 해제 거래를 제외하며 신고·정정·해제 반영이 지연될 수 있습니다.</p></div><div><h3>주소와 면적까지 확인</h3><p>10자리 법정동 코드, 법정동명, 명시된 단지명 별칭, 지번 또는 검증된 도로명과 건물번호를 확인합니다. 모호한 거래는 제외합니다.</p></div><div><h3>두 가지 트래커</h3><p>동천 기준은 기존 59㎡급 비교를 유지합니다. 내 집 + 자산은 검색한 기준 단지·전용면적과 추가 현금을 사용합니다. 기본값은 최신 10건 평균이며, 내 집 모드에서는 선택한 가격 지표를 양쪽에 똑같이 적용합니다. 현금은 가격 배율과 과거 그래프에 반영하지 않습니다. 최초 매수가는 참고 정보입니다.</p></div></div>
     <details><summary>면적·평균·중앙값·같은 날 거래 처리 기준</summary><p>59㎡급은 58 이상 60 미만, 74㎡급은 73 이상 75 미만, 84㎡급은 83 이상 85.01 미만입니다. 공급평형과 다릅니다. 상세 화면에서는 정확한 전용면적 타입을 선택할 수 있습니다. 최근 10건 평균은 최근 12개월 내 해당 단지·선택 면적의 거래를 계약일 내림차순으로 최대 10건 골라 가격 합계를 건수로 나눈 산술평균입니다. 거래가 없으면 가격을 비웁니다. 같은 계약일은 거래 ID 사전순으로 정렬하므로 10번째 경계가 같은 날이면 ID 순으로 포함하며 실제 계약 순서를 뜻하지 않습니다. 3·6개월은 한국 날짜에서 각각 해당 개월을 뺀 다음 날부터 오늘까지이며, 짝수 건의 중앙값은 가운데 두 가격의 평균입니다. 같은 계약일에 여러 건이면 거래 ID 사전순 첫 건을 최근 1건으로 표시하고 동률 건수를 안내합니다. 면적급 전체 집계에는 같은 급의 타입이 함께 포함됩니다.</p></details>
     <p class="muted small">연식은 공식 거래에 기재된 건축연도 기준으로 현재 한국 연도에서 차감합니다. 정확한 준공 월·일 기준은 아니며, 동별 연도가 다르면 함께 표시합니다. 면적·가격 필터와 무관하고, 샘플 모드에서도 공식 건축연도만 사용합니다. 확인할 자료가 없으면 ‘건축연도 확인 필요’로 표시합니다.</p>
     <details><summary>단지 명부 검증 및 제외 이력</summary><p id="registryNote"></p><div id="registryAudit"></div></details>

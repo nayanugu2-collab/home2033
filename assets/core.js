@@ -83,6 +83,23 @@ export function comparison(price, base) {
   return price == null || base == null || base <= 0 ? { gap: null, ratio: null } :
     { gap: (price - base) / 10000, ratio: price / base };
 }
+export function trackerPreferences(value) {
+  return { mode: value?.mode === "personal" ? "personal" : "standard",
+    id: typeof value?.id === "string" && /^[a-z0-9-]+$/.test(value.id) ? value.id : "base",
+    area: typeof value?.area === "string" && /^(band(59|74|84)|\d+(\.\d+)?)$/.test(value.area) ? value.area : "band59",
+    cash: Number.isFinite(value?.cash) && value.cash >= 0 ? value.cash : 0 };
+}
+export function referenceTrades(trades, id, type) {
+  if (/^band(59|74|84)$/.test(type)) return forArea(trades, id, type.slice(4));
+  const exact = Number(type);
+  return Number.isFinite(exact) && exact > 0 ? trades.filter(t => t.complexId === id && Math.abs(t.area - exact) < 0.00005) : [];
+}
+export function assetComparison(price, house, cash) {
+  if (![price, house, cash].every(Number.isFinite) || price <= 0 || house <= 0 || cash < 0)
+    return { available: null, gap: null };
+  const available = house / 10000 + cash;
+  return { available, gap: price / 10000 - available };
+}
 export function monthSeries(trades, baseTrades, asOf) {
   trades = validTrades(trades, asOf);
   baseTrades = validTrades(baseTrades, asOf);
@@ -117,10 +134,12 @@ export function calculate(input, today) {
   for (const key of required) {
     if (!Number.isFinite(input[key]) || input[key] < 0) throw new Error("금액은 0 이상의 숫자로 입력하세요.");
   }
+  const saleTax = input.saleTax ?? 0;
+  if (!Number.isFinite(saleTax) || saleTax < 0) throw new Error("양도세는 0 이상의 숫자로 입력하세요.");
   const months = monthsUntil(today, input.targetMonth);
   const bonusCount = Math.floor(months / 12);
   const savings = (input.monthly * months + input.bonus * bonusCount) / 10000;
-  const netSale = input.sale - input.mortgage - input.family;
+  const netSale = input.sale - input.mortgage - input.family - saleTax;
   const equity = netSale + input.assets + savings;
   const available = equity + input.newLoan;
   const totalCost = input.targetPrice + input.tax + input.fees;
