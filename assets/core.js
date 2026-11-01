@@ -1,7 +1,8 @@
 export const AREA_BANDS = { "59": [58, 60], "74": [73, 75], "84": [83, 85.01] };
 export function matchesComplex(c, query) {
   const normalize = value => String(value).replace(/\s+/g, "").toLowerCase();
-  return normalize([c.name, c.region, c.legalDong, ...(c.jibuns || []), ...(c.aliases || [])].join(" ")).includes(normalize(query));
+  const text = normalize([c.name, c.region, c.legalDong, ...(c.jibuns || []), ...(c.aliases || [])].join(" "));
+  return text.includes(normalize(query)) || query.trim().split(/\s+/).every(part => text.includes(normalize(part)));
 }
 export function passesRatio(ratio, minimum) {
   return ratio == null || (Number.isFinite(ratio) && ratio >= minimum);

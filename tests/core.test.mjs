@@ -15,6 +15,8 @@ test("nationwide search includes address, region and aliases across whitespace",
   const c = {name: "백현마을6단지",region:"경기도 성남시 분당구",legalDong:"백현동",jibuns:["555"],aliases:["백현마을6단지(주공)"]};
   assert.equal(matchesComplex(c, "백현 마을 6"), true);
   assert.equal(matchesComplex(c, "성남시 분당구"), true);
+  assert.equal(matchesComplex(c, "경기 백현마을6"), true);
+  assert.equal(matchesComplex({name:"해운대센텀",region:"부산광역시 해운대구"}, "부산 해운대"), true);
   assert.equal(matchesComplex(c, "555"), true);
   assert.equal(matchesComplex(c, "7단지"), false);
 });

@@ -1,5 +1,10 @@
 import datetime as dt
+import json
+from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
+from scripts import collect_nationwide as nationwide
 from scripts.collect_nationwide import district_payload
 import update
 
@@ -28,3 +33,19 @@ class NationwideTests(unittest.TestCase):
 
     def test_wrong_district_is_failure_not_a_misidentified_price(self):
         with self.assertRaises(update.CollectionError): self.payload([self.raw(sggCd='11110')])
+
+    def test_failed_district_retains_original_prices_and_timestamp(self):
+        registry = update.load_registry()
+        with tempfile.TemporaryDirectory(dir=update.ROOT / '.test-output') as folder:
+            root = Path(folder); dest = root / 'data/nationwide'; dest.mkdir(parents=True)
+            (root / 'data/districts.json').write_text(json.dumps({'districts':[{'code':'26110','name':'부산광역시 중구'}]}),encoding='utf-8')
+            old = self.payload([self.raw()]); old['updatedAt'] = '2026-10-20T00:00:00+09:00'
+            path = dest / '26110.json'; update.atomic_json(path, old); before = path.read_bytes()
+            with patch.multiple(nationwide, ROOT=root, DEST=dest), patch.dict('os.environ', {'MOLIT_SERVICE_KEY':'test-only'}), \
+                 patch.object(update, 'load_registry', return_value=registry), patch.object(update, 'fetch_month', side_effect=update.CollectionError('unavailable')):
+                self.assertEqual(nationwide.main(), 1)
+            self.assertEqual(path.read_bytes(), before)
+            index = json.loads((dest / 'index.json').read_text(encoding='utf-8'))
+            self.assertEqual(index['updatedAt'], old['updatedAt'])
+            self.assertEqual(index['failedDistricts'], ['26110'])
+            self.assertEqual(index['availableDistricts'], 1)

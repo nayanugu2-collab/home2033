@@ -1,4 +1,4 @@
-import { areaClass, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, summary, validTrades, watchPreferences } from "./core.js?v=watchlist";
+import { areaClass, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, summary, validTrades, watchPreferences } from "./core.js?v=watchlist-v2";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -182,7 +182,7 @@ async function loadNational() {
       $("catalogSource").textContent = index.note + " 지역 자료 " + index.availableDistricts + "/" + index.totalDistricts + " · 가장 오래된 갱신 " + stamp(index.updatedAt) + (index.failedDistricts.length ? " · 일부 지역 수집 실패, 마지막 정상 자료 사용" : "");
       for (const code of new Set(registry.complexes.filter(c => preferences.added.includes(c.id)).map(c => c.districtCode))) await loadNationalDistrict(code);
       targetOptions(); activateData();
-    } catch { $("catalogSource").textContent = "전국 검색 자료를 불러오지 못했습니다. 현재 검증된 단지는 계속 검색·추가할 수 있습니다. 잠시 후 다시 열어주세요."; }
+    } catch { nationalIndex = null; $("catalogSource").textContent = "전국 검색 자료를 불러오지 못했습니다. 현재 검증된 단지는 계속 검색·추가할 수 있습니다. 잠시 후 다시 열어주세요."; }
     finally { nationalLoading = null; }
   })();
   return nationalLoading;

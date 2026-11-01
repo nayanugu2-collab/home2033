@@ -40,6 +40,7 @@ jobs:
           node --check assets/app.js
       - name: Fetch official transactions
         id: collect
+        if: github.event_name != 'push' || hashFiles('data/nationwide/index.json') == ''
         continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
@@ -55,13 +56,14 @@ jobs:
           fi
       - name: Fetch nationwide apartment search data
         id: nationwide
+        if: github.event_name != 'push' || hashFiles('data/nationwide/index.json') == ''
         continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
         run: python scripts/collect_nationwide.py
       - name: Commit nationwide last-good snapshots
         run: |
-          git add data/nationwide
+          if [ -d data/nationwide ]; then git add data/nationwide; fi
           if ! git diff --cached --quiet; then
             git commit -m 'Update nationwide apartment search data'
             git push
