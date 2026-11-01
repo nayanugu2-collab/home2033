@@ -53,7 +53,8 @@ def load_registry(path=ROOT / "data" / "complexes.json"):
         ids.add(c["id"])
         if c["districtCode"] != c["legalDongCode"][:5]:
             raise CollectionError("단지 명부 지역 코드 불일치")
-        if not c["jibuns"] or c["households"] < registry["minimumHouseholds"]:
+        exception = c.get("minimumHouseholdsException") == "user-requested" and bool(c.get("exceptionReason"))
+        if not c["jibuns"] or c["households"] <= 0 or (c["households"] < registry["minimumHouseholds"] and not exception):
             raise CollectionError("단지 명부 주소/세대수 오류")
         if not c["sources"] or c["verification"] != "reviewed":
             raise CollectionError("검증 출처 없는 단지")

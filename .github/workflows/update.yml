@@ -17,7 +17,7 @@ concurrency:
 jobs:
   update-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 90
     permissions:
       contents: write
       pages: write
@@ -53,6 +53,19 @@ jobs:
             git commit -m 'Update apartment transactions and collection status'
             git push
           fi
+      - name: Fetch nationwide apartment search data
+        id: nationwide
+        continue-on-error: true
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+        run: python scripts/collect_nationwide.py
+      - name: Commit nationwide last-good snapshots
+        run: |
+          git add data/nationwide
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update nationwide apartment search data'
+            git push
+          fi
       - name: Prepare public static files
         run: python scripts/build_site.py
       - name: Configure Pages
@@ -65,7 +78,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
       - name: Report collection failure after publishing last-good data
-        if: steps.collect.outcome == 'failure'
+        if: steps.collect.outcome == 'failure' || steps.nationwide.outcome == 'failure'
         run: |
           echo "::error::Official API collection failed. Last-good prices were retained and the failure status was deployed."
           exit 1

@@ -1,4 +1,16 @@
 export const AREA_BANDS = { "59": [58, 60], "74": [73, 75], "84": [83, 85.01] };
+export function matchesComplex(c, query) {
+  const normalize = value => String(value).replace(/\s+/g, "").toLowerCase();
+  return normalize([c.name, c.region, c.legalDong, ...(c.jibuns || []), ...(c.aliases || [])].join(" ")).includes(normalize(query));
+}
+export function passesRatio(ratio, minimum) {
+  return ratio == null || (Number.isFinite(ratio) && ratio >= minimum);
+}
+export function watchPreferences(value) {
+  return { removed: Array.isArray(value?.removed) ? value.removed.filter(x => typeof x === "string") : [],
+    added: Array.isArray(value?.added) ? value.added.filter(x => typeof x === "string" && x.startsWith("n-")) : [],
+    minimum: value?.minimum === 0 ? 0 : 1.5 };
+}
 export function areaClass(area) {
   return Object.keys(AREA_BANDS).find(key => area >= AREA_BANDS[key][0] && area < AREA_BANDS[key][1]) ?? null;
 }

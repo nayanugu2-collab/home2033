@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-27",
+  "checkedAt": "2026-11-01",
   "baseId": "base",
   "purchasePriceEok": 11.2,
   "minimumHouseholds": 500,
@@ -2850,6 +2850,84 @@
         "41135-112"
       ],
       "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
+    },
+    {
+      "id": "baekhyeon6",
+      "region": "판교·백현",
+      "name": "백현마을6단지",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "555"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교역로",
+          "main": 100,
+          "sub": 0
+        }
+      ],
+      "households": 396,
+      "aliases": [
+        "백현마을6단지",
+        "백현마을6단지(주공)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "K-apt 관리단지 기본정보 (2018-05 공개 목록)",
+          "url": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
+        }
+      ],
+      "note": "500세대 미만 사용자 요청 예외. 공식 API의 법정동·단지명·지번·도로명 일치 확인.",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-470"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "minimumHouseholdsException": "user-requested",
+      "exceptionReason": "2026-11-01 사용자 요청으로 500세대 미만 예외 등록"
+    },
+    {
+      "id": "baekhyeon7",
+      "region": "판교·백현",
+      "name": "백현마을7단지",
+      "legalDongCode": "4113511000",
+      "districtCode": "41135",
+      "legalDong": "백현동",
+      "jibuns": [
+        "556"
+      ],
+      "roadAddresses": [
+        {
+          "name": "판교역로",
+          "main": 98,
+          "sub": 0
+        }
+      ],
+      "households": 464,
+      "aliases": [
+        "백현마을7단지",
+        "백현마을7단지(주공)"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-11-01",
+      "sources": [
+        {
+          "label": "KB부동산 단지 기본정보",
+          "url": "https://kbland.kr/se/c/21193"
+        }
+      ],
+      "note": "500세대 미만 사용자 요청 예외. 공식 API의 법정동·단지명·지번·도로명 일치 확인.",
+      "displayNote": "",
+      "apiAptSequences": [
+        "41135-471"
+      ],
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "minimumHouseholdsException": "user-requested",
+      "exceptionReason": "2026-11-01 사용자 요청으로 500세대 미만 예외 등록"
     }
   ],
   "excludedCandidates": [
@@ -2886,24 +2964,6 @@
       "name": "봇들마을8단지",
       "households": 447,
       "address": "삼평동 742",
-      "reason": "K-apt 관리단지 기준 500세대 미만.",
-      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
-    },
-    {
-      "id": "baekhyeon6",
-      "region": "판교·백현",
-      "name": "백현마을6단지",
-      "households": 396,
-      "address": "백현동 555",
-      "reason": "K-apt 관리단지 기준 500세대 미만.",
-      "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
-    },
-    {
-      "id": "baekhyeon7",
-      "region": "판교·백현",
-      "name": "백현마을7단지",
-      "households": 464,
-      "address": "백현동 556",
       "reason": "K-apt 관리단지 기준 500세대 미만.",
       "source": "https://www.k-apt.go.kr/cmmn/introMmentPop.do?bjdCode=41135&searchOccuDate=201805&upYn=Y"
     },
@@ -2966,7 +3026,8 @@
     "기존 등록 후보를 바탕으로 구성한 관심 목록이며, 지역 내 500세대 이상 단지 전체를 전수 수록한 것은 아닙니다.",
     "이수는 역세권 표현입니다. 사당동 법정동 코드로 조회하며, 별도의 '이수동' 코드를 만들지 않습니다.",
     "공개 단지 정보 대조이며 정부 공인 검증을 뜻하지 않습니다. 출처 및 관리단지의 세대수 기준을 확인하세요.",
-    "2026-10-27 판교·삼평·백현·운중 및 서현의 27개 단지를 추가했습니다. 봇들5·6은 국민임대 안내용으로 표시하고 매매 비교에서 제외합니다."
+    "2026-10-27 판교·삼평·백현·운중 및 서현의 27개 단지를 추가했습니다. 봇들5·6은 국민임대 안내용으로 표시하고 매매 비교에서 제외합니다.",
+    "2026-11-01 백현6(396세대)·7(464세대)은 사용자 요청 예외로 등록. 백현5는 기존 등록 유지. 전국 검색 단지는 공식 거래의 코드·명칭·지번으로 구분하고 세대수 미확인 상태를 명시합니다."
   ],
   "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00"
 }

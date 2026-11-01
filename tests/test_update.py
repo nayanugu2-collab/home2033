@@ -60,7 +60,9 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(len({c["id"] for c in self.registry["complexes"]}), len(self.registry["complexes"]))
         for c in self.registry["complexes"]:
             with self.subTest(c=c["id"]):
-                self.assertGreaterEqual(c["households"], 500)
+                if c["households"] < 500:
+                    self.assertEqual(c.get("minimumHouseholdsException"), "user-requested")
+                    self.assertTrue(c.get("exceptionReason"))
                 self.assertEqual(update.match_complex(self.raw(c), self.registry)["id"], c["id"])
 
     def test_bundang_expansion_preserves_requested_complexes_and_minimum_households(self):
@@ -74,6 +76,14 @@ class CollectorTests(unittest.TestCase):
         excluded = {c["id"]: c for c in self.registry["excludedCandidates"]}
         self.assertEqual(excluded["botdeul8"]["households"], 447)
         self.assertNotIn("botdeul8", by_id)
+
+    def test_baekhyeon_requested_exceptions_keep_distinct_addresses_and_areas(self):
+        by_id = {c['id']: c for c in self.registry['complexes']}
+        for n, parcel, households in [(5, '554', 584), (6, '555', 396), (7, '556', 464)]:
+            c = by_id[f'baekhyeon{n}']
+            self.assertEqual((c['jibuns'], c['households']), ([parcel], households))
+            self.assertEqual(update.match_complex(self.raw(c), self.registry)['id'], c['id'])
+            self.assertIsNone(update.match_complex(self.raw(c, jibun='9999'), self.registry))
 
     def test_shared_management_complex_aliases_match_but_neighboring_parcels_do_not(self):
         by_id = {c["id"]: c for c in self.registry["complexes"]}

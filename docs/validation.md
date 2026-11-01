@@ -4,7 +4,7 @@
 
 ## 자동 검사
 
-총 **60개 테스트: Python 35개, JavaScript 25개**. 실제 API 관측 명칭·주소 및 최근 10건 평균, 판교·서현 확장과 국민임대 제외, 건축연도·연식의 회귀 테스트를 포함합니다.
+총 **67개 테스트: Python 39개, JavaScript 28개**. 전국 거래 신원·주소·면적, 해제·기간 밖 제외, 백현6·7의 명시적 예외, 배율 1.5 경계값, 검색 및 관심 목록 저장 검증을 포함합니다.
 
 ~~~powershell
 python -m unittest discover -s tests -p "test_*.py" -v

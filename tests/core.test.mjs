@@ -1,9 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { areaClass, calculate, comparison, constructionLabel, forArea, median, monthSeries, monthsUntil, nextDay, priceFor, referencePrice, shiftMonth, summary, validTrades } from "../assets/core.js";
+import { areaClass, calculate, comparison, constructionLabel, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, shiftMonth, summary, validTrades, watchPreferences } from "../assets/core.js";
 
 const today = "2026-10-26";
+test("1.5 ratio excludes strictly below threshold and keeps unknown separately", () => {
+  assert.equal(passesRatio(1.49999, 1.5), false);
+  assert.equal(passesRatio(1.5, 1.5), true);
+  assert.equal(passesRatio(2, 1.5), true);
+  assert.equal(passesRatio(null, 1.5), true);
+  assert.equal(passesRatio(0.8, 0), true);
+});
+test("nationwide search includes address, region and aliases across whitespace", () => {
+  const c = {name: "백현마을6단지",region:"경기도 성남시 분당구",legalDong:"백현동",jibuns:["555"],aliases:["백현마을6단지(주공)"]};
+  assert.equal(matchesComplex(c, "백현 마을 6"), true);
+  assert.equal(matchesComplex(c, "성남시 분당구"), true);
+  assert.equal(matchesComplex(c, "555"), true);
+  assert.equal(matchesComplex(c, "7단지"), false);
+});
+test("watch preferences validate persisted values and retain removed apartments", () => {
+  assert.deepEqual(watchPreferences(null), {removed:[],added:[],minimum:1.5});
+  assert.deepEqual(watchPreferences({removed:["base",null,23],added:["n-abc","base"],minimum:0}), {removed:["base"],added:["n-abc"],minimum:0});
+  assert.equal(watchPreferences({minimum:"bad"}).minimum, 1.5);
+});
 test("building age uses all areas and current year, independent of contract year", () => {
   const rows = [trade({ area: 114, buildYear: 2019, date: "2025-12-10" }), trade({ buildYear: 2000, complexId: "other" })];
   assert.equal(constructionLabel(rows, "base", today), "2019년 건축 · 7년 경과");

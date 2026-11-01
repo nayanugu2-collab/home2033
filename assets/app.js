@@ -1,4 +1,4 @@
-import { areaClass, calculate, comparison, constructionLabel, forArea, koreaToday, monthSeries, priceFor, referencePrice, summary, validTrades } from "./core.js?v=building-age";
+import { areaClass, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, summary, validTrades, watchPreferences } from "./core.js?v=watchlist";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -12,6 +12,15 @@ controls.forEach(control => { control.disabled = true; });
 let registry, official = null, status = null, demo = false, payload = null, trades = [], baseTrades = [];
 let area = "84", region = "all", selected = "gracium", exact = "all", saleAuto = true, targetAuto = true, loadError = "";
 let officialPlanSnapshot = null;
+let preferences = watchPreferences(null), defaultIds = new Set(), nationalIndex = null, nationalLoading = null;
+let nationalTrades = [], nationalDistricts = new Set(), nationalPending = new Map();
+const nationalStamps = new Map();
+try { preferences = watchPreferences(JSON.parse(localStorage.getItem("home2033-watch-v1"))); } catch {}
+function isWatched(c) { return c.id !== registry.baseId && !preferences.removed.includes(c.id) && (defaultIds.has(c.id) || preferences.added.includes(c.id)); }
+function saveWatch() {
+  try { localStorage.setItem("home2033-watch-v1", JSON.stringify(preferences)); $("watchStatus").textContent = "관심 목록을 이 브라우저에 저장했습니다."; }
+  catch { $("watchStatus").textContent = "저장소를 사용할 수 없어 이번 화면에만 적용합니다."; }
+}
 const today = koreaToday();
 $("todayLabel").textContent = today.replaceAll("-", ". ");
 $("targetMonth").min = today.slice(0, 7);
@@ -65,7 +74,7 @@ function averagePeriod(stats) {
   return stats.count10 ? dateLabel(stats.start10) + " ~ " + dateLabel(stats.end10) : "해당 면적 거래 없음";
 }
 function selectedComplex() { return registry.complexes.find(c => c.id === selected); }
-function buildingAge(c) { return constructionLabel(official?.trades || [], c.id, today); }
+function buildingAge(c) { return constructionLabel([...(official?.trades || []), ...nationalTrades], c.id, today); }
 function getSummary(c, exactType = "all") { return summary(c.comparisonEligible === false ? [] : forArea(trades, c.id, area, exactType), asOf()); }
 function record(c, exactType = "all") {
   const stats = getSummary(c, exactType);
@@ -112,10 +121,11 @@ function medianCell(price, n) {
     (n < 3 ? "거래 부족 · " + n + "건" : n + "건") + "</small>";
 }
 function renderList() {
-  const normalizeSearch = value => value.replace(/\s+/g, "").toLowerCase();
-  const search = normalizeSearch($("search").value);
-  let records = registry.complexes.filter(c => c.id !== registry.baseId &&
-    (region === "all" || c.region === region) && normalizeSearch([c.name, c.legalDong, c.region, ...c.aliases].join(" ")).includes(search)).map(c => record(c));
+  const search = $("search").value;
+  const candidates = registry.complexes.filter(c => isWatched(c) &&
+    (region === "all" || c.region === region) && matchesComplex(c, search)).map(c => record(c));
+  let records = candidates.filter(r => passesRatio(r.ratio, preferences.minimum));
+  $("ratioNote").textContent = preferences.minimum ? "가격 배율 1.5배 미만 " + (candidates.length - records.length) + "개 숨김 · 배율을 계산할 거래가 없는 단지는 ‘거래 부족’으로 남깁니다." : "전체 배율 표시";
   records.sort((a, b) => {
     if ($("sort").value === "name") return a.c.name.localeCompare(b.c.name, "ko");
     if ($("sort").value === "date") return (b.stats.latest?.date ?? "").localeCompare(a.stats.latest?.date ?? "");
@@ -136,13 +146,76 @@ function renderList() {
       metric === "latest" ? (latest ? dateLabel(latest.date) + " · " + latest.area + "㎡" : "거래 부족 · 0건") :
       (metric === "median3" ? r.stats.count3 : r.stats.count6) + "건 · 최근 " + (metric === "median3" ? "3" : "6") + "개월";
     return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(index + 1).padStart(2, "0") +
-      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + r.c.households.toLocaleString() + '세대' + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small><small class="building-age">' + escape(buildingAge(r.c)) + '</small></div></td>' +
+      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + householdLabel(r.c) + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small><small class="building-age">' + escape(buildingAge(r.c)) + '</small><button type="button" class="watch-remove" data-watch="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 관심 제거">관심 제거</button></div></td>' +
       '<td data-label="' + escape(metricLabel) + '"><span class="cell-price">' + money(r.price == null ? null : r.price / 10000) + '</span><small class="' + (low ? "low-sample" : "muted") + '">' + priceDetail + "</small></td>" +
       '<td data-label="3개월 중앙값">' + medianCell(r.stats.median3, r.stats.count3) + '</td><td data-label="6개월 중앙값">' + medianCell(r.stats.median6, r.stats.count6) + "</td>" +
       '<td data-label="기준 대비 격차" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + (r.c.comparisonEligible === false ? "매매 비교 제외" : r.price == null ? "거래 부족" : low ? "거래 부족 · 표본 유의" : averageMode() ? "기준 59㎡급 평균 대비" : "기준 최신 59㎡급 대비") + '</small></td><td data-label="가격 배율"><b>' +
       (r.ratio == null ? "—" : r.ratio.toFixed(2) + "배") + '</b></td><td class="row-arrow"><a href="#detail" data-detail="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 상세 그래프">↗</a></td></tr>';
   }).join("");
   $("noResults").hidden = records.length > 0;
+  renderManager();
+}
+function householdLabel(c) { return c.households == null ? "세대수 확인 필요" : c.households.toLocaleString() + "세대" + (c.minimumHouseholdsException ? " · 요청 예외" : ""); }
+function renderManager() {
+  const matches = registry.complexes.filter(c => c.id !== registry.baseId && matchesComplex(c, $("catalogSearch").value));
+  const shown = matches.slice(0, 60);
+  $("catalogCount").textContent = matches.length + "개 검색됨" + (matches.length > shown.length ? " · 앞 60개 표시, 지역·단지명을 더 입력하세요." : "");
+  $("catalogRows").innerHTML = shown.map(c => '<div class="catalog-row"><div><b>' + escape(c.name) + '</b><small>' + escape(c.region + " · " + c.legalDong + " " + c.jibuns.join(", ") + " · " + householdLabel(c)) + '</small><small>' + escape(buildingAge(c)) + '</small></div><button type="button" class="outline-button" data-watch="' + c.id + '" aria-label="' + escape(c.name) + (isWatched(c) ? ' 관심 제거' : ' 관심 추가') + '">' + (isWatched(c) ? "제거" : "+ 추가") + '</button></div>').join("") || '<p class="empty">검색 결과가 없습니다. 지역·단지명을 확인하세요.</p>';
+}
+function targetOptions() {
+  const choices = registry.complexes.filter(isWatched);
+  if (!choices.some(c => c.id === selected)) { selected = choices.find(c => c.comparisonEligible !== false)?.id || choices[0]?.id || null; exact = "all"; targetAuto = true; }
+  $("targetComplex").innerHTML = choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("") || '<option value="">관심 단지를 추가하세요</option>';
+  $("targetComplex").disabled = !choices.length;
+}
+async function loadNational() {
+  if (nationalIndex) return;
+  if (nationalLoading) return nationalLoading;
+  nationalLoading = (async () => {
+    $("catalogSource").textContent = "전국 검색 명부를 불러오는 중…";
+    try {
+      const index = await getJSON("./data/nationwide/index.json");
+      if (index.schemaVersion !== 1 || !Array.isArray(index.complexes)) throw new Error();
+      const existing = new Set(registry.complexes.map(c => c.id));
+      for (const c of index.complexes) if (!existing.has(c.id) && /^n-[a-f0-9]{20}$/.test(c.id) && /^\d{10}$/.test(c.legalDongCode) && c.districtCode === c.legalDongCode.slice(0, 5) && Array.isArray(c.jibuns) && c.jibuns.length && Array.isArray(c.sources) && c.sources.length) registry.complexes.push(c);
+      nationalIndex = index;
+      $("catalogSource").textContent = index.note + " 지역 자료 " + index.availableDistricts + "/" + index.totalDistricts + " · 가장 오래된 갱신 " + stamp(index.updatedAt) + (index.failedDistricts.length ? " · 일부 지역 수집 실패, 마지막 정상 자료 사용" : "");
+      for (const code of new Set(registry.complexes.filter(c => preferences.added.includes(c.id)).map(c => c.districtCode))) await loadNationalDistrict(code);
+      targetOptions(); activateData();
+    } catch { $("catalogSource").textContent = "전국 검색 자료를 불러오지 못했습니다. 현재 검증된 단지는 계속 검색·추가할 수 있습니다. 잠시 후 다시 열어주세요."; }
+    finally { nationalLoading = null; }
+  })();
+  return nationalLoading;
+}
+async function loadNationalDistrict(code) {
+  if (nationalDistricts.has(code)) return;
+  if (nationalPending.has(code)) return nationalPending.get(code);
+  const promise = (async () => {
+    try {
+      const value = checkPayload(await getJSON("./data/nationwide/" + code + ".json"), "official");
+      nationalTrades.push(...value.trades.filter(t => !defaultIds.has(t.complexId) && t.complexId !== registry.baseId));
+      nationalStamps.set(code, value.updatedAt);
+      nationalDistricts.add(code);
+    } finally { nationalPending.delete(code); }
+  })();
+  nationalPending.set(code, promise);
+  return promise;
+}
+async function toggleWatch(id) {
+  const c = registry.complexes.find(c => c.id === id);
+  if (!c || c.id === registry.baseId) return;
+  const removing = isWatched(c);
+  if (!removing && !defaultIds.has(id)) {
+    $("watchStatus").textContent = "해당 지역의 공식 실거래를 불러오는 중…";
+    try { await loadNationalDistrict(c.districtCode); }
+    catch { $("watchStatus").textContent = "지역 거래를 불러오지 못해 추가하지 않았습니다. 다시 시도하세요."; return; }
+  }
+  preferences.removed = preferences.removed.filter(x => x !== id);
+  preferences.added = preferences.added.filter(x => x !== id);
+  if (removing) preferences.removed.push(id);
+  else if (!defaultIds.has(id)) preferences.added.push(id);
+  saveWatch(); targetOptions(); activateData();
+  $("watchStatus").textContent += " " + c.name + (removing ? " 제거됨." : " 추가됨. 가격 배율·면적 필터에 따라 목록에서 숨겨질 수 있습니다.");
 }
 function renderChart(container, series, keys, title) {
   const points = series.flatMap(p => keys.map(k => p[k])).filter(n => n != null);
@@ -172,6 +245,11 @@ function renderChart(container, series, keys, title) {
 }
 function syncPrices() {
   if (!registry) return;
+  if (!selectedComplex()) {
+    $("targetPrice").value = ""; $("targetPrice").disabled = true; $("resetTarget").disabled = true;
+    $("targetHint").textContent = "검색에서 관심 단지를 추가하세요.";
+    return;
+  }
   const eligible = selectedComplex().comparisonEligible !== false;
   const base = basePrice();
   if (saleAuto) $("sale").value = base == null ? "" : (base / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
@@ -186,7 +264,8 @@ function syncPrices() {
 }
 function renderDetail(resetTypes = false) {
   const c = selectedComplex();
-  if (!c) return;
+  $("detail").hidden = !c;
+  if (!c) { syncPrices(); renderCalculation(); return; }
   if (resetTypes) {
     const types = getSummary(c).areas;
     $("exactArea").innerHTML = '<option value="all">선택 면적급 전체 타입</option>' + types.map(a => '<option value="' + a + '">' + a + "㎡</option>").join("");
@@ -199,7 +278,7 @@ function renderDetail(resetTypes = false) {
   $("selectedName").textContent = c.name;
   $("selectedRegion").textContent = c.region + (demo ? " · 샘플" : "");
   $("selectedAge").textContent = buildingAge(c);
-  $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " + c.households.toLocaleString() + "세대 · " +
+  $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " + householdLabel(c) + " · " +
     (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계") + (c.displayNote ? " · " + c.displayNote : "");
   $("selectedMetrics").innerHTML = [
     [$("metric").selectedOptions[0].textContent, !eligible ? "매매 비교 제외" : r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
@@ -209,6 +288,7 @@ function renderDetail(resetTypes = false) {
   ].map(([label, value]) => "<div><span>" + label + "</span><b>" + escape(value) + "</b></div>").join("");
   $("selectedPriceDetail").textContent = !eligible ? "국민임대 · 매매 비교 제외. 임대료나 인근 단지 가격을 매매 가격으로 대체하지 않습니다." : averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) +
     " · 선택한 전용면적의 실제 거래만 사용합니다. 아래 그래프는 월별 중앙값입니다." : "아래 그래프는 선택한 비교 가격과 별도로 월별 중앙값을 표시합니다.";
+  if (c.id.startsWith("n-")) $("selectedPriceDetail").textContent += " · 해당 지역 거래 갱신 " + stamp(nationalStamps.get(c.districtCode));
   const ts = eligible ? forArea(trades, c.id, area, exact) : [], series = monthSeries(ts, baseTrades, asOf());
   renderChart("priceChart", series, ["price", "base"], "월별 실거래 중앙값. 빈 월은 연결하지 않습니다.");
   renderChart("gapChart", series, ["gap"], "같은 계약월의 선택 단지 중앙값과 동천센트럴자이 59㎡급 중앙값의 차이");
@@ -227,6 +307,7 @@ function renderCalculation() {
   $("planSubtitle").textContent = $("targetMonth").value + " 매수 가정 · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + (demo ? " · 샘플 가격" : "");
   const resultIds = ["shortage", "netSale", "assetResult", "savingsResult", "equityResult", "loanResult", "availableResult", "costResult"];
   try {
+    if (!selectedComplex()) throw new Error("검색에서 관심 단지를 추가하세요.");
     if (selectedComplex().comparisonEligible === false) throw new Error("국민임대 단지는 매수 자금 계산 대상이 아닙니다. 다른 매매 단지를 선택하세요.");
     for (const id of ids) {
       if ($(id).value === "") throw new Error(id === "sale" ? "현재 주택 예상 매도가를 입력하세요." : id === "targetPrice" ? "거래 부족 · 목표 매수가를 직접 입력하세요." : "비어 있는 입력값을 확인하세요.");
@@ -248,7 +329,7 @@ function renderCalculation() {
   }
 }
 function activateData() {
-  trades = validTrades(payload?.trades || [], asOf());
+  trades = validTrades([...(payload?.trades || []), ...(demo ? [] : nationalTrades)], asOf());
   baseTrades = forArea(trades, registry.baseId, "59");
   renderList(); renderDetail(true); notice();
 }
@@ -260,7 +341,7 @@ function choose(id, scroll = false) {
 function setupRegistry() {
   $("regions").innerHTML = ["all", ...new Set(registry.complexes.filter(c => c.id !== registry.baseId).map(c => c.region))].map(r =>
     '<button type="button" data-region="' + r + '" aria-pressed="' + (r === region) + '" class="' + (r === region ? "selected" : "") + '">' + (r === "all" ? "전체 지역" : r) + "</button>").join("");
-  $("targetComplex").innerHTML = registry.complexes.filter(c => c.id !== registry.baseId).map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + "</option>").join("");
+  targetOptions();
   $("registryNote").textContent = registry.notes.join(" ") + " 확인일 " + registry.checkedAt + ". 비교 후보 " + (registry.complexes.length - 1) + "개.";
   $("registryAudit").innerHTML = '<div class="audit-list">' + registry.complexes.map(c => '<div><b>' + escape(c.name) + '</b><span>' + escape(c.legalDong + " " + c.jibuns.join(", ") + " · 법정동 " + c.legalDongCode + " · " + c.households + "세대") + '</span>' +
     (c.note ? "<small>" + escape(c.note) + "</small>" : "") + '<a target="_blank" rel="noopener" href="' + escape(c.sources[0].url) + '">확인 출처 ↗</a></div>').join("") + "</div><h4>500세대 미만으로 제외한 구분 단지</h4>" +
@@ -293,11 +374,17 @@ $("regions").addEventListener("click", e => {
   renderList();
 });
 $("apartmentRows").addEventListener("click", e => {
+  const watch = e.target.closest("[data-watch]");
+  if (watch) { toggleWatch(watch.dataset.watch); return; }
   const button = e.target.closest("[data-select], [data-detail]");
   if (button) { e.preventDefault(); choose(button.dataset.select || button.dataset.detail, true); return; }
   const row = e.target.closest("[data-complex]"); if (row) choose(row.dataset.complex);
 });
 $("search").addEventListener("input", renderList);
+$("catalogSearch").addEventListener("input", renderManager);
+$("watchManager").addEventListener("toggle", () => { if ($("watchManager").open) { renderManager(); loadNational(); } });
+$("catalogRows").addEventListener("click", e => { const button = e.target.closest("[data-watch]"); if (button) toggleWatch(button.dataset.watch); });
+$("minimumRatio").addEventListener("change", () => { preferences.minimum = Number($("minimumRatio").value); saveWatch(); renderList(); });
 $("sort").addEventListener("change", renderList);
 $("metric").addEventListener("change", () => { targetAuto = true; renderList(); renderDetail(); });
 $("exactArea").addEventListener("change", () => { exact = $("exactArea").value; targetAuto = true; renderDetail(); });
@@ -340,9 +427,12 @@ async function init() {
   try {
     registry = await getJSON("./data/complexes.json");
     if (!Array.isArray(registry.complexes) || !registry.complexes.some(c => c.id === registry.baseId)) throw new Error();
+    defaultIds = new Set(registry.complexes.filter(c => c.id !== registry.baseId).map(c => c.id));
+    $("minimumRatio").value = String(preferences.minimum);
     setupRegistry();
     controls.forEach(control => { control.disabled = false; });
     await loadOfficial();
+    if (preferences.added.length) await loadNational();
   } catch {
     $("notice").textContent = "단지 명부를 불러오지 못했습니다. README의 HTTP 서버 실행 방법과 배포 경로를 확인하세요.";
     controls.forEach(control => { control.disabled = true; });
