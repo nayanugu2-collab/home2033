@@ -1,9 +1,47 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { runInNewContext } from "node:vm";
 import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
 
 const today = "2026-10-26";
+async function startupFixture(protocol, loading = false, blockNavigation = false) {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const script = html.match(/<script id="startupGuard">([\s\S]*?)<\/script>/)[1];
+  const elements = { notice: {textContent:"loading",className:"notice"}, loadHelp: {hidden:true} };
+  const callbacks = {}, navigations = [];
+  const context = {document:{readyState:loading ? "loading" : "complete",getElementById:id=>elements[id],addEventListener:(type,fn)=>{callbacks[type]=fn;}},
+    window:{location:{protocol,replace:url=>{if(blockNavigation) throw new Error("blocked");navigations.push(url);}},addEventListener:(type,fn)=>{callbacks[type]=fn;}}};
+  runInNewContext(script, context);
+  return {elements,callbacks,navigations};
+}
+test("opening index.html as a local file goes to the working public dashboard", async () => {
+  const f = await startupFixture("file:");
+  assert.deepEqual(f.navigations,["https://nayanugu2-collab.github.io/home2033/?v=local-open-fix"]);
+  assert.equal(f.elements.loadHelp.hidden,false);
+  assert.match(f.elements.notice.textContent,/HTML 파일을 직접/);
+});
+test("HTTP preview and HTTPS hosting keep their current address and do not show a false error", async () => {
+  for(const protocol of ["http:","https:"]) {
+    const f = await startupFixture(protocol);
+    assert.deepEqual(f.navigations,[]);
+    assert.equal(f.elements.loadHelp.hidden,true);
+    assert.equal(f.elements.notice.textContent,"loading");
+  }
+});
+test("a blocked file redirect still offers a working link once the document is ready", async () => {
+  const f = await startupFixture("file:",true,true);
+  assert.equal(f.elements.loadHelp.hidden,true);
+  f.callbacks.DOMContentLoaded();
+  assert.equal(f.elements.loadHelp.hidden,false);
+  assert.match(f.elements.notice.textContent,/이동/);
+});
+test("module download failures expose recovery instead of leaving unexplained placeholders", async () => {
+  const f = await startupFixture("https:");
+  f.callbacks.error({target:{id:"dashboardModule"}});
+  assert.equal(f.elements.loadHelp.hidden,false);
+  assert.match(f.elements.notice.textContent,/프로그램을 불러오지 못/);
+});
 test("personal asset gap adds available cash once and preserves a surplus", () => {
   assert.deepEqual(assetComparison(200000, 120000, 2), {available:14, gap:6});
   assert.deepEqual(assetComparison(130000, 120000, 2), {available:14, gap:-1});
