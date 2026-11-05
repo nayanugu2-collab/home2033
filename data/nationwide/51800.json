@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-04",
-  "updatedAt": "2026-11-04T11:29:44.853172+09:00",
+  "asOf": "2026-11-05",
+  "updatedAt": "2026-11-05T11:34:33.288685+09:00",
   "districtCode": "51800",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +164,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-04",
+      "checkedAt": "2026-11-05",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -748,6 +748,18 @@
       "priceManwon": 23000,
       "floor": "5",
       "buildYear": 2010,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "dc8468b4b76760c773d7-48",
+      "complexId": "n-3eab4ef03031edb90c66",
+      "legalDongCode": "5180025021",
+      "date": "2026-11-02",
+      "area": 84.99,
+      "priceManwon": 33000,
+      "floor": "2",
+      "buildYear": 2013,
       "dealingType": "중개거래",
       "canceled": false
     }
