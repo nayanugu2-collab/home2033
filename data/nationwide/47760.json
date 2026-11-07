@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-06",
-  "updatedAt": "2026-11-06T11:40:46.623650+09:00",
+  "asOf": "2026-11-07",
+  "updatedAt": "2026-11-07T11:07:36.920131+09:00",
   "districtCode": "47760",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,31 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-9513c8810c3b8bbac7fc",
+      "name": "승민파랑새뷰",
+      "aliases": [
+        "승민파랑새뷰"
+      ],
+      "region": "경상북도 영양군",
+      "districtCode": "47760",
+      "legalDongCode": "4776025022",
+      "legalDong": "영양읍 서부리",
+      "jibuns": [
+        "251-5"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-07",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -244,6 +268,18 @@
       "priceManwon": 6800,
       "floor": "1",
       "buildYear": 2001,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "778c72d0b2ac0699e072-8",
+      "complexId": "n-9513c8810c3b8bbac7fc",
+      "legalDongCode": "4776025022",
+      "date": "2026-11-05",
+      "area": 84.6893,
+      "priceManwon": 23000,
+      "floor": "6",
+      "buildYear": 2018,
       "dealingType": "직거래",
       "canceled": false
     }
