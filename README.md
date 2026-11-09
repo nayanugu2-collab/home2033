@@ -263,3 +263,9 @@ python scripts/build_site.py
 - [GitHub Pages 사용자 지정 워크플로](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 - [예약 워크플로의 실행 조건](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
+
+## 동네별 6개월·1년 가격 추세
+
+상단 **동네별 추세**를 누르고 시·군·구 → 법정동 → 전용 59·74·84㎡급 → 6개월 또는 1년을 선택하세요. 기본값은 분당구 백현동 84㎡급·1년입니다. 현재 달을 포함한 6개/12개 계약월의 월별 실거래 중앙값이며, 현재 달은 미완성 집계입니다. 점을 누르거나 월별 표를 펼치면 가격·거래 건수·거래 단지 수를 볼 수 있습니다.
+
+관심 목록과 가격 배율 필터의 영향을 받지 않습니다. 선택 시군구의 전국 수집 파일만 읽어 법정동 코드·단지 ID·전용면적별로 집계합니다. 500세대 제한은 적용하지 않습니다. 동네별 단지·층·연식 구성 변화가 중앙값에 영향을 주므로 공식 가격지수나 동일 주택 상승률로 해석하지 마세요. 3건 미만은 거래 부족, 무거래 월은 빈칸입니다. 신고 지연과 지역 파일의 실제 갱신 시점을 표시합니다. 새로고침 실패 시 같은 지역의 마지막 정상 자료를 유지하고 실패를 알립니다. 샘플 모드에서는 가상 거래만 사용합니다.

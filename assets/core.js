@@ -121,6 +121,41 @@ export function monthSeries(trades, baseTrades, asOf) {
     };
   });
 }
+// District shards already match MOLIT name + address in the collector. Keep their
+// verified apartment IDs and legal-dong codes together when aggregating a dong.
+export function checkNeighborhoodPayload(value, districtCode) {
+  if (value?.schemaVersion !== 2 || value.mode !== "official" || value.districtCode !== districtCode ||
+      !Array.isArray(value.complexes) || !Array.isArray(value.trades)) throw new Error("동네 자료 형식 오류");
+  const known = new Map();
+  for (const c of value.complexes) {
+    if (known.has(c.id) || c.districtCode !== districtCode || !/^\d{10}$/.test(c.legalDongCode) ||
+        !c.legalDongCode.startsWith(districtCode) || !c.legalDong || !Array.isArray(c.jibuns) || !c.jibuns.length)
+      throw new Error("동네 단지 신원 오류");
+    known.set(c.id, c);
+  }
+  for (const t of value.trades) {
+    const c = known.get(t.complexId);
+    if (!c || t.legalDongCode !== c.legalDongCode || !/^\d{4}-\d{2}-\d{2}$/.test(t.date) ||
+        !Number.isFinite(t.area) || t.area <= 0 || !Number.isInteger(t.priceManwon) || t.priceManwon <= 0)
+      throw new Error("동네 거래 신원 오류");
+  }
+  return value;
+}
+export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, period = 12) {
+  const length = period === 6 ? 6 : 12;
+  const first = shiftMonth(asOf.slice(0, 7) + "-01", 1 - length);
+  const eligible = new Set(complexes.filter(c => c.legalDongCode === dongCode && c.comparisonEligible !== false).map(c => c.id));
+  const rows = validTrades(trades, asOf).filter(t => eligible.has(t.complexId) &&
+    t.legalDongCode === dongCode && areaClass(t.area) === band && t.date >= first);
+  return Array.from({ length }, (_, i) => {
+    const month = shiftMonth(first, i).slice(0, 7);
+    const monthly = rows.filter(t => t.date.startsWith(month));
+    const value = median(monthly.map(t => t.priceManwon));
+    return { month, price: value == null ? null : value / 10000, count: monthly.length,
+      complexCount: new Set(monthly.map(t => t.complexId)).size,
+      partial: month === asOf.slice(0, 7) };
+  });
+}
 export function monthsUntil(today, targetMonth) {
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(targetMonth)) throw new Error("목표 매수 시점을 확인하세요.");
   const [year, month] = today.split("-").map(Number);

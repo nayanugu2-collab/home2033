@@ -7,7 +7,8 @@
   <meta name="description" content="동천 기준 또는 내 아파트와 보유 현금을 기준으로 전국 아파트 실거래가와 갈아타기 필요 자금을 비교합니다.">
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=personal-tracker">
+  <link rel="stylesheet" href="./assets/styles.css?v=neighborhood-trends">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=neighborhood-trends">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -32,14 +33,14 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=personal-tracker"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=neighborhood-trends"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="./" aria-label="2033 HOME 홈"><span class="brand-mark">⌂</span><span>2033<span class="brand-light"> HOME</span></span></a>
-    <nav aria-label="주요 메뉴"><a href="#monitor" class="active" aria-label="실거래 모니터"><span class="nav-full">실거래 모니터</span><span class="nav-short">실거래</span></a><a href="#calculator" aria-label="갈아타기 계산기"><span class="nav-full">갈아타기 계산기</span><span class="nav-short">자금 계획</span></a><a href="#method" aria-label="데이터 안내"><span class="nav-full">데이터 안내</span><span class="nav-short">안내</span></a></nav>
+    <nav aria-label="주요 메뉴"><a href="#monitor" class="active" aria-label="실거래 모니터"><span class="nav-full">실거래 모니터</span><span class="nav-short">실거래</span></a><a href="#calculator" aria-label="갈아타기 계산기"><span class="nav-full">갈아타기 계산기</span><span class="nav-short">자금 계획</span></a><a href="#neighborhood" aria-label="동네별 가격 추세"><span class="nav-full">동네별 추세</span><span class="nav-short">동네 추세</span></a></nav>
     <span class="top-date" id="todayLabel"></span>
   </div>
 </header>
@@ -86,6 +87,23 @@
     <div class="list-heading"><span id="resultCount">단지 확인 중</span><span class="muted small">금액 단위: 억원 · 행을 눌러 상세 비교</span></div>
     <div class="table-container panel"><table class="apartments"><caption class="sr-only">지역별 단지 실거래가, 선택한 비교 가격과 기준 주택 대비 격차</caption><thead><tr><th>단지 / 지역</th><th id="priceColumnLabel">최근 10건 평균</th><th>3개월 중앙값</th><th>6개월 중앙값</th><th>주택 가격 차이</th><th>배율</th><th id="assetColumnLabel" hidden>내 집 + 현금 차액</th><th><span class="sr-only">상세</span></th></tr></thead><tbody id="apartmentRows"></tbody></table><div id="noResults" class="empty" hidden>조건에 맞는 관심 단지가 없습니다. 배율·지역·면적·검색어를 바꾸거나 위 검색에서 관심 단지를 추가하세요.</div></div>
     <p class="small muted">평균은 최대 10건으로 계산하고 10건 미만이면 실제 사용 건수를 표시합니다. 평균·중앙값 표본이 3건 미만이면 ‘거래 부족’입니다. 선택 면적의 거래가 없으면 가격을 비워 둡니다. 국민임대 단지는 안내용으로 표시하며 매매 비교·매수 계산에서 제외합니다.</p>
+  </section>
+  <section class="neighborhood-section" id="neighborhood" aria-label="동네별 아파트 가격 추세">
+    <div class="section-heading"><div><span class="eyebrow muted">NEIGHBORHOOD / PRICE TRENDS</span><h2>동네별 가격 흐름</h2></div><a href="#neighborhood" class="small muted">6개월 · 1년</a></div>
+    <div class="panel neighborhood-panel">
+      <div class="neighborhood-controls">
+        <label for="neighborhoodDistrict">시·군·구<select id="neighborhoodDistrict" aria-label="시·군·구"><option value="41135">경기도 성남시 분당구</option></select></label>
+        <label for="neighborhoodDong">동네 (법정동)<select id="neighborhoodDong" aria-label="동네 (법정동)"><option value="">동네를 불러오는 중</option></select></label>
+        <label for="neighborhoodArea">전용면적<select id="neighborhoodArea" aria-label="동네 추세 전용면적"><option value="59">59㎡급</option><option value="74">74㎡급</option><option value="84" selected>84㎡급</option></select></label>
+        <div><span class="field-label">조회 기간</span><div class="segmented" id="neighborhoodPeriods" role="group" aria-label="동네 추세 기간"><button type="button" data-period="6" aria-pressed="false">6개월</button><button type="button" data-period="12" class="selected" aria-pressed="true">1년</button></div></div>
+      </div>
+      <div class="neighborhood-heading"><div><h3 id="neighborhoodTitle">동네별 실거래 중앙값</h3><p class="small muted" id="neighborhoodRange"></p></div><button type="button" id="neighborhoodRefresh" class="outline-button">↻ 동네 새로고침</button></div>
+      <div class="neighborhood-body"><div><div class="chart" id="neighborhoodChart"><p class="muted small">동네 자료를 불러오는 중…</p></div><p class="neighborhood-point" id="neighborhoodPoint" aria-live="polite"></p></div><div class="neighborhood-metrics" id="neighborhoodMetrics"></div></div>
+      <p class="small muted">월별 실거래 중앙값 · 억원. 관심 목록·1.5배 필터와 무관하게 선택 동네의 수집된 매매 단지를 집계하며, 세대수 제한은 적용하지 않습니다. 면적을 섞지 않고 취소 거래를 제외합니다. 그래프의 점을 누르면 해당 월 가격·거래 건수를 확인할 수 있습니다.</p>
+      <p class="neighborhood-caution">거래된 단지·층·연식 구성이 달라지면 중앙값도 바뀝니다. 동일 주택의 가격 상승률이나 공식 가격지수가 아닙니다. 3건 미만은 ‘거래 부족’, 거래 없는 달은 빈칸으로 표시합니다. 이번 달은 집계 중이며 실거래 신고 지연이 있을 수 있습니다.</p>
+      <details><summary>동네 월별 가격·거래 건수 보기</summary><div class="scroll-table"><table class="history-table"><caption class="sr-only">선택 동네·면적의 계약월별 중앙값과 거래 건수</caption><thead><tr><th>계약월</th><th>중앙값 (억원)</th><th>거래 건수</th><th>거래 단지 수</th></tr></thead><tbody id="neighborhoodRows"></tbody></table></div></details>
+      <p class="small muted" id="neighborhoodSource" aria-live="polite">출처: 국토교통부 아파트 매매 실거래가</p>
+    </div>
   </section>
   <section class="detail-section" id="detail" aria-label="선택 단지 상세">
     <div class="section-heading"><div><span class="eyebrow muted">02 / THE BIGGER PICTURE</span><h2>거래 흐름을 함께 보기</h2></div></div>

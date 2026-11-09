@@ -2,7 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
-import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
+import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
+
+import { initNeighborhood } from "../assets/neighborhood.js";
 
 const today = "2026-10-26";
 async function startupFixture(protocol, loading = false, blockNavigation = false) {
@@ -273,3 +275,108 @@ test("sample data is separate from official prices and every identity exists", a
   assert.ok(sample.trades.every(t => registry.complexes.some(c => c.id === t.complexId && c.legalDongCode === t.legalDongCode)));
 });
 
+
+const neighborhoodComplexes = [
+  {id:"a",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["1"]},
+  {id:"b",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["2"]},
+  {id:"elsewhere",districtCode:"41135",legalDongCode:"4113510500",legalDong:"서현동",jibuns:["3"]},
+  {id:"rental",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["4"],comparisonEligible:false}
+];
+const neighborhoodTrade = (overrides={}) => ({id:"n",complexId:"a",legalDongCode:"4113511000",date:"2026-10-01",area:84.9,priceManwon:100000,canceled:false,...overrides});
+const neighborhoodPayload = trades => ({schemaVersion:2,mode:"official",districtCode:"41135",complexes:neighborhoodComplexes,trades});
+
+test("dong series uses exact legal code, selected area and eligible identities, excluding cancels and future dates", () => {
+  const rows = [neighborhoodTrade(),neighborhoodTrade({complexId:"b",priceManwon:200000}),
+    neighborhoodTrade({area:59.9,priceManwon:900000}),neighborhoodTrade({complexId:"elsewhere",legalDongCode:"4113510500"}),
+    neighborhoodTrade({complexId:"rental"}),neighborhoodTrade({canceled:true}),neighborhoodTrade({date:"2026-11-01"}),
+    neighborhoodTrade({complexId:"a",legalDongCode:"4113510500"}),neighborhoodTrade({priceManwon:0})];
+  const p = neighborhoodSeries(rows,neighborhoodComplexes,"4113511000","84",today).at(-1);
+  assert.deepEqual(p,{month:"2026-10",price:15,count:2,complexCount:2,partial:true});
+});
+test("6 and 12 calendar-month windows include current partial month and exclude earlier trades", () => {
+  const rows = [neighborhoodTrade({date:"2025-11-01"}),neighborhoodTrade({date:"2026-05-01"}),neighborhoodTrade({date:"2026-04-30"})];
+  const six = neighborhoodSeries(rows,neighborhoodComplexes,"4113511000","84",today,6);
+  const year = neighborhoodSeries(rows,neighborhoodComplexes,"4113511000","84",today,12);
+  assert.equal(six.length,6); assert.equal(six[0].month,"2026-05");
+  assert.equal(year.length,12); assert.equal(year[0].month,"2025-11");
+  assert.equal(six.reduce((n,p)=>n+p.count,0),1);
+  assert.equal(year.reduce((n,p)=>n+p.count,0),3);
+  assert.equal(six.at(-1).partial,true); assert.equal(six[0].partial,false);
+});
+test("empty months stay null and single-contract months retain their actual price and count", () => {
+  const s = neighborhoodSeries([neighborhoodTrade()],neighborhoodComplexes,"4113511000","84",today,6);
+  assert.equal(s[0].price,null); assert.equal(s[0].count,0); assert.equal(s[0].complexCount,0);
+  assert.equal(s.at(-1).price,10); assert.equal(s.at(-1).count,1);
+  assert.equal(neighborhoodSeries([],neighborhoodComplexes,"4113511000","84",today,12).every(p=>p.price===null),true);
+});
+test("dong aggregation counts distinct apartments and weights monthly median by actual contracts", () => {
+  const s = neighborhoodSeries([neighborhoodTrade(),neighborhoodTrade({priceManwon:110000}),neighborhoodTrade({complexId:"b",priceManwon:300000})],neighborhoodComplexes,"4113511000","84",today);
+  assert.equal(s.at(-1).price,11); assert.equal(s.at(-1).count,3); assert.equal(s.at(-1).complexCount,2);
+});
+test("district payload refuses mismatched district, unknown identity or legal dong, missing address and duplicate apartment IDs", () => {
+  const valid = neighborhoodPayload([neighborhoodTrade()]);
+  assert.equal(checkNeighborhoodPayload(valid,"41135"),valid);
+  for (const d of [ {...valid,districtCode:"11110"}, {...valid,trades:[neighborhoodTrade({complexId:"unknown"})]},
+    {...valid,trades:[neighborhoodTrade({legalDongCode:"4113510500"})]},
+    {...valid,complexes:valid.complexes.map(c=>({...c,jibuns:[]}))},
+    {...valid,complexes:[...valid.complexes,valid.complexes[0]]}, {...valid,mode:"sample"} ])
+    assert.throws(()=>checkNeighborhoodPayload(d,"41135"));
+});
+test("dong calendar buckets handle January rollover and leap February without dropping boundary trades", () => {
+  const s = neighborhoodSeries([neighborhoodTrade({date:"2024-02-29"})],neighborhoodComplexes,"4113511000","84","2024-03-03",6);
+  assert.equal(s[0].month,"2023-10"); assert.equal(s[4].month,"2024-02"); assert.equal(s[4].count,1);
+});
+
+async function neighborhoodUI(run) {
+  const previous = globalThis.document, elements = {};
+  for (const id of ["neighborhoodChart","neighborhoodMetrics","neighborhoodRows","neighborhoodPoint","neighborhoodTitle","neighborhoodRange","neighborhoodArea","neighborhoodSource","neighborhoodDong","neighborhoodDistrict","neighborhoodPeriods","neighborhoodRefresh"])
+    elements[id] = {value:id==="neighborhoodArea"?"84":"",textContent:"",innerHTML:"",listeners:{},addEventListener(type,cb){this.listeners[type]=cb;},querySelectorAll(){return [];}};
+  globalThis.document = {getElementById:id=>elements[id]};
+  const flush = async()=>{for(let i=0;i<3;i++) await new Promise(resolve=>setImmediate(resolve));};
+  const payload = {...neighborhoodPayload([neighborhoodTrade()]),updatedAt:"2026-10-26T10:00:00+09:00"};
+  try { await run({elements,flush,payload}); } finally {globalThis.document=previous;}
+}
+test("neighborhood reload failure keeps the last good chart and explicitly reports its timestamp", async()=> {
+  await neighborhoodUI(async({elements,flush,payload})=>{
+    let fail=false, renders=0;
+    const ui=initNeighborhood({getJSON:async path=>{
+      if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"}]};
+      if(fail) throw new Error("offline"); return payload;
+    },renderChart:()=>{renders++;}});
+    ui.update({demo:false,payload:{},complexes:[]}); await flush();
+    assert.equal(renders,1);
+    fail=true; elements.neighborhoodRefresh.listeners.click(); await flush();
+    assert.equal(renders,2); assert.match(elements.neighborhoodSource.textContent,/마지막 정상 자료 유지/);
+    assert.match(elements.neighborhoodSource.textContent,/2026/);
+  });
+});
+test("failed new district clears the old district chart instead of showing another dong's prices", async()=> {
+  await neighborhoodUI(async({elements,flush,payload})=>{
+    const ui=initNeighborhood({getJSON:async path=>{
+      if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"},{code:"11110",name:"종로구"}]};
+      if(path.includes("11110")) throw new Error("offline"); return payload;
+    },renderChart:()=>{}});
+    ui.update({demo:false,payload:{},complexes:[]}); await flush();
+    elements.neighborhoodDistrict.value="11110";
+    elements.neighborhoodDistrict.listeners.change(); await flush();
+    assert.match(elements.neighborhoodChart.innerHTML,/불러오지 못/);
+    assert.equal(elements.neighborhoodMetrics.textContent,"");
+    assert.equal(elements.neighborhoodDong.disabled,true);
+  });
+});
+test("switching to sample mode cannot be overwritten by an earlier official district response", async()=> {
+  await neighborhoodUI(async({elements,flush,payload})=>{
+    let resolveDistrict, districtCalls=0;
+    const ui=initNeighborhood({getJSON:async path=>{
+      if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"}]};
+      districtCalls++; return new Promise(resolve=>{resolveDistrict=resolve;});
+    },renderChart:()=>{}});
+    ui.update({demo:false,payload:{},complexes:[]}); await flush();
+    ui.update({demo:true,payload:{asOf:today,trades:payload.trades},complexes:payload.complexes}); await flush();
+    assert.match(elements.neighborhoodTitle.textContent,/샘플/);
+    resolveDistrict(payload); await flush();
+    assert.match(elements.neighborhoodTitle.textContent,/샘플/);
+    assert.match(elements.neighborhoodSource.textContent,/가상 거래/);
+    assert.equal(districtCalls,1);
+  });
+});

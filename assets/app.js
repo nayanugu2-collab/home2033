@@ -1,4 +1,5 @@
-import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=personal-tracker";
+import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=neighborhood-trends";
+import { initNeighborhood } from "./neighborhood.js?v=neighborhood-trends";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -11,7 +12,7 @@ const controls = [...document.querySelectorAll("button, input, select")];
 controls.forEach(control => { control.disabled = true; });
 let registry, official = null, status = null, demo = false, payload = null, trades = [], baseTrades = [];
 let area = "84", region = "all", selected = "gracium", exact = "all", saleAuto = true, targetAuto = true, loadError = "";
-let officialPlanSnapshot = null;
+let officialPlanSnapshot = null, neighborhoods = null;
 let preferences = watchPreferences(null), defaultIds = new Set(), nationalIndex = null, nationalLoading = null;
 let nationalTrades = [], nationalDistricts = new Set(), nationalPending = new Map();
 const nationalStamps = new Map();
@@ -274,7 +275,7 @@ async function toggleWatch(id) {
   saveWatch(); targetOptions(); activateData();
   $("watchStatus").textContent += " " + c.name + (removing ? " 제거됨." : " 추가됨. 가격 배율·면적 필터에 따라 목록에서 숨겨질 수 있습니다.");
 }
-function renderChart(container, series, keys, title) {
+function renderChart(container, series, keys, title, labels = {}) {
   const points = series.flatMap(p => keys.map(k => p[k])).filter(n => n != null);
   if (!points.length) { $(container).innerHTML = '<div class="chart-empty"><span>⌁</span>거래 부족<p>' + (container === "gapChart" ? "같은 월에 두 단지의 거래가 있어야 표시됩니다." : "선택한 전용면적의 거래를 기다리고 있습니다.") + "</p></div>"; return; }
   const W = 550, H = 240, L = 45, R = 20, T = 20, B = 35;
@@ -295,7 +296,8 @@ function renderChart(container, series, keys, title) {
     body += '<path d="' + path + '" fill="none" class="series-' + key + '"/>';
     series.forEach((p, i) => { if (p[key] == null) return;
       const n = key === "base" ? p.baseCount : p.count;
-      body += '<circle tabindex="0" cx="' + x(i) + '" cy="' + y(p[key]) + '" r="4" class="point-' + key + '"><title>' + escape(p.month + " · " + (key === "base" ? "기준 주택" : key === "gap" ? "격차" : "선택 단지") + " " + money(p[key]) + "억 · " + n + "건" + (n < 3 ? " · 거래 부족" : "")) + "</title></circle>";
+      const description = p.month + " · " + (labels[key] || (key === "base" ? "기준 주택" : key === "gap" ? "격차" : "선택 단지")) + " " + money(p[key]) + "억 · " + n + "건" + (n < 3 ? " · 거래 부족" : "");
+      body += '<circle tabindex="0" data-month-index="' + i + '" aria-label="' + escape(description) + '" cx="' + x(i) + '" cy="' + y(p[key]) + '" r="' + (container === "neighborhoodChart" ? 6 : 4) + '" class="point-' + key + '"><title>' + escape(description) + "</title></circle>";
     });
   });
   $(container).innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + escape(title) + '"><title>' + escape(title) + '</title>' + body + "</svg>";
@@ -392,6 +394,7 @@ function activateData() {
   trades = validTrades([...(payload?.trades || []), ...(demo ? [] : nationalTrades)], asOf());
   baseTrades = referenceTrades(trades, currentBaseId(), currentBaseType());
   renderList(); renderDetail(true); notice();
+  neighborhoods?.update({ demo, payload, complexes: registry.complexes });
 }
 function choose(id, scroll = false) {
   selected = id; exact = "all"; targetAuto = true;
@@ -513,6 +516,7 @@ async function init() {
     setupRegistry();
     $("trackerState").textContent = personalMode() ? "저장된 내 집·현금 기준을 불러왔습니다." : "동천센트럴자이 59㎡급 기준으로 비교합니다.";
     controls.forEach(control => { control.disabled = false; });
+    neighborhoods = initNeighborhood({ getJSON, renderChart });
     await loadOfficial();
     if (preferences.added.length || (personalMode() && tracker.id.startsWith("n-"))) await loadNational();
   } catch {
