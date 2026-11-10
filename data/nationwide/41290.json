@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-09",
-  "updatedAt": "2026-11-09T10:55:50.622380+09:00",
+  "asOf": "2026-11-10",
+  "updatedAt": "2026-11-10T13:20:46.789974+09:00",
   "districtCode": "41290",
   "complexes": [
     {
@@ -256,7 +256,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -280,7 +280,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -304,7 +304,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -364,7 +364,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -388,7 +388,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -412,7 +412,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -436,7 +436,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -460,7 +460,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -484,7 +484,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -508,7 +508,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-09",
+      "checkedAt": "2026-11-10",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -952,7 +952,7 @@
       "canceled": false
     },
     {
-      "id": "1abb105a0d1b736c324d-36",
+      "id": "9f452f4d6c0b9645ba0c-36",
       "complexId": "gwacheon-xi",
       "legalDongCode": "4129010900",
       "date": "2026-02-06",
@@ -1516,7 +1516,7 @@
       "canceled": false
     },
     {
-      "id": "b03d1e20135d26dfb53f-83",
+      "id": "fdd78fc03855b6554eca-83",
       "complexId": "ravieno",
       "legalDongCode": "4129010300",
       "date": "2026-04-18",
@@ -2656,7 +2656,19 @@
       "canceled": false
     },
     {
-      "id": "7401984f64ac688d22d8-178",
+      "id": "6ea041bfeb93793271d8-178",
+      "complexId": "weaver",
+      "legalDongCode": "4129010800",
+      "date": "2026-07-16",
+      "area": 84.98,
+      "priceManwon": 252500,
+      "floor": "23",
+      "buildYear": 2021,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "7401984f64ac688d22d8-179",
       "complexId": "n-e17cb5b74dc71431b262",
       "legalDongCode": "4129010300",
       "date": "2026-07-25",
@@ -2668,7 +2680,7 @@
       "canceled": false
     },
     {
-      "id": "f2b042e5dd0b76e7fac8-179",
+      "id": "f2b042e5dd0b76e7fac8-180",
       "complexId": "schurr",
       "legalDongCode": "4129010800",
       "date": "2026-07-28",
@@ -2680,7 +2692,7 @@
       "canceled": false
     },
     {
-      "id": "813e19fa00a39139c09d-180",
+      "id": "813e19fa00a39139c09d-181",
       "complexId": "weaver",
       "legalDongCode": "4129010800",
       "date": "2026-07-25",
@@ -2692,7 +2704,7 @@
       "canceled": false
     },
     {
-      "id": "78dac66214169944460a-181",
+      "id": "78dac66214169944460a-182",
       "complexId": "weaver",
       "legalDongCode": "4129010800",
       "date": "2026-07-23",
@@ -2704,7 +2716,7 @@
       "canceled": false
     },
     {
-      "id": "d7adee760a1543c575ea-182",
+      "id": "d7adee760a1543c575ea-183",
       "complexId": "gwacheon-xi",
       "legalDongCode": "4129010900",
       "date": "2026-07-20",
@@ -2716,7 +2728,7 @@
       "canceled": false
     },
     {
-      "id": "98c78ac137df509b279d-183",
+      "id": "98c78ac137df509b279d-184",
       "complexId": "prugio-summit",
       "legalDongCode": "4129010700",
       "date": "2026-07-18",
@@ -2728,7 +2740,7 @@
       "canceled": false
     },
     {
-      "id": "7242cbfcff740d3c938a-184",
+      "id": "7242cbfcff740d3c938a-185",
       "complexId": "central-summit",
       "legalDongCode": "4129011000",
       "date": "2026-07-17",
@@ -2736,18 +2748,6 @@
       "priceManwon": 276000,
       "floor": "22",
       "buildYear": 2020,
-      "dealingType": "중개거래",
-      "canceled": false
-    },
-    {
-      "id": "6ea041bfeb93793271d8-185",
-      "complexId": "weaver",
-      "legalDongCode": "4129010800",
-      "date": "2026-07-16",
-      "area": 84.98,
-      "priceManwon": 252500,
-      "floor": "23",
-      "buildYear": 2021,
       "dealingType": "중개거래",
       "canceled": false
     },
