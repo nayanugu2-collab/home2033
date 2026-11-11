@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-10",
-  "updatedAt": "2026-11-10T13:28:42.234511+09:00",
+  "asOf": "2026-11-11",
+  "updatedAt": "2026-11-11T11:12:46.824097+09:00",
   "districtCode": "47750",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +164,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -188,7 +188,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -212,7 +212,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -236,7 +236,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -260,7 +260,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -284,7 +284,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -308,7 +308,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -332,7 +332,31 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-11",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-469e506123e2629cae1a",
+      "name": "진우하이츠",
+      "aliases": [
+        "진우하이츠"
+      ],
+      "region": "경상북도 청송군",
+      "districtCode": "47750",
+      "legalDongCode": "4775025022",
+      "legalDong": "청송읍 덕리",
+      "jibuns": [
+        "255"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-11",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -893,6 +917,18 @@
       "floor": "3",
       "buildYear": 2001,
       "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "8140c56969511283e074-46",
+      "complexId": "n-469e506123e2629cae1a",
+      "legalDongCode": "4775025022",
+      "date": "2026-11-07",
+      "area": 39.52,
+      "priceManwon": 5800,
+      "floor": "3",
+      "buildYear": 1999,
+      "dealingType": "중개거래",
       "canceled": false
     }
   ]
