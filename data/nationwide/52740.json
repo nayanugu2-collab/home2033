@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-13",
-  "updatedAt": "2026-11-13T11:55:08.598925+09:00",
+  "asOf": "2026-11-14",
+  "updatedAt": "2026-11-14T11:43:24.286118+09:00",
   "districtCode": "52740",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -320,7 +320,19 @@
       "canceled": false
     },
     {
-      "id": "301ddf6d4da2c701c6c6-14",
+      "id": "c1b5a2d34894b30cb4af-14",
+      "complexId": "n-df8fbab42907ee123e26",
+      "legalDongCode": "5274025021",
+      "date": "2026-11-12",
+      "area": 76.7231,
+      "priceManwon": 29500,
+      "floor": "12",
+      "buildYear": 2018,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "301ddf6d4da2c701c6c6-15",
       "complexId": "n-eeae7632b7e9ed4003dc",
       "legalDongCode": "5274025022",
       "date": "2026-11-07",

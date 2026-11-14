@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-13",
-  "updatedAt": "2026-11-13T11:54:42.405627+09:00",
+  "asOf": "2026-11-14",
+  "updatedAt": "2026-11-14T11:42:34.477846+09:00",
   "districtCode": "51810",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +164,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -188,7 +188,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -212,7 +212,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -236,7 +236,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -260,7 +260,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -284,7 +284,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -308,7 +308,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -332,7 +332,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -356,7 +356,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -380,7 +380,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -404,7 +404,31 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-ccae41dd38e9b9589ff2",
+      "name": "신아리버빌",
+      "aliases": [
+        "신아리버빌"
+      ],
+      "region": "강원특별자치도 인제군",
+      "districtCode": "51810",
+      "legalDongCode": "5181025021",
+      "legalDong": "인제읍 상동리",
+      "jibuns": [
+        "37"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -428,7 +452,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-14",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -1232,7 +1256,7 @@
       "canceled": false
     },
     {
-      "id": "f909fbf0b6ad19ef5fd5-66",
+      "id": "4c9555c3edfb4213608b-66",
       "complexId": "n-966aff0b3b68db540828",
       "legalDongCode": "5181032021",
       "date": "2026-10-17",
@@ -1268,7 +1292,19 @@
       "canceled": false
     },
     {
-      "id": "4e5e81d75096be92b08d-69",
+      "id": "6283b60029c59e43d445-69",
+      "complexId": "n-ccae41dd38e9b9589ff2",
+      "legalDongCode": "5181025021",
+      "date": "2026-11-13",
+      "area": 59.158,
+      "priceManwon": 12600,
+      "floor": "13",
+      "buildYear": 2002,
+      "dealingType": "중개거래",
+      "canceled": false
+    },
+    {
+      "id": "4e5e81d75096be92b08d-70",
       "complexId": "n-f1213b4aa10c4de66be9",
       "legalDongCode": "5181032021",
       "date": "2026-11-07",
@@ -1280,7 +1316,7 @@
       "canceled": false
     },
     {
-      "id": "7c58c554e0c12054a9a3-70",
+      "id": "7c58c554e0c12054a9a3-71",
       "complexId": "n-76ceac29588f522ae7ba",
       "legalDongCode": "5181025024",
       "date": "2026-11-05",
@@ -1292,7 +1328,7 @@
       "canceled": false
     },
     {
-      "id": "216820db37aaaebb4e4c-71",
+      "id": "216820db37aaaebb4e4c-72",
       "complexId": "n-23256efef3cbf02fe9ef",
       "legalDongCode": "5181025021",
       "date": "2026-11-05",
@@ -1304,7 +1340,7 @@
       "canceled": false
     },
     {
-      "id": "a618e4cf77dd4987fef7-72",
+      "id": "a618e4cf77dd4987fef7-73",
       "complexId": "n-cf8a8d0a7251ab1cd186",
       "legalDongCode": "5181025022",
       "date": "2026-11-01",
