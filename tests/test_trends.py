@@ -99,3 +99,15 @@ class TrendTests(unittest.TestCase):
         value = summarize(p,'2017-01','2026-11-19T00:00:00+09:00',lambda c:500 if c['legalDong']=='백현동' else None)
         members = {dong:(mask,count) for _,dong,mask,count in value['members']}
         self.assertEqual(members,{'4113511000':(5,500),'4113510500':(0,None)})
+
+    def test_dongtan_before_district_change_matches_exact_parcel_and_name(self):
+        from hashlib import sha256
+        from scripts.trend_households import counts_by_trade_id, household_count, read_households
+        csv = '필지고유번호,단지고유번호,단지종류,세대수,단지명_공시가격,단지명_건축물대장,단지명_도로명주소\n'
+        csv += '4159012900109640000,A,1,538,동탄역신미주,,\n'
+        index = read_households(csv)
+        unit = {'name':'동탄역신미주','legalDongCode':'4159711500','jibuns':['964']}
+        self.assertEqual(household_count(unit,index),538)
+        self.assertIsNone(household_count(dict(unit,jibuns=['965']),index))
+        new_id = 'n-' + sha256('4159711500|동탄역신미주|964'.encode()).hexdigest()[:20]
+        self.assertEqual(counts_by_trade_id(index,{'complexes':[]})[new_id],538)

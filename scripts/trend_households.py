@@ -1,5 +1,6 @@
 """Match official apartment household counts to trade identities by parcel and name."""
 import csv
+import hashlib
 import http.cookiejar
 import io
 import json
@@ -13,6 +14,22 @@ import update
 SOURCE = 'https://www.data.go.kr/data/15106861/fileData.do'
 PORTAL = 'https://www.data.go.kr'
 NAME_COLUMNS = ('단지명_공시가격', '단지명_건축물대장', '단지명_도로명주소')
+# Pre-2026 Hwaseong parcel codes still occur in the REB file. Keep the exact
+# parcel and name check, including Neung-dong where the new district is split.
+# https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=122595
+DONGTAN_LEGACY = {
+    '4159011800': '4159710100',  # 능동 (parcel must match the Dongtan trade)
+    '4159012700': '4159710200',  # 반송동
+    '4159012800': '4159710300',  # 석우동
+    '4159012900': '4159711500',  # 오산동 → 여울동
+    '4159013000': '4159710500',  # 청계동
+    '4159013100': '4159710600',  # 영천동
+    '4159013300': '4159710800',  # 신동
+    '4159013400': '4159710900',  # 목동
+    '4159013500': '4159711000',  # 산척동
+    '4159013600': '4159711100',  # 장지동
+    '4159013700': '4159711200',  # 송동
+}
 
 
 def read_households(text):
@@ -34,7 +51,11 @@ def read_households(text):
         for field in NAME_COLUMNS:
             name = update.normalize_name(row[field])
             if name:
-                index[(parcel_code[:10], parcel, name)].add((source_id, int(count)))
+                dong = parcel_code[:10]
+                match = (source_id, int(count))
+                index[(dong, parcel, name)].add(match)
+                if dong in DONGTAN_LEGACY:
+                    index[(DONGTAN_LEGACY[dong], parcel, name)].add(match)
     if not index:
         raise ValueError('아파트 세대수 CSV가 비어 있습니다')
     return index
@@ -50,6 +71,21 @@ def household_count(complex_, index):
         for name in names:
             matches.update(index.get((complex_['legalDongCode'], update.normalize_jibun(jibun), name), ()))
     return next(iter(matches))[1] if len(matches) == 1 else None
+
+
+def counts_by_trade_id(index, registry):
+    counts = {}
+    for (dong, parcel, name), matches in index.items():
+        if len(matches) != 1:
+            continue
+        identity = '|'.join((dong, name, parcel))
+        trade_id = 'n-' + hashlib.sha256(identity.encode()).hexdigest()[:20]
+        counts[trade_id] = next(iter(matches))[1]
+    for complex_ in registry['complexes']:
+        count = household_count(complex_, index)
+        if count is not None:
+            counts[complex_['id']] = count
+    return counts
 
 
 def download_households():

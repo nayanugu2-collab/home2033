@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import update
 from scripts.collect_nationwide import district_payload
-from scripts.trend_households import download_households, household_count
+from scripts.trend_households import counts_by_trade_id, download_households, household_count
 
 PRIORITY = ['41135', '41465', '41597', '41290', '11740', '11215', '11710', '11200', '11590', '11650']
 AREA_MASKS = {'59': 1, '74': 2, '84': 4}
@@ -102,12 +102,14 @@ def compact_json(path, value):
     os.replace(temporary, path)
 
 
-def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None, household_lookup=None):
+def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None,
+                    household_lookup=None, verified_counts=None):
     dest = dest or ROOT/'data/trends'
     nationwide = nationwide or ROOT/'data/nationwide'
     wanted = months_for(today)
     states = {}
     previous_by_district = {}
+    verified_counts = verified_counts or {}
     for d in districts:
         code = d['code']; path = dest/(code+'.json')
         state = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {
@@ -115,7 +117,10 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         existing = {m['month']: m for m in state['months'] if m['month'] in wanted and valid_stored_month(m, code)}
         previous_counts = {}
         for month in existing.values():
-            for ident, _, _, count in month.get('members', []):
+            for entry in month.get('members', []):
+                ident, _, _, count = entry
+                if count is None and ident in verified_counts:
+                    count = entry[3] = verified_counts[ident]
                 if count is not None:
                     previous_counts.setdefault(ident, set()).add(count)
         previous_by_district[code] = previous_counts
@@ -205,6 +210,8 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     if not failures:
         compact_json(dest/'v2.complete.json', {'collectorVersion':2,'checkedAt':today.isoformat()})
     compact_json(dest/'complex-coverage.json', {'started': True})
+    if verified_counts:
+        compact_json(dest/'complex-coverage-v2.json', {'verifiedHouseholds': True})
     print(f'10년 추세: 지역 {len(index)}개 · 완성 {sum(d["availableMonths"]==120 for d in index)}개 · 실패 {failures}', flush=True)
     return 1 if failures else 0
 
@@ -229,15 +236,17 @@ def main():
             except UnicodeDecodeError:
                 csv_text = raw_csv.decode('cp949')
             index = read_households(csv_text)
-        elif args.budget:
+        elif args.budget or os.environ.get('REFRESH_TREND_HOUSEHOLDS') == '1':
             index = download_households()
         if index:
             print(f'공식 세대수 주소·이름 조합 {len(index):,}개', flush=True)
     except (OSError, ValueError, KeyError):
         print('공식 세대수 자료 수신 실패 · 기존 확인값 유지', flush=True)
-    return collect_history(districts, dt.datetime.now(update.KST).date(), update.load_registry(),
+    registry = update.load_registry()
+    return collect_history(districts, dt.datetime.now(update.KST).date(), registry,
                            lambda code, month:update.fetch_month(key, code, month), args.budget,
-                           household_lookup=lambda c: household_count(c, index))
+                           household_lookup=lambda c: household_count(c, index),
+                           verified_counts=counts_by_trade_id(index, registry) if index else None)
 
 
 if __name__ == '__main__':
