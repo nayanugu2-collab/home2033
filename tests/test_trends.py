@@ -26,27 +26,32 @@ class TrendTests(unittest.TestCase):
             index = json.loads((root/'trends/index.json').read_text(encoding='utf-8'))
             self.assertEqual([d['memberMonths'] for d in index['districts']], [0, 1, 1])
 
-    def test_gyeonggi_backfill_resumes_only_requested_districts(self):
+    def test_backfill_resumes_across_trend_regions_and_skips_other_regions(self):
         with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
             root = Path(folder)
             today = dt.date(2026, 11, 19)
             districts = [{'code': code, 'name': code}
-                         for code in ('41110', '41111', '41171', '41210', '41281', '41285', '11680')]
+                         for code in ('11680', '41111', '26110', '27110', '30110', '52111')]
             calls = []
 
             def fetch(code, month):
                 calls.append((code, month))
                 return []
 
-            for budget in (1, 1080):
+            for budget in (1, 600):
                 result = collect_history(districts, today, update.load_registry(), fetch,
-                                         budget, root/'trends', root/'raw', gyeonggi_backfill=True)
+                                         budget, root/'trends', root/'raw', backfill_only=True)
                 self.assertEqual(result, 0)
+                if budget == 1:
+                    saved_path = root/'trends/11680.json'
+                    saved = json.loads(saved_path.read_text(encoding='utf-8'))
+                    saved['months'][0]['updatedAt'] = '2025-01-01T00:00:00+09:00'
+                    saved_path.write_text(json.dumps(saved), encoding='utf-8')
             self.assertCountEqual(calls, [(code, month.replace('-', ''))
-                                          for code in ('41111', '41171', '41210', '41285')
+                                          for code in ('11680', '41111', '26110', '27110', '30110')
                                           for month in months_for(today)])
             index = json.loads((root/'trends/index.json').read_text(encoding='utf-8'))
-            self.assertEqual([d['memberMonths'] for d in index['districts']], [0, 120, 120, 120, 0, 120, 0])
+            self.assertEqual([d['memberMonths'] for d in index['districts']], [120, 120, 120, 120, 120, 0])
 
     def raw(self, **changes):
         return dict(dict(sggCd='41135', umdCd='11000', umdNm='백현동', aptNm='시험', jibun='1',

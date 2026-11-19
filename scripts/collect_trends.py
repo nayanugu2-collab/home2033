@@ -106,7 +106,7 @@ def compact_json(path, value):
 
 
 def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None,
-                    household_lookup=None, verified_counts=None, seoul_backfill=False, gyeonggi_backfill=False):
+                    household_lookup=None, verified_counts=None, seoul_backfill=False, backfill_only=False):
     dest = dest or ROOT/'data/trends'
     nationwide = nationwide or ROOT/'data/nationwide'
     wanted = months_for(today)
@@ -169,13 +169,12 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     # Revalidate old snapshots after bootstrap, so late cancellations can be removed.
     old = sorted([(d, m) for d in ordered for m in states[d['code']]['months'].values()
                   if m['updatedAt'][:10] < (today-dt.timedelta(days=90)).isoformat()], key=lambda x:x[1]['updatedAt'])
-    if gyeonggi_backfill:
-        jobs = [(d, month) for d, month in [*jobs, *missing_members] if d['code'] in GYEONGGI_BACKFILL_CODES]
-    elif seoul_backfill:
+    if seoul_backfill:
         jobs = seoul_jobs
     else:
-        tasks = [*priority_members, *seoul_jobs, *other_members[:max(0, budget//3)], *jobs,
-                 *other_members, *((d, m['month']) for d, m in old)]
+        tasks = [*priority_members, *seoul_jobs, *other_members[:max(0, budget//3)], *jobs, *other_members]
+        if not backfill_only:
+            tasks.extend((d, m['month']) for d, m in old)
         jobs = list({(d['code'], month): (d, month) for d, month in tasks}.values())
     jobs = jobs[:max(0, budget)]
     stop = threading.Event(); failures = 0
@@ -196,7 +195,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
             reason = 'API_'+match.group(1) if match else type(exc).__name__
             if match: stop.set()
             return d['code'], month, None, True, reason
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8 if seoul_backfill else 6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8 if seoul_backfill or backfill_only else 6) as pool:
         for i, (code, month, value, attempted, reason) in enumerate(pool.map(job, jobs), 1):
             if value is not None:
                 states[code]['months'][month] = value
@@ -238,7 +237,7 @@ def main():
     parser.add_argument('--budget', type=int, default=int(os.environ.get('HISTORY_MONTH_BUDGET', '1400')))
     parser.add_argument('--households-csv', type=Path, help='Use an official local CSV instead of downloading it')
     parser.add_argument('--seoul-backfill', action='store_true', default=os.environ.get('SEOUL_TREND_BACKFILL') == 'true')
-    parser.add_argument('--gyeonggi-backfill', action='store_true', default=os.environ.get('GYEONGGI_TREND_BACKFILL') == 'true')
+    parser.add_argument('--backfill-only', action='store_true', default=os.environ.get('HISTORY_BACKFILL_ONLY') == 'true')
     args = parser.parse_args()
     key = os.environ.get('MOLIT_SERVICE_KEY', '').strip()
     if args.budget and not key:
@@ -267,7 +266,7 @@ def main():
                            household_lookup=lambda c: household_count(c, index),
                            verified_counts=counts_by_trade_id(index, registry) if index else None,
                            seoul_backfill=args.seoul_backfill,
-                           gyeonggi_backfill=args.gyeonggi_backfill)
+                           backfill_only=args.backfill_only)
 
 
 if __name__ == '__main__':
