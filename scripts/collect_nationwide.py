@@ -16,7 +16,7 @@ import update
 DEST = ROOT / 'data' / 'nationwide'
 
 
-def district_payload(code, name, months, today, registry, fetcher):
+def district_payload(code, name, months, today, registry, fetcher, start=None):
     complexes, trades = {}, []
     for month in months:
         for row in fetcher(code, month):
@@ -24,7 +24,7 @@ def district_payload(code, name, months, today, registry, fetcher):
                 continue
             try:
                 date = dt.date(int(row['dealYear']), int(row['dealMonth']), int(row['dealDay']))
-                if not update.window_start(today) <= date <= today:
+                if not (start or update.window_start(today)) <= date <= today:
                     continue
                 dong = str(row['umdCd']).zfill(5)
                 if row['sggCd'] != code or len(dong) != 5 or not dong.isdigit() or date.strftime('%Y%m') != month:

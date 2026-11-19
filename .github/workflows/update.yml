@@ -68,6 +68,21 @@ jobs:
             git commit -m 'Update nationwide apartment search data'
             git push
           fi
+      - name: Collect resumable ten-year regional trend statistics
+        id: trends
+        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == ''
+        continue-on-error: true
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+          HISTORY_MONTH_BUDGET: '1400'
+        run: python scripts/collect_trends.py
+      - name: Commit regional trend statistics
+        run: |
+          if [ -d data/trends ]; then git add data/trends; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update regional ten-year trend statistics'
+            git push
+          fi
       - name: Prepare public static files
         run: python scripts/build_site.py
       - name: Configure Pages
@@ -80,7 +95,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
       - name: Report collection failure after publishing last-good data
-        if: steps.collect.outcome == 'failure' || steps.nationwide.outcome == 'failure'
+        if: steps.collect.outcome == 'failure' || steps.nationwide.outcome == 'failure' || steps.trends.outcome == 'failure'
         run: |
           echo "::error::Official API collection failed. Last-good prices were retained and the failure status was deployed."
           exit 1
