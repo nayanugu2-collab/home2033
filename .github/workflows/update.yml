@@ -24,7 +24,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -93,6 +93,14 @@ jobs:
           path: site
       - name: Deploy latest data directly
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Wait for Pages artifact metadata after transient failure
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 15
+      - name: Retry Pages deployment after artifact propagation
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
       - name: Report collection failure after publishing last-good data
         if: steps.collect.outcome == 'failure' || steps.nationwide.outcome == 'failure' || steps.trends.outcome == 'failure'

@@ -17,7 +17,7 @@ class ProjectContractTests(unittest.TestCase):
                          "continue-on-error: true", "git add data/trades.json data/status.json",
                          "actions/configure-pages@", "actions/upload-pages-artifact@",
                          "actions/deploy-pages@", "pages: write", "id-token: write",
-                         "steps.collect.outcome == 'failure'"):
+                         "steps.collect.outcome == 'failure'", "steps.deployment.outcome == 'failure'", "steps.deployment_retry.outputs.page_url"):
             self.assertIn(expected.replace("\\${", "${"), workflow)
         self.assertLess(workflow.index("name: Deploy latest"), workflow.index("name: Report collection failure"))
         self.assertFalse((ROOT / "realestate_site").exists())

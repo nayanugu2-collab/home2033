@@ -118,23 +118,30 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     jobs += [(d, m['month']) for d, m in old]
     jobs = jobs[:max(0, budget)]
     stop = threading.Event(); failures = 0
+    reasons = {}
     def job(task):
         d, month = task
-        if stop.is_set(): return d['code'], month, None, False
+        if stop.is_set(): return d['code'], month, None, False, ''
         try:
             first = dt.date.fromisoformat(month+'-01')
             value = district_payload(d['code'], d['name'], [month.replace('-', '')], today, registry,
                                      fetcher, start=first)
             result = summarize(value, month, dt.datetime.now(update.KST).isoformat())
-            return d['code'], month, result, True
-        except Exception:
-            return d['code'], month, None, True
+            return d['code'], month, result, True, ''
+        except Exception as exc:
+            # Log only a whitelisted API result code or exception class, never a URL/key.
+            match = re.fullmatch(r'API 응답 오류 \(([A-Za-z0-9_]{1,40})\)', str(exc)) if isinstance(exc, update.CollectionError) else None
+            reason = 'API_'+match.group(1) if match else type(exc).__name__
+            if match: stop.set()
+            return d['code'], month, None, True, reason
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-        for i, (code, month, value, attempted) in enumerate(pool.map(job, jobs), 1):
+        for i, (code, month, value, attempted, reason) in enumerate(pool.map(job, jobs), 1):
             if value is not None:
                 states[code]['months'][month] = value
             elif attempted:
                 failures += 1; states[code]['failedMonths'].append(month)
+                reasons[reason] = reasons.get(reason, 0)+1
+                print(f'10년 추세 {code}/{month} 수신 실패 ({reason})', flush=True)
                 if failures >= 5: stop.set()
             if i % 100 == 0 or i == len(jobs):
                 print(f'10년 추세 {i}/{len(jobs)} · 실패 {failures}', flush=True)
@@ -149,7 +156,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         index.append({'code':code,'name':d['name'],'availableMonths':len(state['months']),
                       'totalMonths':len(wanted),'failedMonths':len(state['failedMonths'])})
     compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'districts':index,
-                                    'failedRequests':failures,'monthBudget':budget,
+                                    'failedRequests':failures,'failureReasons':reasons,'monthBudget':budget,
                                     'source':'https://www.data.go.kr/data/15126468/openapi.do'})
     if not failures:
         compact_json(dest/'v2.complete.json', {'collectorVersion':2,'checkedAt':today.isoformat()})
