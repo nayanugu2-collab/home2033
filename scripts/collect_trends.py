@@ -18,6 +18,7 @@ from scripts.collect_nationwide import district_payload
 from scripts.trend_households import counts_by_trade_id, download_households, household_count
 
 PRIORITY = ['41135', '41465', '41597', '41290', '11740', '11215', '11710', '11200', '11590', '11650']
+TREND_REGIONS = ('11', '41', '26', '27', '30')
 AREA_MASKS = {'59': 1, '74': 2, '84': 4}
 
 
@@ -141,7 +142,8 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         state['failedMonths'] = []
         states[code] = state
     priority = {code: i for i, code in enumerate(PRIORITY)}
-    ordered = sorted(districts, key=lambda d: (priority.get(d['code'], 999), d['code']))
+    active = [d for d in districts if d['code'].startswith(TREND_REGIONS)]
+    ordered = sorted(active, key=lambda d: (priority.get(d['code'], 999), d['code']))
     jobs = [(d, month) for d in ordered for month in reversed(wanted) if month not in states[d['code']]['months']]
     missing_members = []
     for d in ordered:

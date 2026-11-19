@@ -353,10 +353,12 @@ test("neighborhood reload failure keeps the last good chart and explicitly repor
 test("failed new district clears the old district chart instead of showing another dong's prices", async()=> {
   await neighborhoodUI(async({elements,flush,payload})=>{
     const ui=initNeighborhood({getJSON:async path=>{
-      if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"},{code:"11110",name:"종로구"}]};
+      if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"},{code:"11110",name:"종로구"},{code:"31110",name:"울산 중구"}]};
       if(path.includes("11110")) throw new Error("offline"); return rawRegionalPayload(payload,"41135");
     },renderChart:()=>{}});
     ui.update({demo:false,payload:{},complexes:[]}); await flush();
+    assert.match(elements.neighborhoodDistrict.innerHTML,/서울 25개 구/);
+    assert.doesNotMatch(elements.neighborhoodDistrict.innerHTML,/울산/);
     elements.neighborhoodDistrict.value="11110";
     elements.neighborhoodDistrict.listeners.change(); await flush();
     assert.match(elements.neighborhoodChart.innerHTML,/불러오지 못/);

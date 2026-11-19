@@ -7,6 +7,7 @@ export function initNeighborhood({ getJSON }) {
   const number = n => n.toLocaleString("ko-KR");
   const stamp = iso => iso ? new Date(iso).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) : "확인 필요";
   const quick = {"41135":"분당 전체", "41465":"수지 전체", "41597":"동탄 전체"};
+  const trendRegions = [["11", "서울 25개 구"], ["41", "경기도"], ["26", "부산"], ["27", "대구"], ["30", "대전"]];
   const regionColors = ["#165dac", "#ae4800", "#007650", "#793894"];
   const areaDashes = {"59":"2 5", "74":"9 5", "84":"", all:"10 4 2 4"};
   let code="41135", dong="all", period=12, source=null, initialized=false, request=0;
@@ -144,12 +145,13 @@ export function initNeighborhood({ getJSON }) {
     try{
       const value=await getJSON('./data/districts.json');
       if(!Array.isArray(value.districts)||!value.districts.length||!value.districts.every(d=>/^\d{5}$/.test(d.code)&&typeof d.name==='string'))throw new Error();
-      districts=value.districts;
+      districts = value.districts.filter(d => trendRegions.some(([prefix]) => d.code.startsWith(prefix)));
+      if (!districts.length) throw new Error();
       const options = list => list.map(d => `<option value="${d.code}">${escape(quick[d.code] || d.name)}</option>`).join('');
-      $("neighborhoodDistrict").innerHTML =
-        `<optgroup label="빠른 선택">${options(districts.filter(d => quick[d.code]))}</optgroup>` +
-        `<optgroup label="서울 25개 구">${options(districts.filter(d => d.code.startsWith('11')))}</optgroup>` +
-        `<optgroup label="그 외 시·군·구">${options(districts.filter(d => !quick[d.code] && !d.code.startsWith('11')))}</optgroup>`;
+      const groups = [["빠른 선택", districts.filter(d => quick[d.code])], ...trendRegions.map(([prefix, label]) =>
+        [label, districts.filter(d => !quick[d.code] && d.code.startsWith(prefix))])];
+      $("neighborhoodDistrict").innerHTML = groups.filter(([, list]) => list.length)
+        .map(([label, list]) => `<optgroup label="${label}">${options(list)}</optgroup>`).join('');
       if(!districts.some(d=>d.code===code))code=districts[0].code;
       $("neighborhoodDistrict").value=code;initialized=true;await load();
     }catch{clear('지역 명부를 불러오지 못했습니다.');$("neighborhoodSource").textContent='동네 새로고침을 눌러 다시 시도하세요.';}
