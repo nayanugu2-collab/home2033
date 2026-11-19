@@ -17,7 +17,9 @@ import update
 from scripts.collect_nationwide import district_payload
 from scripts.trend_households import counts_by_trade_id, download_households, household_count
 
-PRIORITY = ['41135', '41465', '41597', '41290', '11740', '11215', '11710', '11200', '11590', '11650']
+GYEONGGI_BACKFILL_CODES = ('41171', '41173', '41210', '41285', '41287', '41111', '41113', '41115', '41117')
+PRIORITY = ('41135', '41465', '41597', *GYEONGGI_BACKFILL_CODES,
+            '41290', '11740', '11215', '11710', '11200', '11590', '11650')
 TREND_REGIONS = ('11', '41', '26', '27', '30')
 AREA_MASKS = {'59': 1, '74': 2, '84': 4}
 
@@ -104,7 +106,7 @@ def compact_json(path, value):
 
 
 def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None,
-                    household_lookup=None, verified_counts=None, seoul_backfill=False):
+                    household_lookup=None, verified_counts=None, seoul_backfill=False, gyeonggi_backfill=False):
     dest = dest or ROOT/'data/trends'
     nationwide = nationwide or ROOT/'data/nationwide'
     wanted = months_for(today)
@@ -167,7 +169,9 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     # Revalidate old snapshots after bootstrap, so late cancellations can be removed.
     old = sorted([(d, m) for d in ordered for m in states[d['code']]['months'].values()
                   if m['updatedAt'][:10] < (today-dt.timedelta(days=90)).isoformat()], key=lambda x:x[1]['updatedAt'])
-    if seoul_backfill:
+    if gyeonggi_backfill:
+        jobs = [(d, month) for d, month in [*jobs, *missing_members] if d['code'] in GYEONGGI_BACKFILL_CODES]
+    elif seoul_backfill:
         jobs = seoul_jobs
     else:
         tasks = [*priority_members, *seoul_jobs, *other_members[:max(0, budget//3)], *jobs,
@@ -234,6 +238,7 @@ def main():
     parser.add_argument('--budget', type=int, default=int(os.environ.get('HISTORY_MONTH_BUDGET', '1400')))
     parser.add_argument('--households-csv', type=Path, help='Use an official local CSV instead of downloading it')
     parser.add_argument('--seoul-backfill', action='store_true', default=os.environ.get('SEOUL_TREND_BACKFILL') == 'true')
+    parser.add_argument('--gyeonggi-backfill', action='store_true', default=os.environ.get('GYEONGGI_TREND_BACKFILL') == 'true')
     args = parser.parse_args()
     key = os.environ.get('MOLIT_SERVICE_KEY', '').strip()
     if args.budget and not key:
@@ -261,7 +266,8 @@ def main():
                            lambda code, month:update.fetch_month(key, code, month), args.budget,
                            household_lookup=lambda c: household_count(c, index),
                            verified_counts=counts_by_trade_id(index, registry) if index else None,
-                           seoul_backfill=args.seoul_backfill)
+                           seoul_backfill=args.seoul_backfill,
+                           gyeonggi_backfill=args.gyeonggi_backfill)
 
 
 if __name__ == '__main__':

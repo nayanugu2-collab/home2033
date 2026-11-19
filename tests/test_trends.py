@@ -26,6 +26,28 @@ class TrendTests(unittest.TestCase):
             index = json.loads((root/'trends/index.json').read_text(encoding='utf-8'))
             self.assertEqual([d['memberMonths'] for d in index['districts']], [0, 1, 1])
 
+    def test_gyeonggi_backfill_resumes_only_requested_districts(self):
+        with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
+            root = Path(folder)
+            today = dt.date(2026, 11, 19)
+            districts = [{'code': code, 'name': code}
+                         for code in ('41110', '41111', '41171', '41210', '41281', '41285', '11680')]
+            calls = []
+
+            def fetch(code, month):
+                calls.append((code, month))
+                return []
+
+            for budget in (1, 1080):
+                result = collect_history(districts, today, update.load_registry(), fetch,
+                                         budget, root/'trends', root/'raw', gyeonggi_backfill=True)
+                self.assertEqual(result, 0)
+            self.assertCountEqual(calls, [(code, month.replace('-', ''))
+                                          for code in ('41111', '41171', '41210', '41285')
+                                          for month in months_for(today)])
+            index = json.loads((root/'trends/index.json').read_text(encoding='utf-8'))
+            self.assertEqual([d['memberMonths'] for d in index['districts']], [0, 120, 120, 120, 0, 120, 0])
+
     def raw(self, **changes):
         return dict(dict(sggCd='41135', umdCd='11000', umdNm='백현동', aptNm='시험', jibun='1',
                          dealYear='2017', dealMonth='01', dealDay='10', excluUseAr='84.9', dealAmount='100,000'), **changes)

@@ -68,14 +68,29 @@ jobs:
             git commit -m 'Update nationwide apartment search data'
             git push
           fi
+      - name: Check requested Gyeonggi trend coverage
+        id: gyeonggi
+        if: github.event_name == 'push' && hashFiles('data/trends/index.json') != ''
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          from scripts.collect_trends import GYEONGGI_BACKFILL_CODES
+
+          index = json.loads(Path('data/trends/index.json').read_text(encoding='utf-8'))
+          complete = {d['code'] for d in index['districts'] if d.get('memberMonths') == d['totalMonths'] == 120}
+          pending = not complete.issuperset(GYEONGGI_BACKFILL_CODES)
+          print(f'pending={str(pending).lower()}')
+          PY
       - name: Collect resumable ten-year regional trend statistics
         id: trends
-        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == '' || hashFiles('data/trends/complex-coverage-v2.json') == '' || hashFiles('data/trends/seoul-coverage.json') == ''
+        if: github.event_name != 'push' || steps.gyeonggi.outputs.pending == 'true' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == '' || hashFiles('data/trends/complex-coverage-v2.json') == '' || hashFiles('data/trends/seoul-coverage.json') == ''
         continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
-          HISTORY_MONTH_BUDGET: ${{ github.event_name == 'push' && (hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' && '3000' || (hashFiles('data/trends/complex-coverage.json') != '' && '0' || '360')) || '1400' }}
-          SEOUL_TREND_BACKFILL: ${{ github.event_name == 'push' && hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' }}
+          GYEONGGI_TREND_BACKFILL: ${{ steps.gyeonggi.outputs.pending == 'true' }}
+          HISTORY_MONTH_BUDGET: ${{ steps.gyeonggi.outputs.pending == 'true' && '1080' || github.event_name == 'push' && (hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' && '3000' || (hashFiles('data/trends/complex-coverage.json') != '' && '0' || '360')) || '1400' }}
+          SEOUL_TREND_BACKFILL: ${{ steps.gyeonggi.outputs.pending != 'true' && github.event_name == 'push' && hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' }}
           REFRESH_TREND_HOUSEHOLDS: '1'
         run: python scripts/collect_trends.py
       - name: Commit regional trend statistics
