@@ -103,7 +103,7 @@ def compact_json(path, value):
 
 
 def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None,
-                    household_lookup=None, verified_counts=None):
+                    household_lookup=None, verified_counts=None, seoul_backfill=False):
     dest = dest or ROOT/'data/trends'
     nationwide = nationwide or ROOT/'data/nationwide'
     wanted = months_for(today)
@@ -158,12 +158,19 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     quick_codes = set(PRIORITY[:3])
     priority_members = [task for task in missing_members if task[0]['code'] in quick_codes]
     other_members = [task for task in missing_members if task[0]['code'] not in quick_codes]
+    # Update each Seoul district's recent months before moving on to older years.
+    seoul = [d for d in ordered if d['code'].startswith('11')]
+    seoul_jobs = [(d, month) for month in reversed(wanted) for d in seoul
+                  if 'members' not in states[d['code']]['months'].get(month, {})]
     # Revalidate old snapshots after bootstrap, so late cancellations can be removed.
     old = sorted([(d, m) for d in ordered for m in states[d['code']]['months'].values()
                   if m['updatedAt'][:10] < (today-dt.timedelta(days=90)).isoformat()], key=lambda x:x[1]['updatedAt'])
-    jobs = list({(d['code'], month): (d, month) for d, month in
-                 [*priority_members, *other_members[:max(0, budget//3)], *jobs, *other_members,
-                  *((d, m['month']) for d, m in old)]}.values())
+    if seoul_backfill:
+        jobs = seoul_jobs
+    else:
+        tasks = [*priority_members, *seoul_jobs, *other_members[:max(0, budget//3)], *jobs,
+                 *other_members, *((d, m['month']) for d, m in old)]
+        jobs = list({(d['code'], month): (d, month) for d, month in tasks}.values())
     jobs = jobs[:max(0, budget)]
     stop = threading.Event(); failures = 0
     reasons = {}
@@ -183,7 +190,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
             reason = 'API_'+match.group(1) if match else type(exc).__name__
             if match: stop.set()
             return d['code'], month, None, True, reason
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8 if seoul_backfill else 6) as pool:
         for i, (code, month, value, attempted, reason) in enumerate(pool.map(job, jobs), 1):
             if value is not None:
                 states[code]['months'][month] = value
@@ -203,6 +210,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         state['windowStart'] = wanted[0]
         compact_json(dest/(code+'.json'), state)
         index.append({'code':code,'name':d['name'],'availableMonths':len(state['months']),
+                      'memberMonths':sum('members' in m for m in state['months']),
                       'totalMonths':len(wanted),'failedMonths':len(state['failedMonths'])})
     compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'districts':index,
                                     'failedRequests':failures,'failureReasons':reasons,'monthBudget':budget,
@@ -212,6 +220,9 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     compact_json(dest/'complex-coverage.json', {'started': True})
     if verified_counts:
         compact_json(dest/'complex-coverage-v2.json', {'verifiedHouseholds': True})
+    if seoul_backfill or (seoul and all(row['memberMonths'] == len(wanted) for row in index if row['code'].startswith('11'))):
+        complete = sum(row['memberMonths'] == len(wanted) for row in index if row['code'].startswith('11'))
+        compact_json(dest/'seoul-coverage.json', {'districts': len(seoul), 'completeDistricts': complete})
     print(f'10년 추세: 지역 {len(index)}개 · 완성 {sum(d["availableMonths"]==120 for d in index)}개 · 실패 {failures}', flush=True)
     return 1 if failures else 0
 
@@ -220,6 +231,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--budget', type=int, default=int(os.environ.get('HISTORY_MONTH_BUDGET', '1400')))
     parser.add_argument('--households-csv', type=Path, help='Use an official local CSV instead of downloading it')
+    parser.add_argument('--seoul-backfill', action='store_true', default=os.environ.get('SEOUL_TREND_BACKFILL') == 'true')
     args = parser.parse_args()
     key = os.environ.get('MOLIT_SERVICE_KEY', '').strip()
     if args.budget and not key:
@@ -246,7 +258,8 @@ def main():
     return collect_history(districts, dt.datetime.now(update.KST).date(), registry,
                            lambda code, month:update.fetch_month(key, code, month), args.budget,
                            household_lookup=lambda c: household_count(c, index),
-                           verified_counts=counts_by_trade_id(index, registry) if index else None)
+                           verified_counts=counts_by_trade_id(index, registry) if index else None,
+                           seoul_backfill=args.seoul_backfill)
 
 
 if __name__ == '__main__':

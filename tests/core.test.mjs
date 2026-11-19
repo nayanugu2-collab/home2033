@@ -427,9 +427,11 @@ test("pinning a whole region retains it while selecting another region and creat
     assert.match(elements.neighborhoodPins.innerHTML,/분당 전체/);
     assert.match(elements.neighborhoodLegend.innerHTML,/수지 전체/);assert.match(elements.neighborhoodLegend.innerHTML,/분당 전체/);
     assert.match(elements.neighborhoodTitle.textContent,/외 1개 지역 비교/);
-    assert.match(elements.neighborhoodChart.innerHTML,/stroke-dasharray="10 5"/);
+    assert.match(elements.neighborhoodChart.innerHTML,/stroke="#165dac"[^>]*stroke-dasharray=""/);
+    assert.match(elements.neighborhoodChart.innerHTML,/stroke="#ae4800"[^>]*stroke-dasharray=""/);
     elements.neighborhoodArea.value="all-series";elements.neighborhoodArea.listeners.change();
     assert.equal((elements.neighborhoodLegend.innerHTML.match(/data-series=/g)||[]).length,8);
+    assert.match(elements.neighborhoodLegend.innerHTML,/stroke="#165dac"[^>]*stroke-dasharray="9 5"/);
     elements.neighborhoodPeriods.listeners.click({target:{closest:()=>({dataset:{period:"120"}})}});
     assert.match(elements.neighborhoodRange.textContent,/120개 계약월/);
     elements.neighborhoodPins.listeners.click({target:{closest:()=>({dataset:{unpin:"0"}})}});

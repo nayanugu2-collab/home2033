@@ -9,6 +9,23 @@ import update
 
 
 class TrendTests(unittest.TestCase):
+    def test_seoul_backfill_covers_each_district_before_older_months_and_leaves_other_regions_untouched(self):
+        with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
+            root = Path(folder)
+            calls = []
+
+            def fetch(code, month):
+                calls.append((code, month))
+                return []
+
+            districts = [{'code': code, 'name': code} for code in ('41135', '11680', '11710')]
+            result = collect_history(districts, dt.date(2026, 11, 19), update.load_registry(), fetch,
+                                     2, root/'trends', root/'raw', seoul_backfill=True)
+            self.assertEqual(result, 0)
+            self.assertCountEqual(calls, [('11680', '202611'), ('11710', '202611')])
+            index = json.loads((root/'trends/index.json').read_text(encoding='utf-8'))
+            self.assertEqual([d['memberMonths'] for d in index['districts']], [0, 1, 1])
+
     def raw(self, **changes):
         return dict(dict(sggCd='41135', umdCd='11000', umdNm='백현동', aptNm='시험', jibun='1',
                          dealYear='2017', dealMonth='01', dealDay='10', excluUseAr='84.9', dealAmount='100,000'), **changes)

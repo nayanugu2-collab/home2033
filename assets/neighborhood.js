@@ -7,12 +7,16 @@ export function initNeighborhood({ getJSON }) {
   const number = n => n.toLocaleString("ko-KR");
   const stamp = iso => iso ? new Date(iso).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) : "확인 필요";
   const quick = {"41135":"분당 전체", "41465":"수지 전체", "41597":"동탄 전체"};
-  const colors = {"59":"#b17b2d","74":"#31866d","84":"#466cb2",all:"#946b9b"};
-  const dashes = ["", "10 5", "3 5", "10 4 2 4"];
+  const regionColors = ["#165dac", "#ae4800", "#007650", "#793894"];
+  const areaDashes = {"59":"2 5", "74":"9 5", "84":"", all:"10 4 2 4"};
   let code="41135", dong="all", period=12, source=null, initialized=false, request=0;
   let districts=[], pinned=[], lines=[], scopes=[], hidden=new Set();
   const cache=new Map(), pending=new Map(), warnings=new Map();
   const scopeKey=s=>s.code+":"+s.dong;
+  function colorIndex(scope) {
+    const saved = pinned.find(item => scopeKey(item) === scopeKey(scope));
+    return saved?.colorIndex ?? regionColors.findIndex((_, i) => !pinned.some(item => item.colorIndex === i));
+  }
   const districtName=code=>districts.find(d=>d.code===code)?.name || code;
   const labelFor=(c,d)=>d==="all" ? (quick[c] || districtName(c)+" 전체") : districtName(c)+" · "+(cache.get(c)?.months.flatMap(m=>m.rows).find(r=>r.dongCode===d)?.dongName || d);
   const areaLabel=area=>area==="all"?"전체 면적":area+"㎡급";
@@ -44,9 +48,9 @@ export function initNeighborhood({ getJSON }) {
     const complexText = coveredMonths ? (complete ? "" : "집계된 ") + number(complexCount) + "개 단지" : "단지 수 집계 중";
     const householdText = !coveredMonths || (complexCount > 0 && complexCount === unknown)
       ? "확인된 세대수 없음" : (complete && !unknown ? "총 " : "확인된 세대수 ") + number(households) + "세대";
-    return `<div><span>${title} · 거래 반영</span><b>${complexText}</b><small class="trend-households">${householdText}</small>
+    return `<div style="border-color:${regionColors[colorIndex(scope)]}"><span>${title} · 거래 반영</span><b>${complexText}</b><small class="trend-households">${householdText}</small>
       ${unknown ? `<small>세대수 미확인 ${number(unknown)}개 단지</small>` : ""}
-      <small>가격 자료 ${available}/${period}개월${coveredMonths < available ? ` · 단지 집계 ${coveredMonths}/${period}개월` : ""}</small></div>`;
+      <small>가격 자료 ${available}/${period}개월${!complete ? ` · 단지 집계 ${coveredMonths}/${period}개월` : ""}</small></div>`;
   }
   function plot() {
     const visible=lines.filter(l=>!hidden.has(l.id));
@@ -60,8 +64,14 @@ export function initNeighborhood({ getJSON }) {
     for(let i=0;i<5;i++){const value=low+(high-low)*i/4,yy=y(value);svg+='<line class="grid-line" x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'"/><text x="3" y="'+(yy+5)+'">'+value.toFixed(1)+'</text>';}
     for(let i=0;i<period;i++)if(i%Math.ceil((period-1)/5)===0 || i===period-1)svg+='<text text-anchor="middle" x="'+x(i)+'" y="'+(H-8)+'">'+lines[0].points[i].month.slice(2).replace('-','.')+'</text>';
     for(const line of visible){let path='',last=false;for(let i=0;i<period;i++){const p=line.points[i];if(p.price==null){last=false;continue;}path+=(last?' L ':' M ')+x(i)+' '+y(p.price);last=true;}
-      svg+='<path d="'+path+'" fill="none" stroke="'+line.color+'" stroke-width="2.6" stroke-dasharray="'+line.dash+'"/>';
-      line.points.forEach((p,i)=>{if(p.price==null)return;const description=line.label+' · '+p.month+' · '+money(p.price)+'억원 · '+p.count+'건'+(p.count<3?' · 거래 부족':'');svg+='<circle tabindex="0" data-line="'+lines.indexOf(line)+'" data-month="'+i+'" cx="'+x(i)+'" cy="'+y(p.price)+'" r="'+(period>36?2.8:4.5)+'" fill="'+line.color+'" aria-label="'+escape(description)+'"><title>'+escape(description)+'</title></circle>';});
+      svg+='<path d="'+path+'" fill="none" stroke="'+line.color+'" stroke-width="2.3" stroke-dasharray="'+line.dash+'" vector-effect="non-scaling-stroke"/>';
+      line.points.forEach((p,i)=>{
+        if(p.price==null)return;
+        const description=line.label+' · '+p.month+' · '+money(p.price)+'억원 · '+p.count+'건'+(p.count<3?' · 거래 부족':'');
+        const isolated = line.points[i-1]?.price == null && line.points[i+1]?.price == null;
+        const fill = period <= 12 || isolated ? line.color : 'transparent';
+        svg+='<circle tabindex="0" data-line="'+lines.indexOf(line)+'" data-month="'+i+'" cx="'+x(i)+'" cy="'+y(p.price)+'" r="4.5" fill="'+fill+'" aria-label="'+escape(description)+'"><title>'+escape(description)+'</title></circle>';
+      });
     }
     $("neighborhoodChart").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="지역·면적별 월별 실거래 중앙값, 억원. 빈 월은 연결하지 않습니다.">'+svg+'</svg>';
   }
@@ -69,12 +79,12 @@ export function initNeighborhood({ getJSON }) {
     const current={code,dong};
     scopes=[current,...pinned.filter(s=>scopeKey(s)!==scopeKey(current))];
     $("neighborhoodTitle").textContent=(source?.demo?'[샘플] ':'')+labelFor(code,dong)+(scopes.length>1?' 외 '+(scopes.length-1)+'개 지역 비교':'');
-    $("neighborhoodPins").innerHTML=pinned.map((s,i)=>'<button class="trend-pin" type="button" data-unpin="'+i+'" aria-label="'+escape(labelFor(s.code,s.dong))+' 비교 고정 해제">'+escape(labelFor(s.code,s.dong))+' ×</button>').join('');
+    $("neighborhoodPins").innerHTML=pinned.map((s,i)=>'<button class="trend-pin" type="button" data-unpin="'+i+'" aria-label="'+escape(labelFor(s.code,s.dong))+' 비교 고정 해제"><i class="trend-region-dot" style="background:'+regionColors[s.colorIndex]+'" aria-hidden="true"></i>'+escape(labelFor(s.code,s.dong))+' ×</button>').join('');
     $("neighborhoodPin").disabled=pinned.some(s=>scopeKey(s)===scopeKey(current))||pinned.length>=3||!cache.has(code);
     lines=[];
-    for(const [si,s] of scopes.entries())for(const band of bands()){
+    for(const s of scopes)for(const band of bands()){
       const value=cache.get(s.code); if(!value)continue;
-      lines.push({id:scopeKey(s)+':'+band,label:labelFor(s.code,s.dong)+' · '+areaLabel(band),color:colors[band],dash:dashes[si],points:regionalSeries(value,s.dong,band,day(),period)});
+      lines.push({id:scopeKey(s)+':'+band,label:labelFor(s.code,s.dong)+' · '+areaLabel(band),color:regionColors[colorIndex(s)],dash:areaDashes[band],points:regionalSeries(value,s.dong,band,day(),period)});
     }
     if(!lines.length){clear('동네 자료를 불러오지 못했습니다. 새로고침으로 다시 시도하세요.');$("neighborhoodRange").textContent='';}
     else{
@@ -135,7 +145,11 @@ export function initNeighborhood({ getJSON }) {
       const value=await getJSON('./data/districts.json');
       if(!Array.isArray(value.districts)||!value.districts.length||!value.districts.every(d=>/^\d{5}$/.test(d.code)&&typeof d.name==='string'))throw new Error();
       districts=value.districts;
-      $("neighborhoodDistrict").innerHTML='<optgroup label="빠른 선택">'+Object.entries(quick).filter(([c])=>districts.some(d=>d.code===c)).map(([c,name])=>'<option value="'+c+'">'+name+'</option>').join('')+'</optgroup><optgroup label="전국 시·군·구">'+districts.filter(d=>!quick[d.code]).map(d=>'<option value="'+d.code+'">'+escape(d.name)+'</option>').join('')+'</optgroup>';
+      const options = list => list.map(d => `<option value="${d.code}">${escape(quick[d.code] || d.name)}</option>`).join('');
+      $("neighborhoodDistrict").innerHTML =
+        `<optgroup label="빠른 선택">${options(districts.filter(d => quick[d.code]))}</optgroup>` +
+        `<optgroup label="서울 25개 구">${options(districts.filter(d => d.code.startsWith('11')))}</optgroup>` +
+        `<optgroup label="그 외 시·군·구">${options(districts.filter(d => !quick[d.code] && !d.code.startsWith('11')))}</optgroup>`;
       if(!districts.some(d=>d.code===code))code=districts[0].code;
       $("neighborhoodDistrict").value=code;initialized=true;await load();
     }catch{clear('지역 명부를 불러오지 못했습니다.');$("neighborhoodSource").textContent='동네 새로고침을 눌러 다시 시도하세요.';}
@@ -144,7 +158,12 @@ export function initNeighborhood({ getJSON }) {
   $("neighborhoodDong").addEventListener('change',()=>{dong=$("neighborhoodDong").value;render();});
   $("neighborhoodArea").addEventListener('change',()=>{hidden.clear();render();});
   $("neighborhoodPeriods").addEventListener('click',e=>{const b=e.target.closest('[data-period]');if(!b)return;period=Number(b.dataset.period);$("neighborhoodPeriods").querySelectorAll('button').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});render();});
-  $("neighborhoodPin").addEventListener('click',()=>{const s={code,dong};if(pinned.length<3&&!pinned.some(x=>scopeKey(x)===scopeKey(s))){pinned.push(s);render();}});
+  $("neighborhoodPin").addEventListener('click',()=>{
+    const scope = {code, dong};
+    if (pinned.length >= 3 || pinned.some(item => scopeKey(item) === scopeKey(scope))) return;
+    pinned.push({...scope, colorIndex: colorIndex(scope)});
+    render();
+  });
   $("neighborhoodPins").addEventListener('click',e=>{const b=e.target.closest('[data-unpin]');if(b){pinned.splice(Number(b.dataset.unpin),1);render();}});
   $("neighborhoodLegend").addEventListener('click',e=>{const b=e.target.closest('[data-series]');if(b){const id=b.dataset.series;hidden.has(id)?hidden.delete(id):hidden.add(id);render();}});
   $("neighborhoodRefresh").addEventListener('click',()=>initialized?load(true):start());

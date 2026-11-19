@@ -1,5 +1,5 @@
 import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=regional-history-v2";
-import { initNeighborhood } from "./neighborhood.js?v=regional-coverage";
+import { initNeighborhood } from "./neighborhood.js?v=seoul-comparison";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));

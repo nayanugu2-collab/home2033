@@ -70,11 +70,12 @@ jobs:
           fi
       - name: Collect resumable ten-year regional trend statistics
         id: trends
-        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == '' || hashFiles('data/trends/complex-coverage-v2.json') == ''
+        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == '' || hashFiles('data/trends/complex-coverage-v2.json') == '' || hashFiles('data/trends/seoul-coverage.json') == ''
         continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
-          HISTORY_MONTH_BUDGET: ${{ github.event_name == 'push' && (hashFiles('data/trends/complex-coverage.json') != '' && '0' || '360') || '1400' }}
+          HISTORY_MONTH_BUDGET: ${{ github.event_name == 'push' && (hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' && '3000' || (hashFiles('data/trends/complex-coverage.json') != '' && '0' || '360')) || '1400' }}
+          SEOUL_TREND_BACKFILL: ${{ github.event_name == 'push' && hashFiles('data/trends/index.json') != '' && hashFiles('data/trends/seoul-coverage.json') == '' }}
           REFRESH_TREND_HOUSEHOLDS: '1'
         run: python scripts/collect_trends.py
       - name: Commit regional trend statistics

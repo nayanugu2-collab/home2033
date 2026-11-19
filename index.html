@@ -8,7 +8,7 @@
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=regional-history-v2">
-  <link rel="stylesheet" href="./assets/neighborhood.css?v=regional-coverage">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=seoul-comparison">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -33,7 +33,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=regional-coverage"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=seoul-comparison"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -104,7 +104,7 @@
       <div id="neighborhoodLegend" class="trend-legend" aria-label="그래프 범례, 누르면 표시 전환"></div>
       <div class="neighborhood-body"><div><div class="chart" id="neighborhoodChart"><p class="muted small">지역 통계를 불러오는 중…</p></div><p class="neighborhood-point" id="neighborhoodPoint" aria-live="polite"></p></div><div class="neighborhood-metrics" id="neighborhoodMetrics"></div></div>
       <p class="small muted trend-coverage-note">반영 단지는 선택한 기간·면적에 거래가 있는 단지를 한 번씩 셉니다. 세대수는 해당 단지의 전체 세대수를 합산합니다.</p>
-      <p class="small muted">월별 실거래 중앙값 · 억원. 색상은 면적, 선 모양은 지역을 구분합니다. 범례를 누르면 선을 숨기거나 표시할 수 있습니다. 점을 누르면 가격·거래 건수가 나옵니다. 전체 면적 통합에는 59·74·84㎡ 외의 면적도 포함합니다.</p>
+      <p class="small muted">월별 실거래 중앙값 · 억원. 지역은 색으로, 면적은 선 모양으로 구분합니다. 범례를 눌러 선을 숨기거나 다시 표시할 수 있습니다. 전체 면적에는 59·74·84㎡ 외의 면적도 포함합니다.</p>
       <p class="neighborhood-caution">취소 거래 제외 · 거래된 단지·층·연식·면적 구성이 달라져도 중앙값이 변합니다. 공식 가격지수나 동일 주택 상승률이 아닙니다. 3건 미만은 ‘거래 부족’, 아직 수집하지 않은 기간은 ‘미수집’으로 구분합니다. 이번 달은 집계 중이며 신고 지연이 있을 수 있습니다.</p>
       <details><summary>지역·면적별 월별 가격과 거래 건수 보기</summary><div class="scroll-table"><table class="history-table"><caption class="sr-only">지역·면적·계약월별 중앙값과 거래 건수</caption><thead><tr><th>지역 / 면적</th><th>계약월</th><th>중앙값 (억원)</th><th>거래 건수</th><th>거래 단지 수</th></tr></thead><tbody id="neighborhoodRows"></tbody></table></div></details>
       <p class="small muted">지역 전체는 해당 시·군·구 경계 기준입니다. 동탄 전체는 현재 동탄구, 분당·수지는 각각 분당구·수지구입니다. 세부 동네는 법정동 코드로 구분합니다. 관심 목록·1.5배·500세대 필터는 적용하지 않습니다. 과거 수집이 끝나지 않은 지역은 확보된 구간만 그리며 매일 자동 보충합니다.</p>
