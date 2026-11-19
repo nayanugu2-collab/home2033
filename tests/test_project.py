@@ -31,7 +31,7 @@ class ProjectContractTests(unittest.TestCase):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         ids = re.findall(r'\bid="([^"]+)"', html)
         self.assertEqual(len(ids), len(set(ids)))
-        js = (ROOT / "assets/app.js").read_text(encoding="utf-8")
+        js = (ROOT / "assets/app.js").read_text(encoding="utf-8") + (ROOT / "assets/neighborhood.js").read_text(encoding="utf-8")
         for name in re.findall(r'\$\("([^"]+)"\)', js):
             self.assertIn(name, ids)
 

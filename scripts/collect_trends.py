@@ -4,6 +4,8 @@ import concurrent.futures
 import datetime as dt
 import json
 import os
+import math
+import re
 from pathlib import Path
 import statistics
 import sys
@@ -22,12 +24,23 @@ def months_for(today, length=120):
     return [update.shift_month(first, i).strftime('%Y-%m') for i in range(length)]
 
 
+def identity_conflicts(payload, month):
+    known = {c['id']: c for c in payload['complexes']}
+    names = {}
+    for t in payload['trades']:
+        c = known.get(t['complexId'])
+        if c and not t.get('canceled') and t['date'].startswith(month):
+            names.setdefault(c['legalDongCode'], set()).add(c['legalDong'])
+    return {code for code, values in names.items() if len(values) > 1}
+
+
 def aggregate_month(payload, month):
     known = {c['id']: c for c in payload['complexes']}
     groups = {}
+    conflicts = identity_conflicts(payload, month)
     for t in payload['trades']:
         c = known.get(t['complexId'])
-        if not c or c.get('comparisonEligible') is False or t.get('canceled') or not t['date'].startswith(month):
+        if not c or c.get('comparisonEligible') is False or t.get('canceled') or not t['date'].startswith(month) or c['legalDongCode'] in conflicts:
             continue
         if t['legalDongCode'] != c['legalDongCode']:
             raise update.CollectionError('추세 거래 신원 오류')
@@ -40,6 +53,28 @@ def aggregate_month(payload, month):
     return [dict(dongCode=dong, dongName=name, area=band, priceManwon=statistics.median(values),
                  count=len(values), complexCount=len(identities))
             for (dong, name, band), (values, identities) in sorted(groups.items())]
+
+
+def summarize(payload, month, updated_at):
+    conflicts = identity_conflicts(payload, month)
+    return {'month': month, 'updatedAt': updated_at, 'rows': aggregate_month(payload, month),
+            'excludedIdentityConflicts': sum(t['legalDongCode'] in conflicts and not t.get('canceled')
+                                             and t['date'].startswith(month) for t in payload['trades'])}
+
+
+def valid_stored_month(month, code):
+    seen = set()
+    for row in month['rows']:
+        dong, band = row.get('dongCode'), row.get('area')
+        key = (dong, band)
+        if (key in seen or (dong != 'all' and (not isinstance(dong,str) or not re.fullmatch(r'\d{10}',dong) or not dong.startswith(code)))
+                or band not in ('all','59','74','84') or not isinstance(row.get('dongName'),str)
+                or not isinstance(row.get('priceManwon'),(int,float)) or not math.isfinite(row['priceManwon']) or row['priceManwon']<=0
+                or not isinstance(row.get('count'),int) or row['count']<1 or not isinstance(row.get('complexCount'),int)
+                or not 1<=row['complexCount']<=row['count']):
+            return False
+        seen.add(key)
+    return True
 
 
 def compact_json(path, value):
@@ -58,16 +93,18 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         code = d['code']; path = dest/(code+'.json')
         state = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {
             'schemaVersion': 1, 'kind': 'regional-monthly-median', 'districtCode': code, 'name': d['name'], 'months': []}
-        existing = {m['month']: m for m in state['months'] if m['month'] in wanted}
+        existing = {m['month']: m for m in state['months'] if m['month'] in wanted and valid_stored_month(m, code)}
         raw_path = nationwide/(code+'.json')
         if raw_path.exists():
             raw = json.loads(raw_path.read_text(encoding='utf-8'))
             # The first month in a rolling-year file is truncated: never seed it.
-            cutoff = update.window_start(dt.date.fromisoformat(raw['asOf'])).strftime('%Y-%m')
+            start = update.window_start(dt.date.fromisoformat(raw['asOf']))
+            cutoff = start.strftime('%Y-%m')
             for month in wanted:
-                if cutoff < month <= raw['asOf'][:7]:
-                    existing[month] = {'month': month, 'updatedAt': raw['updatedAt'],
-                                       'rows': aggregate_month(raw, month)}
+                full = cutoff < month or (cutoff == month and start.day == 1)
+                newer = month not in existing or raw['updatedAt'] >= existing[month]['updatedAt']
+                if full and month <= raw['asOf'][:7] and newer:
+                    existing[month] = summarize(raw, month, raw['updatedAt'])
         state['months'] = existing
         state['asOf'] = today.isoformat()
         state['failedMonths'] = []
@@ -88,8 +125,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
             first = dt.date.fromisoformat(month+'-01')
             value = district_payload(d['code'], d['name'], [month.replace('-', '')], today, registry,
                                      fetcher, start=first)
-            result = {'month': month, 'updatedAt': dt.datetime.now(update.KST).isoformat(),
-                      'rows': aggregate_month(value, month)}
+            result = summarize(value, month, dt.datetime.now(update.KST).isoformat())
             return d['code'], month, result, True
         except Exception:
             return d['code'], month, None, True
@@ -115,6 +151,8 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'districts':index,
                                     'failedRequests':failures,'monthBudget':budget,
                                     'source':'https://www.data.go.kr/data/15126468/openapi.do'})
+    if not failures:
+        compact_json(dest/'v2.complete.json', {'collectorVersion':2,'checkedAt':today.isoformat()})
     print(f'10년 추세: 지역 {len(index)}개 · 완성 {sum(d["availableMonths"]==120 for d in index)}개 · 실패 {failures}', flush=True)
     return 1 if failures else 0
 

@@ -34,7 +34,7 @@ class TrendTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
             root=Path(folder); dest=root/'trends'; dest.mkdir()
             old={'schemaVersion':1,'kind':'regional-monthly-median','districtCode':'41135','name':'분당','months':[
-                {'month':'2017-01','updatedAt':'2026-11-01T00:00:00+09:00','rows':[{'keep':1}]}]}
+                {'month':'2017-01','updatedAt':'2026-11-01T00:00:00+09:00','rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':1}]}]}
             (dest/'41135.json').write_text(json.dumps(old),encoding='utf-8')
             def fail(*_):raise RuntimeError('secret-in-url')
             result=collect_history([{'code':'41135','name':'분당'}],dt.date(2026,11,19),update.load_registry(),fail,1,dest,root/'raw')
@@ -54,3 +54,27 @@ class TrendTests(unittest.TestCase):
             self.assertEqual(len(value['months']),12)
             self.assertEqual(value['months'][0]['month'],'2025-12')
             self.assertEqual(value['months'][-1]['rows'],[])
+
+    def test_month_end_seed_keeps_complete_first_month_and_does_not_downgrade_newer_history(self):
+        with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
+            root=Path(folder); raw=root/'raw'; raw.mkdir(); dest=root/'trends'; dest.mkdir()
+            p={'asOf':'2026-10-31','updatedAt':'2026-10-31T00:00:00+09:00','complexes':[],'trades':[]}
+            (raw/'41135.json').write_text(json.dumps(p),encoding='utf-8')
+            newer={'schemaVersion':1,'kind':'regional-monthly-median','districtCode':'41135','name':'분당','months':[
+                {'month':'2026-01','updatedAt':'2026-11-01T00:00:00+09:00','rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':2}]}]}
+            (dest/'41135.json').write_text(json.dumps(newer),encoding='utf-8')
+            collect_history([{'code':'41135','name':'분당'}],dt.date(2026,10,31),update.load_registry(),lambda *_:[],0,dest,raw)
+            result=json.loads((dest/'41135.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(result['months']),12)
+            self.assertEqual(result['months'][0]['month'],'2025-11')
+            self.assertEqual(next(m for m in result['months'] if m['month']=='2026-01')['rows'],[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':2}])
+
+    def test_conflicting_dong_names_with_same_code_are_excluded_from_both_dong_and_whole_region(self):
+        from scripts.collect_trends import summarize
+        p=district_payload('41135','분당',['201701'],dt.date(2026,11,19),update.load_registry(),
+            lambda *_:[self.raw(),self.raw(umdNm='다른동',aptNm='다른단지',jibun='2'),self.raw(umdCd='10500',umdNm='서현동',jibun='3',dealAmount='900,000')],start=dt.date(2017,1,1))
+        result=summarize(p,'2017-01','2026-11-19T00:00:00+09:00')
+        self.assertEqual(result['excludedIdentityConflicts'],2)
+        self.assertFalse(any(r['dongCode']=='4113511000' for r in result['rows']))
+        total=next(r for r in result['rows'] if r['dongCode']=='all' and r['area']=='all')
+        self.assertEqual((total['count'],total['priceManwon']),(1,900000))

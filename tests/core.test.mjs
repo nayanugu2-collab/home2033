@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
-import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
+import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, checkTrendPayload, regionalSeries, rawRegionalPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
 
 import { initNeighborhood } from "../assets/neighborhood.js";
 
@@ -329,24 +329,24 @@ test("dong calendar buckets handle January rollover and leap February without dr
 
 async function neighborhoodUI(run) {
   const previous = globalThis.document, elements = {};
-  for (const id of ["neighborhoodChart","neighborhoodMetrics","neighborhoodRows","neighborhoodPoint","neighborhoodTitle","neighborhoodRange","neighborhoodArea","neighborhoodSource","neighborhoodDong","neighborhoodDistrict","neighborhoodPeriods","neighborhoodRefresh"])
+  for (const id of ["neighborhoodChart","neighborhoodMetrics","neighborhoodRows","neighborhoodPoint","neighborhoodTitle","neighborhoodRange","neighborhoodArea","neighborhoodSource","neighborhoodDong","neighborhoodDistrict","neighborhoodPeriods","neighborhoodRefresh","neighborhoodPin","neighborhoodPins","neighborhoodLegend","neighborhoodCoverage"])
     elements[id] = {value:id==="neighborhoodArea"?"84":"",textContent:"",innerHTML:"",listeners:{},addEventListener(type,cb){this.listeners[type]=cb;},querySelectorAll(){return [];}};
   globalThis.document = {getElementById:id=>elements[id]};
   const flush = async()=>{for(let i=0;i<3;i++) await new Promise(resolve=>setImmediate(resolve));};
-  const payload = {...neighborhoodPayload([neighborhoodTrade()]),updatedAt:"2026-10-26T10:00:00+09:00"};
+  const payload = {...neighborhoodPayload([neighborhoodTrade()]),asOf:today, updatedAt:"2026-10-26T10:00:00+09:00"};
   try { await run({elements,flush,payload}); } finally {globalThis.document=previous;}
 }
 test("neighborhood reload failure keeps the last good chart and explicitly reports its timestamp", async()=> {
   await neighborhoodUI(async({elements,flush,payload})=>{
-    let fail=false, renders=0;
+    let fail=false;
     const ui=initNeighborhood({getJSON:async path=>{
       if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"}]};
-      if(fail) throw new Error("offline"); return payload;
-    },renderChart:()=>{renders++;}});
+      if(fail) throw new Error("offline"); return rawRegionalPayload(payload,"41135");
+    }});
     ui.update({demo:false,payload:{},complexes:[]}); await flush();
-    assert.equal(renders,1);
+    assert.match(elements.neighborhoodChart.innerHTML,/<svg/);
     fail=true; elements.neighborhoodRefresh.listeners.click(); await flush();
-    assert.equal(renders,2); assert.match(elements.neighborhoodSource.textContent,/마지막 정상 자료 유지/);
+    assert.match(elements.neighborhoodChart.innerHTML,/<svg/); assert.match(elements.neighborhoodCoverage.textContent,/마지막 정상 자료 유지/);
     assert.match(elements.neighborhoodSource.textContent,/2026/);
   });
 });
@@ -354,13 +354,13 @@ test("failed new district clears the old district chart instead of showing anoth
   await neighborhoodUI(async({elements,flush,payload})=>{
     const ui=initNeighborhood({getJSON:async path=>{
       if(path.includes("districts.json")) return {districts:[{code:"41135",name:"분당구"},{code:"11110",name:"종로구"}]};
-      if(path.includes("11110")) throw new Error("offline"); return payload;
+      if(path.includes("11110")) throw new Error("offline"); return rawRegionalPayload(payload,"41135");
     },renderChart:()=>{}});
     ui.update({demo:false,payload:{},complexes:[]}); await flush();
     elements.neighborhoodDistrict.value="11110";
     elements.neighborhoodDistrict.listeners.change(); await flush();
     assert.match(elements.neighborhoodChart.innerHTML,/불러오지 못/);
-    assert.equal(elements.neighborhoodMetrics.textContent,"");
+    assert.equal(elements.neighborhoodMetrics.innerHTML,"");
     assert.equal(elements.neighborhoodDong.disabled,true);
   });
 });
@@ -374,9 +374,73 @@ test("switching to sample mode cannot be overwritten by an earlier official dist
     ui.update({demo:false,payload:{},complexes:[]}); await flush();
     ui.update({demo:true,payload:{asOf:today,trades:payload.trades},complexes:payload.complexes}); await flush();
     assert.match(elements.neighborhoodTitle.textContent,/샘플/);
-    resolveDistrict(payload); await flush();
+    resolveDistrict(rawRegionalPayload(payload,"41135")); await flush();
     assert.match(elements.neighborhoodTitle.textContent,/샘플/);
     assert.match(elements.neighborhoodSource.textContent,/가상 거래/);
     assert.equal(districtCalls,1);
   });
+});
+
+test("regional history supports 6, 12, 24, 36, 60, 120 months without annual truncation",()=>{
+  const row=neighborhoodTrade({date:"2017-01-10"});
+  assert.equal(neighborhoodSeries([row],neighborhoodComplexes,"all","all","2026-11-19",120).find(p=>p.month==="2017-01").count,1);
+  for(const period of [6,12,24,36,60,120])assert.equal(regionalSeries({months:[]},"all","84","2026-11-19",period).length,period);
+});
+test("regional statistics distinguish missing collection from collected zero transactions",()=>{
+  const p={months:[{month:"2026-09",updatedAt:"2026-10-01T00:00:00Z",rows:[]}]};
+  const s=regionalSeries(p,"all","84",today,6);
+  assert.deepEqual([s.at(-1).available,s.at(-1).count,s.at(-1).price],[false,null,null]);
+  assert.deepEqual([s.at(-2).available,s.at(-2).count,s.at(-2).price],[true,0,null]);
+});
+test("all-area raw fallback includes other sizes and calculates a contract-weighted district median",()=>{
+  const p={...neighborhoodPayload([neighborhoodTrade(),neighborhoodTrade({priceManwon:110000}),neighborhoodTrade({complexId:"b",area:101,priceManwon:300000})]),asOf:today};
+  const value=rawRegionalPayload(p,"41135");
+  assert.equal(regionalSeries(value,"all","all",today).at(-1).price,11);
+  assert.equal(regionalSeries(value,"all","all",today).at(-1).count,3);
+  assert.equal(regionalSeries(value,"all","84",today).at(-1).price,10.5);
+});
+test("history validator rejects wrong districts, duplicate months, duplicate statistics and invalid sample counts",()=>{
+  const good=rawRegionalPayload({...neighborhoodPayload([neighborhoodTrade()]),asOf:today},"41135");
+  assert.equal(checkTrendPayload(good,"41135"),good);
+  assert.throws(()=>checkTrendPayload(good,"11110"));
+  assert.throws(()=>checkTrendPayload({...good,months:[good.months[0],good.months[0]]},"41135"));
+  const last=good.months.at(-1),row=last.rows[0];
+  for(const rows of [[row,row],[{...row,count:0}],[{...row,complexCount:100}],[{...row,dongCode:"1111010100"}]])
+    assert.throws(()=>checkTrendPayload({...good,months:[{...last,rows}]},"41135"));
+});
+test("raw fallback includes a complete first month at month end and never labels a partial first month complete",()=>{
+  const p={...neighborhoodPayload([]),asOf:"2026-10-31"};
+  assert.equal(rawRegionalPayload(p,"41135").months.length,12);
+  assert.equal(rawRegionalPayload({...p,asOf:"2026-10-26"},"41135").months[0].month,"2025-11");
+});
+
+test("pinning a whole region retains it while selecting another region and creates independent area lines",async()=>{
+  await neighborhoodUI(async({elements,flush,payload})=>{
+    const second={...payload,districtCode:"41465",complexes:payload.complexes.map(c=>({...c,districtCode:"41465",legalDongCode:"4146510300",legalDong:"동천동"})),trades:payload.trades.map(t=>({...t,legalDongCode:"4146510300"}))};
+    const ui=initNeighborhood({getJSON:async path=>{
+      if(path.includes("districts.json"))return{districts:[{code:"41135",name:"분당구"},{code:"41465",name:"수지구"}]};
+      return path.includes("41465")?rawRegionalPayload(second,"41465"):rawRegionalPayload(payload,"41135");
+    }});
+    ui.update({demo:false,payload:{},complexes:[]});await flush();
+    elements.neighborhoodPin.listeners.click();
+    elements.neighborhoodDistrict.value="41465";elements.neighborhoodDistrict.listeners.change();await flush();
+    assert.match(elements.neighborhoodPins.innerHTML,/분당 전체/);
+    assert.match(elements.neighborhoodLegend.innerHTML,/수지 전체/);assert.match(elements.neighborhoodLegend.innerHTML,/분당 전체/);
+    assert.match(elements.neighborhoodTitle.textContent,/외 1개 지역 비교/);
+    assert.match(elements.neighborhoodChart.innerHTML,/stroke-dasharray="10 5"/);
+    elements.neighborhoodArea.value="all-series";elements.neighborhoodArea.listeners.change();
+    assert.equal((elements.neighborhoodLegend.innerHTML.match(/data-series=/g)||[]).length,8);
+    elements.neighborhoodPeriods.listeners.click({target:{closest:()=>({dataset:{period:"120"}})}});
+    assert.match(elements.neighborhoodRange.textContent,/120개 계약월/);
+    elements.neighborhoodPins.listeners.click({target:{closest:()=>({dataset:{unpin:"0"}})}});
+    assert.equal(elements.neighborhoodPins.innerHTML,"");assert.doesNotMatch(elements.neighborhoodTitle.textContent,/외/);
+  });
+});
+
+test("raw fallback quarantines contradictory code/name identities from both dong and district medians",()=>{
+  const complexes=[...neighborhoodComplexes,{id:"bad",districtCode:"41135",legalDongCode:"4113511000",legalDong:"충돌동",jibuns:["99"]}];
+  const value=rawRegionalPayload({asOf:today,complexes,trades:[neighborhoodTrade(),neighborhoodTrade({complexId:"bad"}),neighborhoodTrade({complexId:"elsewhere",legalDongCode:"4113510500",priceManwon:300000})]},"41135");
+  assert.equal(value.months.at(-1).excludedIdentityConflicts,2);
+  assert.equal(regionalSeries(value,"all","all",today).at(-1).price,30);
+  assert.equal(regionalSeries(value,"4113511000","84",today).at(-1).count,0);
 });

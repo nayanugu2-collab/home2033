@@ -142,11 +142,12 @@ export function checkNeighborhoodPayload(value, districtCode) {
   return value;
 }
 export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, period = 12) {
-  const length = period === 6 ? 6 : 12;
+  const length = [6, 12, 24, 36, 60, 120].includes(period) ? period : 12;
   const first = shiftMonth(asOf.slice(0, 7) + "-01", 1 - length);
-  const eligible = new Set(complexes.filter(c => c.legalDongCode === dongCode && c.comparisonEligible !== false).map(c => c.id));
-  const rows = validTrades(trades, asOf).filter(t => eligible.has(t.complexId) &&
-    t.legalDongCode === dongCode && areaClass(t.area) === band && t.date >= first);
+  const known = new Map(complexes.filter(c => (dongCode === "all" || c.legalDongCode === dongCode) && c.comparisonEligible !== false).map(c => [c.id, c]));
+  const rows = trades.filter(t => !t.canceled && known.get(t.complexId)?.legalDongCode === t.legalDongCode &&
+    (band === "all" || areaClass(t.area) === band) && t.date >= first && t.date <= asOf &&
+    Number.isFinite(t.priceManwon) && t.priceManwon > 0 && Number.isFinite(t.area) && t.area > 0);
   return Array.from({ length }, (_, i) => {
     const month = shiftMonth(first, i).slice(0, 7);
     const monthly = rows.filter(t => t.date.startsWith(month));
@@ -155,6 +156,66 @@ export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, peri
       complexCount: new Set(monthly.map(t => t.complexId)).size,
       partial: month === asOf.slice(0, 7) };
   });
+}
+export function checkTrendPayload(value, code) {
+  if (value?.schemaVersion !== 1 || value.kind !== "regional-monthly-median" || value.districtCode !== code || !Array.isArray(value.months)) throw new Error("추세 자료 형식 오류");
+  const seen = new Set();
+  for (const m of value.months) {
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(m.month) || seen.has(m.month) || !Number.isFinite(Date.parse(m.updatedAt)) || !Array.isArray(m.rows)) throw new Error("추세 계약월 오류");
+    seen.add(m.month);
+    const rows = new Set();
+    for (const r of m.rows) {
+      const key = r.dongCode + "|" + r.area;
+      if (rows.has(key) || (r.dongCode !== "all" && (!/^\d{10}$/.test(r.dongCode) || !r.dongCode.startsWith(code))) ||
+          !["all", "59", "74", "84"].includes(r.area) || !Number.isFinite(r.priceManwon) || r.priceManwon <= 0 ||
+          !Number.isInteger(r.count) || r.count < 1 || !Number.isInteger(r.complexCount) || r.complexCount < 1 || r.complexCount > r.count || typeof r.dongName !== "string") throw new Error("추세 통계 오류");
+      rows.add(key);
+    }
+  }
+  return value;
+}
+export function regionalSeries(value, dong, area, asOf, period = 12) {
+  const length = [6, 12, 24, 36, 60, 120].includes(period) ? period : 12;
+  const first = shiftMonth(asOf.slice(0, 7) + "-01", 1 - length);
+  const months = new Map(value.months.map(m => [m.month, m]));
+  return Array.from({ length }, (_, i) => {
+    const month = shiftMonth(first, i).slice(0, 7), m = months.get(month);
+    const row = m?.rows.find(r => r.dongCode === dong && r.area === area);
+    return { month, price: row ? row.priceManwon / 10000 : null,
+      count: row?.count ?? (m ? 0 : null), complexCount: row?.complexCount ?? (m ? 0 : null),
+      available: !!m, updatedAt: m?.updatedAt ?? null, partial: month === asOf.slice(0, 7) };
+  });
+}
+export function rawRegionalPayload(value, code) {
+  const day = value.asOf, start = nextDay(shiftMonth(day, -12)), cutoff = start.slice(0, 7);
+  const fullMonth = month => month > cutoff || (month === cutoff && start.endsWith("-01"));
+  const known = new Map(value.complexes.filter(c => c.districtCode === code && c.comparisonEligible !== false).map(c => [c.id, c]));
+  const input = value.trades.filter(t => known.get(t.complexId)?.legalDongCode === t.legalDongCode && !t.canceled && fullMonth(t.date.slice(0,7)) && t.date <= day && Number.isFinite(t.priceManwon) && t.priceManwon > 0 && Number.isFinite(t.area) && t.area > 0);
+  const names = new Map();
+  for (const t of input) {
+    const key = t.date.slice(0,7)+"|"+t.legalDongCode;
+    if (!names.has(key)) names.set(key,new Set());
+    names.get(key).add(known.get(t.complexId).legalDong);
+  }
+  const conflicts = new Set([...names].filter(([,v])=>v.size>1).map(([key])=>key));
+  const groups = new Map();
+  for (const t of input) {
+    const c = known.get(t.complexId), month = t.date.slice(0, 7);
+    if (conflicts.has(month+"|"+t.legalDongCode)) continue;
+    const band = areaClass(t.area);
+    for (const [dongCode, dongName] of [["all", "전체"], [c.legalDongCode, c.legalDong]]) for (const area of ["all", ...(band ? [band] : [])]) {
+      const key = month + "|" + dongCode + "|" + area;
+      if (!groups.has(key)) groups.set(key, {month,dongCode,dongName,area,prices:[],ids:new Set()});
+      const group = groups.get(key); group.prices.push(t.priceManwon); group.ids.add(c.id);
+    }
+  }
+  const rows = new Map();
+  for (const g of groups.values()) {
+    if (!rows.has(g.month)) rows.set(g.month, []);
+    rows.get(g.month).push({dongCode:g.dongCode,dongName:g.dongName,area:g.area,priceManwon:median(g.prices),count:g.prices.length,complexCount:g.ids.size});
+  }
+  const months = neighborhoodSeries([], [], "all", "all", day, 12).filter(p=>fullMonth(p.month)).map(p=>({month:p.month,updatedAt:value.updatedAt || day+"T00:00:00+09:00",rows:rows.get(p.month) || [],excludedIdentityConflicts:input.filter(t=>t.date.startsWith(p.month)&&conflicts.has(p.month+"|"+t.legalDongCode)).length}));
+  return {schemaVersion:1,kind:"regional-monthly-median",districtCode:code,months};
 }
 export function monthsUntil(today, targetMonth) {
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(targetMonth)) throw new Error("목표 매수 시점을 확인하세요.");
