@@ -78,3 +78,24 @@ class TrendTests(unittest.TestCase):
         self.assertFalse(any(r['dongCode']=='4113511000' for r in result['rows']))
         total=next(r for r in result['rows'] if r['dongCode']=='all' and r['area']=='all')
         self.assertEqual((total['count'],total['priceManwon']),(1,900000))
+
+    def test_official_households_require_one_apartment_matching_parcel_code_and_name(self):
+        from scripts.trend_households import household_count, read_households
+        source = '필지고유번호,단지고유번호,단지종류,세대수,단지명_공시가격,단지명_건축물대장,단지명_도로명주소\n'
+        source += '4113511000100010000,A,1,500,시험,시험아파트,\n'
+        source += '4113511000100020000,B,2,900,시험,,\n'
+        index = read_households(source)
+        unit = {'name':'시험아파트','legalDongCode':'4113511000','jibuns':['1']}
+        self.assertEqual(household_count(unit,index),500)
+        self.assertIsNone(household_count(dict(unit,jibuns=['2']),index))
+        self.assertIsNone(household_count(dict(unit,legalDongCode='4113510500'),index))
+        self.assertIsNone(household_count(dict(unit,name='다른 단지'),index))
+        self.assertIsNone(household_count(unit,read_households(source+'4113511000100010000,C,1,600,시험아파트,,\n')))
+
+    def test_summary_records_distinct_complex_separately_from_transaction_count(self):
+        from scripts.collect_trends import summarize
+        rows = [self.raw(excluUseAr='59.5'),self.raw(),self.raw(),self.raw(umdCd='10500',umdNm='서현동',jibun='2',excluUseAr='101')]
+        p = district_payload('41135','분당',['201701'],dt.date(2026,11,19),update.load_registry(),lambda *_:rows,start=dt.date(2017,1,1))
+        value = summarize(p,'2017-01','2026-11-19T00:00:00+09:00',lambda c:500 if c['legalDong']=='백현동' else None)
+        members = {dong:(mask,count) for _,dong,mask,count in value['members']}
+        self.assertEqual(members,{'4113511000':(5,500),'4113510500':(0,None)})

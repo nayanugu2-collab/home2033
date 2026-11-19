@@ -70,11 +70,11 @@ jobs:
           fi
       - name: Collect resumable ten-year regional trend statistics
         id: trends
-        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == ''
+        if: github.event_name != 'push' || hashFiles('data/trends/index.json') == '' || hashFiles('data/trends/v2.complete.json') == '' || hashFiles('data/trends/complex-coverage.json') == ''
         continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
-          HISTORY_MONTH_BUDGET: ${{ github.event_name == 'push' && hashFiles('data/trends/index.json') != '' && '20' || '1400' }}
+          HISTORY_MONTH_BUDGET: ${{ github.event_name == 'push' && '360' || '1400' }}
         run: python scripts/collect_trends.py
       - name: Commit regional trend statistics
         run: |

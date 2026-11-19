@@ -157,12 +157,26 @@ export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, peri
       partial: month === asOf.slice(0, 7) };
   });
 }
+const TREND_AREA_MASKS = {"59": 1, "74": 2, "84": 4};
+
 export function checkTrendPayload(value, code) {
   if (value?.schemaVersion !== 1 || value.kind !== "regional-monthly-median" || value.districtCode !== code || !Array.isArray(value.months)) throw new Error("추세 자료 형식 오류");
   const seen = new Set();
   for (const m of value.months) {
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(m.month) || seen.has(m.month) || !Number.isFinite(Date.parse(m.updatedAt)) || !Array.isArray(m.rows)) throw new Error("추세 계약월 오류");
     seen.add(m.month);
+    if (m.members !== undefined) {
+      if (!Array.isArray(m.members)) throw new Error("추세 단지 자료 오류");
+      const identities = new Set();
+      for (const entry of m.members) {
+        if (!Array.isArray(entry) || entry.length !== 4) throw new Error("추세 단지 자료 오류");
+        const [id, dong, mask, households] = entry;
+        if (typeof id !== "string" || !id || identities.has(id) || !/^\d{10}$/.test(dong) || !dong.startsWith(code) ||
+            !Number.isInteger(mask) || mask < 0 || mask > 7 ||
+            (households !== null && (!Number.isSafeInteger(households) || households <= 0))) throw new Error("추세 단지 자료 오류");
+        identities.add(id);
+      }
+    }
     const rows = new Set();
     for (const r of m.rows) {
       const key = r.dongCode + "|" + r.area;
@@ -186,6 +200,34 @@ export function regionalSeries(value, dong, area, asOf, period = 12) {
       available: !!m, updatedAt: m?.updatedAt ?? null, partial: month === asOf.slice(0, 7) };
   });
 }
+export function regionalCoverage(value, dong, areas, points) {
+  const months = new Map(value.months.map(month => [month.month, month]));
+  const areaMask = areas.reduce((mask, area) => mask | (TREND_AREA_MASKS[area] || 0), 0);
+  const allAreas = areas.includes("all");
+  const complexes = new Map();
+  let coveredMonths = 0;
+  for (const point of points) {
+    const month = months.get(point.month);
+    if (!month) continue;
+    if (!month.members) {
+      if (!month.rows.some(row => (dong === "all" || row.dongCode === dong) && areas.includes(row.area))) coveredMonths++;
+      continue;
+    }
+    coveredMonths++;
+    for (const [id, memberDong, mask, householdCount] of month.members) {
+      if ((dong !== "all" && memberDong !== dong) || (!allAreas && !(mask & areaMask))) continue;
+      if (!complexes.has(id)) complexes.set(id, new Set());
+      if (householdCount !== null) complexes.get(id).add(householdCount);
+    }
+  }
+  let households = 0, known = 0;
+  for (const counts of complexes.values()) {
+    if (counts.size !== 1) continue;
+    households += counts.values().next().value;
+    known++;
+  }
+  return {complexCount: complexes.size, households, unknown: complexes.size - known, coveredMonths};
+}
 export function rawRegionalPayload(value, code) {
   const day = value.asOf, start = nextDay(shiftMonth(day, -12)), cutoff = start.slice(0, 7);
   const fullMonth = month => month > cutoff || (month === cutoff && start.endsWith("-01"));
@@ -199,10 +241,15 @@ export function rawRegionalPayload(value, code) {
   }
   const conflicts = new Set([...names].filter(([,v])=>v.size>1).map(([key])=>key));
   const groups = new Map();
+  const members = new Map();
   for (const t of input) {
     const c = known.get(t.complexId), month = t.date.slice(0, 7);
     if (conflicts.has(month+"|"+t.legalDongCode)) continue;
     const band = areaClass(t.area);
+    if (!members.has(month)) members.set(month, new Map());
+    const monthlyMembers = members.get(month);
+    if (!monthlyMembers.has(c.id)) monthlyMembers.set(c.id, [c.id, c.legalDongCode, 0, Number.isSafeInteger(c.households) && c.households > 0 ? c.households : null]);
+    monthlyMembers.get(c.id)[2] |= TREND_AREA_MASKS[band] || 0;
     for (const [dongCode, dongName] of [["all", "전체"], [c.legalDongCode, c.legalDong]]) for (const area of ["all", ...(band ? [band] : [])]) {
       const key = month + "|" + dongCode + "|" + area;
       if (!groups.has(key)) groups.set(key, {month,dongCode,dongName,area,prices:[],ids:new Set()});
@@ -214,7 +261,7 @@ export function rawRegionalPayload(value, code) {
     if (!rows.has(g.month)) rows.set(g.month, []);
     rows.get(g.month).push({dongCode:g.dongCode,dongName:g.dongName,area:g.area,priceManwon:median(g.prices),count:g.prices.length,complexCount:g.ids.size});
   }
-  const months = neighborhoodSeries([], [], "all", "all", day, 12).filter(p=>fullMonth(p.month)).map(p=>({month:p.month,updatedAt:value.updatedAt || day+"T00:00:00+09:00",rows:rows.get(p.month) || [],excludedIdentityConflicts:input.filter(t=>t.date.startsWith(p.month)&&conflicts.has(p.month+"|"+t.legalDongCode)).length}));
+  const months = neighborhoodSeries([], [], "all", "all", day, 12).filter(p=>fullMonth(p.month)).map(p=>({month:p.month,updatedAt:value.updatedAt || day+"T00:00:00+09:00",rows:rows.get(p.month) || [],members:[...(members.get(p.month)?.values() ?? [])],excludedIdentityConflicts:input.filter(t=>t.date.startsWith(p.month)&&conflicts.has(p.month+"|"+t.legalDongCode)).length}));
   return {schemaVersion:1,kind:"regional-monthly-median",districtCode:code,months};
 }
 export function monthsUntil(today, targetMonth) {

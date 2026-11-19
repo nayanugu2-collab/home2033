@@ -1,9 +1,10 @@
-import { checkNeighborhoodPayload, checkTrendPayload, koreaToday, rawRegionalPayload, regionalSeries } from "./core.js?v=regional-history-v2";
+import { checkNeighborhoodPayload, checkTrendPayload, koreaToday, rawRegionalPayload, regionalCoverage, regionalSeries } from "./core.js?v=regional-coverage";
 
 export function initNeighborhood({ getJSON }) {
   const $ = id => document.getElementById(id);
   const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
   const money = n => n == null ? "—" : n.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const number = n => n.toLocaleString("ko-KR");
   const stamp = iso => iso ? new Date(iso).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) : "확인 필요";
   const quick = {"41135":"분당 전체", "41465":"수지 전체", "41597":"동탄 전체"};
   const colors = {"59":"#b17b2d","74":"#31866d","84":"#466cb2",all:"#946b9b"};
@@ -32,6 +33,20 @@ export function initNeighborhood({ getJSON }) {
   function showPoint(li,mi) {
     const line=lines[li], p=line?.points[mi]; if(!p)return;
     $("neighborhoodPoint").textContent=line.label+" · "+p.month+" · "+(!p.available?"이 계약월은 아직 수집되지 않았습니다":p.price==null?"거래 없음":money(p.price)+"억원 · "+p.count+"건 / "+p.complexCount+"개 단지"+(p.count<3?" · 거래 부족":""))+(p.partial?" · 이번 달 집계 중":"");
+  }
+  function coverageCard(scope) {
+    const value = cache.get(scope.code) || { months: [] };
+    const points = regionalSeries(value, scope.dong, "all", day(), period);
+    const available = points.filter(p => p.available).length;
+    const {complexCount, households, unknown, coveredMonths} = regionalCoverage(value, scope.dong, bands(), points);
+    const complete = coveredMonths === period;
+    const title = escape(labelFor(scope.code, scope.dong));
+    const complexText = coveredMonths ? (complete ? "" : "집계된 ") + number(complexCount) + "개 단지" : "단지 수 집계 중";
+    const householdText = !coveredMonths || (complexCount > 0 && complexCount === unknown)
+      ? "확인된 세대수 없음" : (complete && !unknown ? "총 " : "확인된 세대수 ") + number(households) + "세대";
+    return `<div><span>${title} · 거래 반영</span><b>${complexText}</b><small class="trend-households">${householdText}</small>
+      ${unknown ? `<small>세대수 미확인 ${number(unknown)}개 단지</small>` : ""}
+      <small>가격 자료 ${available}/${period}개월${coveredMonths < available ? ` · 단지 집계 ${coveredMonths}/${period}개월` : ""}</small></div>`;
   }
   function plot() {
     const visible=lines.filter(l=>!hidden.has(l.id));
@@ -65,7 +80,7 @@ export function initNeighborhood({ getJSON }) {
     else{
       $("neighborhoodRange").textContent=lines[0].points[0].month+' – '+lines[0].points.at(-1).month+' · '+period+'개 계약월 (이번 달 포함) · 월별 중앙값 / 억원';
       $("neighborhoodLegend").innerHTML=lines.map(l=>{const latest=l.points.filter(p=>p.price!=null).at(-1);return '<button type="button" data-series="'+escape(l.id)+'" aria-pressed="'+!hidden.has(l.id)+'" class="trend-legend-button'+(hidden.has(l.id)?' dimmed':'')+'"><svg viewBox="0 0 34 8" aria-hidden="true"><line x1="0" x2="34" y1="4" y2="4" stroke="'+l.color+'" stroke-width="3" stroke-dasharray="'+l.dash+'"/></svg><span>'+escape(l.label)+'<small>'+(latest?latest.month+' · '+money(latest.price)+'억':'거래 부족')+'</small></span></button>';}).join('');
-      $("neighborhoodMetrics").innerHTML=scopes.map(s=>{const points=regionalSeries(cache.get(s.code)||{months:[]},s.dong,'all',day(),period),n=points.filter(p=>p.available).length;return '<div><span>'+escape(labelFor(s.code,s.dong))+' · 수집 기간</span><b>'+n+'<small> / '+period+'개월</small></b><small>'+(n<period?'미수집 '+(period-n)+'개월 · 자동 보충 중':'선택 기간 수집 완료')+'</small></div>';}).join('');
+      $("neighborhoodMetrics").innerHTML=scopes.map(coverageCard).join('');
       $("neighborhoodRows").innerHTML=lines.flatMap((l,li)=>l.points.map((p,mi)=>'<tr><td>'+escape(l.label)+'</td><td><button class="link-button" type="button" data-line="'+li+'" data-month="'+mi+'">'+p.month+'</button>'+(p.partial?' · 집계 중':'')+'</td><td>'+money(p.price)+'</td><td>'+(!p.available?'미수집':p.count+(p.count<3?' · 거래 부족':''))+'</td><td>'+(p.complexCount??'—')+'</td></tr>')).join('');
       plot();const li=lines.findIndex(l=>!hidden.has(l.id));if(li>=0){const latest=lines[li].points.findLastIndex(p=>p.price!=null);showPoint(li,latest<0?period-1:latest);}else $("neighborhoodPoint").textContent='범례에서 표시할 선을 선택하세요.';
     }

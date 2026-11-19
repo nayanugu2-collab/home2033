@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
-import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, checkTrendPayload, regionalSeries, rawRegionalPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
+import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, checkTrendPayload, regionalCoverage, regionalSeries, rawRegionalPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
 
 import { initNeighborhood } from "../assets/neighborhood.js";
 
@@ -443,4 +443,16 @@ test("raw fallback quarantines contradictory code/name identities from both dong
   assert.equal(value.months.at(-1).excludedIdentityConflicts,2);
   assert.equal(regionalSeries(value,"all","all",today).at(-1).price,30);
   assert.equal(regionalSeries(value,"4113511000","84",today).at(-1).count,0);
+});
+
+
+test("regional coverage counts a complex once across months and selected bands, with unknown households separate", () => {
+  const value = { months: [
+    { month: "2026-09", rows: [], members: [["a", "4113511000", 5, 500], ["b", "4113511000", 4, null]] },
+    { month: "2026-10", rows: [], members: [["a", "4113511000", 1, 500], ["c", "4113510500", 4, 300], ["d", "4113511000", 0, 100]] },
+    { month: "2026-08", rows: [{dongCode:"all",area:"84"}] }
+  ] };
+  const points = regionalSeries(value, "all", "all", "2026-10-31", 6);
+  assert.deepEqual(regionalCoverage(value, "all", ["59", "84"], points), {complexCount:3,households:800,unknown:1,coveredMonths:2});
+  assert.deepEqual(regionalCoverage(value, "4113511000", ["all"], points), {complexCount:3,households:600,unknown:1,coveredMonths:3});
 });
