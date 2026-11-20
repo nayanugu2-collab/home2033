@@ -10,6 +10,8 @@ from pathlib import Path
 import statistics
 import sys
 import threading
+import time
+from itertools import zip_longest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -145,7 +147,9 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     priority = {code: i for i, code in enumerate(PRIORITY)}
     active = [d for d in districts if d['code'].startswith(TREND_REGIONS)]
     ordered = sorted(active, key=lambda d: (priority.get(d['code'], 999), d['code']))
-    jobs = [(d, month) for d in ordered for month in reversed(wanted) if month not in states[d['code']]['months']]
+    groups = [[d for d in ordered if d['code'].startswith(prefix)] for prefix in TREND_REGIONS]
+    balanced = [d for group in zip_longest(*groups) for d in group if d is not None]
+    jobs = [(d, month) for month in reversed(wanted) for d in balanced if month not in states[d['code']]['months']]
     # Update each Seoul district's recent months before moving on to older years.
     seoul = [d for d in ordered if d['code'].startswith('11')]
     seoul_jobs = [(d, month) for month in reversed(wanted) for d in seoul
@@ -156,13 +160,13 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     if seoul_backfill:
         jobs = seoul_jobs
     else:
-        quick_codes = set(PRIORITY[:3])
-        tasks = [*(task for task in jobs if task[0]['code'] in quick_codes), *seoul_jobs, *jobs]
+        tasks = jobs
         if not backfill_only:
             tasks.extend((d, m['month']) for d, m in old)
         jobs = list({(d['code'], month): (d, month) for d, month in tasks}.values())
     jobs = jobs[:max(0, budget)]
-    stop = threading.Event(); failures = 0
+    stop = threading.Event()
+    failures = consecutive_failures = attempts = 0
     reasons = {}
     def job(task):
         d, month = task
@@ -175,21 +179,26 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
             return d['code'], month, result, True, ''
         except Exception as exc:
             # Log only a whitelisted API result code or exception class, never a URL/key.
-            match = re.fullmatch(r'API 응답 오류 \(([A-Za-z0-9_]{1,40})\)', str(exc)) if isinstance(exc, update.CollectionError) else None
-            reason = 'API_'+match.group(1) if match else type(exc).__name__
-            if match: stop.set()
+            code = exc.code if isinstance(exc, update.APIRequestError) else None
+            reason = 'API_' + code if code is not None else type(exc).__name__
+            if isinstance(exc, update.APIRequestError) and exc.stops_batch:
+                stop.set()
             return d['code'], month, None, True, reason
     with concurrent.futures.ThreadPoolExecutor(max_workers=8 if seoul_backfill or backfill_only else 6) as pool:
         for i, (code, month, value, attempted, reason) in enumerate(pool.map(job, jobs), 1):
+            attempts += attempted
             if value is not None:
                 states[code]['months'][month] = value
+                consecutive_failures = 0
             elif attempted:
-                failures += 1; states[code]['failedMonths'].append(month)
+                failures += 1
+                consecutive_failures += 1
+                states[code]['failedMonths'].append(month)
                 reasons[reason] = reasons.get(reason, 0)+1
                 print(f'10년 추세 {code}/{month} 수신 실패 ({reason})', flush=True)
-                if failures >= 5: stop.set()
+                if consecutive_failures >= 5: stop.set()
             if i % 100 == 0 or i == len(jobs):
-                print(f'10년 추세 {i}/{len(jobs)} · 실패 {failures}', flush=True)
+                print(f'10년 추세 조회 {attempts}/{len(jobs)} · 실패 {failures}', flush=True)
     index = []
     for d in districts:
         code = d['code']; state = states[code]
@@ -202,7 +211,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
                       'memberMonths':sum('members' in m for m in state['months']),
                       'totalMonths':len(wanted),'failedMonths':len(state['failedMonths'])})
     compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'minimumHouseholds':MIN_HOUSEHOLDS,'districts':index,
-                                    'failedRequests':failures,'failureReasons':reasons,'monthBudget':budget,
+                                    'attemptedRequests':attempts,'failedRequests':failures,'failureReasons':reasons,'monthBudget':budget,
                                     'source':'https://www.data.go.kr/data/15126468/openapi.do'})
     if not failures:
         compact_json(dest/'v2.complete.json', {'collectorVersion':2,'checkedAt':today.isoformat()})
@@ -250,8 +259,21 @@ def main():
     counts.update(counts_by_trade_id(index, registry))
     if counts:
         compact_json(trends/'households.json', counts)
+    request_lock = threading.Lock()
+    next_request = 0.0
+
+    def fetch(code, month):
+        nonlocal next_request
+        with request_lock:
+            now = time.monotonic()
+            wait = max(0, next_request - now)
+            next_request = now + wait + .25
+        if wait:
+            time.sleep(wait)
+        return update.fetch_month(key, code, month)
+
     return collect_history(districts, dt.datetime.now(update.KST).date(), registry,
-                           lambda code, month:update.fetch_month(key, code, month), args.budget,
+                           fetch, args.budget,
                            household_lookup=lambda c: household_count(c, index) or counts.get(c['id']),
                            verified_counts=counts,
                            seoul_backfill=args.seoul_backfill,

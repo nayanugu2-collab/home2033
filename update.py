@@ -8,6 +8,8 @@ import math
 import os
 from pathlib import Path
 import re
+import socket
+import ssl
 import sys
 import time
 import urllib.error
@@ -23,6 +25,16 @@ PAGE_SIZE = 1000
 
 class CollectionError(RuntimeError):
     pass
+
+
+class APIRequestError(CollectionError):
+    def __init__(self, code):
+        self.code = code
+        super().__init__(f"API 응답 오류 ({code})")
+
+    @property
+    def stops_batch(self):
+        return self.code.lstrip("0") in {"20", "21", "22", "23", "30", "31", "32", "HTTP_401", "HTTP_403", "HTTP_429"}
 
 
 def shift_month(day, count):
@@ -123,10 +135,10 @@ def canceled(row):
 def parse_response(xml):
     try:
         root = ET.fromstring(xml)
-        code = root.findtext("./header/resultCode")
+        code = root.findtext("./header/resultCode") or root.findtext("./cmmMsgHeader/returnReasonCode")
         if code not in ("000", "00", "0"):
-            safe = code if code and re.fullmatch(r"[A-Za-z0-9_]{1,40}", code) else "INVALID_RESPONSE"
-            raise CollectionError(f"API 응답 오류 ({safe})")
+            safe = code if code and re.fullmatch(r"[0-9]{1,3}", code) else "INVALID_RESPONSE"
+            raise APIRequestError(safe)
         body = root.find("body")
         if body is None:
             raise CollectionError("API body 누락")
@@ -151,12 +163,25 @@ def fetch_page(key, district, month, page, opener=urllib.request.urlopen, sleepe
         try:
             with opener(request, timeout=25) as response:
                 return parse_response(response.read())
-        except (urllib.error.URLError, TimeoutError, OSError, CollectionError) as exc:
-            if attempt == 2:
-                if isinstance(exc, CollectionError):
-                    raise
-                raise CollectionError("API 네트워크/HTTP 요청 실패") from None
-            sleeper(2 ** attempt)
+        except urllib.error.HTTPError as exc:
+            with exc:
+                try:
+                    root = ET.fromstring(exc.read(8192))
+                    gateway_code = root.findtext("./cmmMsgHeader/returnReasonCode")
+                except (OSError, ET.ParseError):
+                    gateway_code = None
+            code = gateway_code if gateway_code and re.fullmatch(r"[0-9]{1,3}", gateway_code) else f"HTTP_{exc.code}"
+            failure = APIRequestError(code)
+        except CollectionError as exc:
+            failure = exc
+        except OSError as exc:
+            cause = exc.reason if isinstance(exc, urllib.error.URLError) else exc
+            code = ("TIMEOUT" if isinstance(cause, TimeoutError) else "TLS" if isinstance(cause, ssl.SSLError) else
+                    "DNS" if isinstance(cause, socket.gaierror) else "NETWORK")
+            failure = APIRequestError(code)
+        if attempt == 2 or (isinstance(failure, APIRequestError) and failure.stops_batch):
+            raise failure from None
+        sleeper(2 ** attempt)
     raise CollectionError("API 요청 실패")
 
 

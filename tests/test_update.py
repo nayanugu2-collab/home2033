@@ -217,6 +217,18 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual((len(attempts), pauses), (3, [1, 2]))
         self.assertNotIn("secret-123", str(context.exception))
 
+    def test_gateway_reports_sanitized_quota_code_from_http_error(self):
+        pauses = []
+        def opener(request, timeout):
+            body = b"<OpenAPI_ServiceResponse><cmmMsgHeader><returnReasonCode>22</returnReasonCode></cmmMsgHeader></OpenAPI_ServiceResponse>"
+            raise urllib.error.HTTPError(request.full_url, 429, "must not be logged", {}, io.BytesIO(body))
+        with self.assertRaises(update.APIRequestError) as context:
+            update.fetch_page("secret-123", "41465", "202610", 1, opener, pauses.append)
+        self.assertEqual(context.exception.code, "22")
+        self.assertTrue(context.exception.stops_batch)
+        self.assertEqual(pauses, [])
+        self.assertNotIn("secret-123", str(context.exception))
+
     def test_percent_encoded_key_only_decoded_once(self):
         captured = []
         def opener(request, timeout):

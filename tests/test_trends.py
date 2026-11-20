@@ -38,11 +38,12 @@ class TrendTests(unittest.TestCase):
                 calls.append((code, month))
                 return []
 
-            for budget in (1, 600):
+            for budget in (5, 600):
                 result = collect_history(districts, today, update.load_registry(), fetch,
                                          budget, root/'trends', root/'raw', backfill_only=True)
                 self.assertEqual(result, 0)
-                if budget == 1:
+                if budget == 5:
+                    self.assertCountEqual(calls, [(code, '202611') for code in ('11680', '41111', '26110', '27110', '30110')])
                     saved_path = root/'trends/11680.json'
                     saved = json.loads(saved_path.read_text(encoding='utf-8'))
                     saved['months'][0]['updatedAt'] = '2025-01-01T00:00:00+09:00'
