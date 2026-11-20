@@ -8,7 +8,7 @@
   <title>2033 HOME — 갈아타기 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=regional-history-v2">
-  <link rel="stylesheet" href="./assets/neighborhood.css?v=seoul-comparison">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=budget-regions">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -33,7 +33,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=five-region-comparison"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=budget-regions"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -89,7 +89,21 @@
     <p class="small muted">평균은 최대 10건으로 계산하고 10건 미만이면 실제 사용 건수를 표시합니다. 평균·중앙값 표본이 3건 미만이면 ‘거래 부족’입니다. 선택 면적의 거래가 없으면 가격을 비워 둡니다. 국민임대 단지는 안내용으로 표시하며 매매 비교·매수 계산에서 제외합니다.</p>
   </section>
   <section class="neighborhood-section" id="neighborhood" aria-label="지역별 아파트 가격 추세">
-    <div class="section-heading"><div><span class="eyebrow muted">NEIGHBORHOOD / PRICE TRENDS</span><h2>지역·면적별 가격 흐름</h2></div><span class="small muted">6개월부터 10년까지</span></div>
+    <div class="section-heading"><div><span class="eyebrow muted">NEIGHBORHOOD / PRICE TRENDS</span><h2>지역·면적별 가격 흐름</h2></div><a class="outline-button" href="#budget">예산으로 지역 찾기</a></div>
+    <section id="budget" class="panel budget-panel" aria-labelledby="budgetTitle">
+      <h3 id="budgetTitle">내 예산으로 지역 찾기</h3>
+      <p class="small muted">입력한 매수가 이하로 최근 6개월 안에 실제 거래된 아파트가 있는 지역을 찾습니다.</p>
+      <form id="budgetForm" class="budget-form">
+        <label for="budgetAmount">매수가 상한 (억 원)<input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 15.5" required></label>
+        <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
+        <label for="budgetRegion">지역 범위<select id="budgetRegion"><option value="all">5개 지역 모두</option><option value="11">서울</option><option value="41">경기</option><option value="26">부산</option><option value="27">대구</option><option value="30">대전</option></select></label>
+        <button class="primary-button" type="submit">지역 찾기</button>
+      </form>
+      <p class="small muted">취득세와 중개비는 별도입니다. 표시 가격은 과거 실거래이며 현재 매물이나 호가는 부동산에서 확인하세요.</p>
+      <p id="budgetStatus" class="budget-status" role="status"></p>
+      <div id="budgetResults" class="budget-results"></div>
+      <button id="budgetMore" class="outline-button" type="button" hidden>더 보기</button>
+    </section>
     <div class="panel neighborhood-panel">
       <div class="neighborhood-controls">
         <label for="neighborhoodDistrict">지역<select id="neighborhoodDistrict" aria-label="추세 지역"><option value="41135">분당 전체</option></select></label>

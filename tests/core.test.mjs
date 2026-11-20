@@ -460,3 +460,18 @@ test("regional coverage counts a complex once across months and selected bands, 
   assert.deepEqual(regionalCoverage(value, "all", ["59", "84"], points), {complexCount:3,households:800,unknown:1,coveredMonths:2});
   assert.deepEqual(regionalCoverage(value, "4113511000", ["all"], points), {complexCount:3,households:600,unknown:1,coveredMonths:3});
 });
+
+import { budgetInManwon, districtsWithinBudget } from "../assets/budget.js";
+test("budget filter uses exact price caps and counts the same complex once when all areas are selected", () => {
+  const input = [{code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[
+    ["a","A","84",125500,"2026-11-10",84.95], ["a","A","59",90000,"2026-11-10",59.9],
+    ["b","B","84",125501,"2026-11-12",84.9], ["c","C","other",110000,"2026-11-13",101]
+  ]}]}];
+  assert.equal(budgetInManwon("12.55"),125500);
+  assert.equal(budgetInManwon("0.00001"),null);
+  assert.equal(budgetInManwon("1e3"),null);
+  assert.equal(districtsWithinBudget(input,125500,"84")[0].count,1);
+  assert.equal(districtsWithinBudget(input,125500,"84")[0].lowest.price,125500);
+  assert.equal(districtsWithinBudget(input,125500,"all")[0].count,2);
+  assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
+});

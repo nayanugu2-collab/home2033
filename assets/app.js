@@ -1,5 +1,6 @@
 import { areaClass, assetComparison, calculate, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referencePrice, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=regional-history-v2";
 import { initNeighborhood } from "./neighborhood.js?v=five-region-comparison";
+import { initBudget } from "./budget.js?v=budget-regions";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -517,6 +518,7 @@ async function init() {
     $("trackerState").textContent = personalMode() ? "저장된 내 집·현금 기준을 불러왔습니다." : "동천센트럴자이 59㎡급 기준으로 비교합니다.";
     controls.forEach(control => { control.disabled = false; });
     neighborhoods = initNeighborhood({ getJSON, renderChart });
+    initBudget(getJSON);
     await loadOfficial();
     if (preferences.added.length || (personalMode() && tracker.id.startsWith("n-"))) await loadNational();
   } catch {
