@@ -509,6 +509,11 @@ test("budget ranking keeps exact upper prices, excludes prices 2억 below, and d
   assert.deepEqual(result[0].dongs.map(d=>d.name),["역삼동"]);
   assert.equal(result[0].closest.price,125500);
   assert.equal(result[0].closest.households,300);
+  const fullRange = districtsWithinBudget(input,125500,"84","all");
+  assert.deepEqual(fullRange[0].dongs.map(d => d.candidates.map(t => [t.id,t.price])),
+    [[["a",125500],["b",105500]],[["d",105499]]]);
+  assert.deepEqual(fullRange[1].dongs[0].candidates.map(t => t.id),["e","f"]);
+  assert.equal(fullRange[2].closest.id,"g");
   assert.equal(districtsWithinBudget(input,125500,"all")[0].count,2);
   assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
 });

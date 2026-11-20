@@ -21,8 +21,8 @@ export function naverComplexSearchURL(districtName, dongName, complexName, mobil
   return `https://new.land.naver.com/search?sk=${encodeURIComponent(query)}`;
 }
 
-export function districtsWithinBudget(districts, limit, area) {
-  const minimum = Math.max(0, limit - PRICE_WINDOW_MANWON);
+export function districtsWithinBudget(districts, limit, area, range = "near") {
+  const minimum = minimumPrice(limit, range);
   const byCloseness = (a, b) => b.price - a.price || b.date.localeCompare(a.date) || a.name.localeCompare(b.name, "ko");
   const matches = [];
   for (const district of districts) {
@@ -36,12 +36,13 @@ export function districtsWithinBudget(districts, limit, area) {
         const match = sales.find(([price]) => price <= limit && price > minimum);
         if (!match) continue;
         const [price, date, size] = match;
-        const trade = {name, price, date, size, households};
+        const trade = {id, name, price, date, size, households};
         if (!complexes.has(id) || byCloseness(trade, complexes.get(id)) < 0) complexes.set(id, trade);
         districtIds.add(id);
       }
       if (!complexes.size) continue;
-      dongs.push({code: dong.code, name: dong.name, count: complexes.size, closest: [...complexes.values()].sort(byCloseness)[0]});
+      const candidates = [...complexes.values()].sort(byCloseness);
+      dongs.push({code: dong.code, name: dong.name, count: candidates.length, closest: candidates[0], candidates});
     }
     if (!districtIds.size) continue;
     dongs.sort((a, b) => byCloseness(a.closest, b.closest) || b.count - a.count);
@@ -50,33 +51,105 @@ export function districtsWithinBudget(districts, limit, area) {
   return matches.sort((a, b) => byCloseness(a.closest, b.closest) || b.count - a.count);
 }
 
-export function initBudget(getJSON) {
+function minimumPrice(limit, range) {
+  return range === "all" ? 0 : Math.max(0, limit - PRICE_WINDOW_MANWON);
+}
+
+export function initBudget(getJSON, { watchState, saveResult, openResult }) {
   const $ = id => document.getElementById(id);
   const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const cache = new Map();
+  const cache = new Map(), visibleTrades = new Map(), visibleDistricts = new Map();
+  const results = $('budgetResults');
   let request = 0, matches = [], rendered = 0;
-  function example(trade, district, dong) {
+
+  function renderTrade(trade, district, dong) {
+    visibleTrades.set(trade.id, {trade, district});
     const url = naverComplexSearchURL(district.name, dong.name, trade.name, mobile);
-    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)} (${trade.households.toLocaleString('ko-KR')}세대)<span class="sr-only"> 네이버 부동산에서 열기</span></a>` +
-      `<strong>${money(trade.price)}</strong> · ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}`;
+    return `<div class="budget-trade" data-budget-id="${escape(trade.id)}">
+      <p class="budget-trade-name"><b>${escape(trade.name)}</b><span>${trade.households.toLocaleString('ko-KR')}세대</span></p>
+      <p class="small"><strong>${money(trade.price)}</strong> · 전용 ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}</p>
+      <div class="budget-result-actions" role="group" aria-label="${escape(trade.name)} 단지 작업">
+        <button type="button" class="outline-button" data-budget-action="detail">단지 상세</button>
+        <button type="button" class="outline-button" data-budget-action="save">관심 저장</button>
+        <button type="button" class="outline-button" data-budget-action="calculate">이 가격으로 계산</button>
+        <a class="outline-button" href="${escape(url)}" target="_blank" rel="noopener noreferrer">네이버 부동산 ↗</a>
+      </div>
+      <p class="small budget-action-status" role="status"></p>
+    </div>`;
   }
+
+  function updateWatch() {
+    for (const button of results.querySelectorAll('[data-budget-action="save"]')) {
+      const state = watchState(button.closest('[data-budget-id]').dataset.budgetId);
+      button.textContent = state === "base" ? "기준 주택" : state === "saved" ? "관심 저장됨" : "관심 저장";
+      button.disabled = Boolean(state) || button.getAttribute("aria-busy") === "true";
+    }
+  }
+
   function showMore() {
-    const cards = matches.slice(rendered, rendered + PAGE_SIZE).map(district =>
-      `<article class="budget-card"><h4>${escape(district.name)}</h4>
+    const cards = matches.slice(rendered, rendered + PAGE_SIZE).map(district => {
+      visibleDistricts.set(district.code, district);
+      return `<article class="budget-card"><h3>${escape(district.name)}</h3>
         <p><strong>${district.count.toLocaleString('ko-KR')}개 단지</strong> · ${district.dongs.length}개 법정동</p>
-        <p class="small budget-example">상한에 가장 가까운 거래<br>${example(district.closest, district, district.dongs[0])}</p>
         <p class="small muted">집계 기간 ${escape(district.from)} ~ ${escape(district.asOf)}</p>
-        <details><summary>동네별 실거래 보기</summary><ul>${district.dongs.map(dong =>
-          `<li><b>${escape(dong.name)}</b> · ${dong.count}개 단지<br><span class="small">${example(dong.closest, district, dong)}</span></li>`).join('')}</ul></details>
-      </article>`);
-    $('budgetResults').insertAdjacentHTML('beforeend', cards.join(''));
+        <p class="small budget-trade-dong">${escape(district.dongs[0].name)} · 상한에 가장 가까운 거래</p>
+        ${renderTrade(district.closest, district, district.dongs[0])}
+        ${district.count > 1 ? `<details data-budget-district="${escape(district.code)}">
+          <summary>다른 후보 ${(district.count - 1).toLocaleString('ko-KR')}개 보기</summary>
+          <div class="budget-other-results"></div>
+        </details>` : ""}
+      </article>`;
+    });
+    results.insertAdjacentHTML('beforeend', cards.join(""));
     rendered += cards.length;
     $('budgetMore').hidden = rendered >= matches.length;
     if (!$('budgetMore').hidden) $('budgetMore').textContent = `더 보기 (${rendered}/${matches.length})`;
+    updateWatch();
   }
+
+  results.addEventListener("toggle", event => {
+    const details = event.target;
+    if (!details.open || !details.dataset.budgetDistrict) return;
+    const container = details.querySelector(".budget-other-results");
+    if (container.hasChildNodes()) return;
+    const district = visibleDistricts.get(details.dataset.budgetDistrict);
+    if (!district) return;
+    container.innerHTML = district.dongs.map(dong => {
+      const candidates = dong.candidates.filter(trade => trade.id !== district.closest.id);
+      return candidates.length ? `<div class="budget-dong"><h4>${escape(dong.name)}</h4>
+        ${candidates.map(trade => renderTrade(trade, district, dong)).join("")}</div>` : "";
+    }).join("");
+    updateWatch();
+  }, true);
+
+  results.addEventListener("click", async event => {
+    const button = event.target.closest("[data-budget-action]");
+    if (!button || button.disabled) return;
+    const row = button.closest("[data-budget-id]");
+    const {trade, district} = visibleTrades.get(row.dataset.budgetId);
+    const status = row.querySelector(".budget-action-status");
+    const action = button.dataset.budgetAction;
+    button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    status.textContent = "단지 자료를 불러오는 중…";
+    try {
+      status.textContent = action === "save" ? await saveResult(trade, district.code) :
+        await openResult(trade, district.code, action, () => row.isConnected);
+    } catch (error) {
+      status.textContent = error.message || "단지 자료를 불러오지 못했습니다. 다시 시도하세요.";
+    } finally {
+      button.removeAttribute("aria-busy");
+      button.disabled = false;
+      updateWatch();
+    }
+  });
+
   $('budgetAmount').addEventListener('input', () => $('budgetAmount').setCustomValidity(''));
   $('budgetMore').addEventListener('click', showMore);
+  $('budgetRange').addEventListener('change', () => {
+    if (request) $('budgetForm').requestSubmit();
+  });
   $('budgetForm').addEventListener('submit', async event => {
     event.preventDefault();
     const limit = budgetInManwon($('budgetAmount').value);
@@ -87,11 +160,14 @@ export function initBudget(getJSON) {
     }
     const region = $('budgetRegion').value;
     const area = $('budgetArea').value;
+    const priceRange = $('budgetRange').value;
     const regions = REGIONS.includes(region) ? [region] : REGIONS;
     const id = ++request;
-    $('budgetResults').innerHTML = '';
+    results.innerHTML = '';
+    visibleTrades.clear();
+    visibleDistricts.clear();
     $('budgetMore').hidden = true;
-    $('budgetStatus').textContent = '매수가 상한에 가까운 실거래를 찾는 중입니다.';
+    $('budgetStatus').textContent = '선택한 가격 범위의 실거래를 찾는 중입니다.';
     const responses = await Promise.allSettled(regions.map(async code => {
       if (cache.has(code)) return cache.get(code);
       const data = await getJSON(`./data/budget/${code}.json`);
@@ -106,14 +182,15 @@ export function initBudget(getJSON) {
       return;
     }
     const districts = loaded.flatMap(data => data.districts);
-    matches = districtsWithinBudget(districts, limit, area);
+    matches = districtsWithinBudget(districts, limit, area, priceRange);
     rendered = 0;
     const coverage = loaded.length < regions.length || districts.length < loaded.reduce((n, data) => n + data.districtCount, 0)
       ? ' · 일부 지역 자료 누락' : '';
-    const minimum = Math.max(0, limit - PRICE_WINDOW_MANWON);
+    const minimum = minimumPrice(limit, priceRange);
     const range = minimum > 0 ? `${money(minimum)} 초과 ~ ${money(limit)} 이하` : `${money(limit)} 이하`;
     $('budgetStatus').textContent = `${range} · ${area === 'all' ? '전체 면적' : area + '㎡급'} · ` +
       (matches.length ? `실거래가 있었던 시·군·구 ${matches.length}곳` : '조건에 맞는 실거래 없음') + coverage;
     showMore();
   });
+  return { updateWatch };
 }

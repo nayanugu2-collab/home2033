@@ -1,6 +1,6 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
 import { initNeighborhood } from "./neighborhood.js?v=300-households";
-import { initBudget } from "./budget.js?v=naver-land-mobile";
+import { initBudget } from "./budget.js?v=budget-candidates";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -15,7 +15,8 @@ const WATCH_PAGE_SIZE = 8;
 let watchPage = 0;
 let registry, official = null, status = null, demo = false, payload = null, trades = [], baseTrades = [];
 let area = "84", region = "all", selected = "gracium", exact = "all", saleAuto = true, targetAuto = true, loadError = "";
-let officialPlanSnapshot = null, neighborhoods = null;
+let officialPlanSnapshot = null, neighborhoods = null, budgetView = null;
+let budgetSelection = null, budgetOpenRequest = 0;
 let preferences = watchPreferences(null), defaultIds = new Set(), nationalIndex = null, nationalLoading = null;
 let nationalTrades = [], nationalDistricts = new Set(), nationalPending = new Map();
 const nationalStamps = new Map();
@@ -97,10 +98,15 @@ function averagePeriod(stats) {
   return stats.count10 ? dateLabel(stats.start10) + " ~ " + dateLabel(stats.end10) : "해당 면적 거래 없음";
 }
 function selectedComplex() { return registry.complexes.find(c => c.id === selected); }
+function detailBand() { return budgetSelection ? budgetSelection.band : area; }
+function detailAreaLabel() {
+  const band = detailBand();
+  return exact === "all" ? band ? band + "㎡급" : "그 외 면적" : exact + "㎡";
+}
 function buildingAge(c) { return constructionLabel([...(official?.trades || []), ...nationalTrades], c.id, today); }
-function getSummary(c, exactType = "all") { return summary(c.comparisonEligible === false ? [] : forArea(trades, c.id, area, exactType), asOf()); }
-function record(c, exactType = "all") {
-  const stats = getSummary(c, exactType);
+function getSummary(c, exactType = "all", band = area) { return summary(c.comparisonEligible === false ? [] : forArea(trades, c.id, band, exactType), asOf()); }
+function record(c, exactType = "all", band = area) {
+  const stats = getSummary(c, exactType, band);
   const price = priceFor(stats, $("metric").value);
   if (!personalMode()) return { c, stats, price, ...capitalComparison(price == null ? null : price / 10000, tracker.capital) };
   const base = basePrice();
@@ -284,9 +290,12 @@ function renderManager() {
 }
 function targetOptions() {
   const choices = registry.complexes.filter(isWatched);
+  const preview = budgetSelection && selectedComplex();
+  if (preview && !choices.includes(preview)) choices.unshift(preview);
   if (!choices.some(c => c.id === selected)) { selected = choices.find(c => c.comparisonEligible !== false)?.id || choices[0]?.id || null; exact = "all"; targetAuto = true; }
   $("targetComplex").innerHTML = choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + " (" + householdLabel(c) + ")" + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("") || '<option value="">관심 단지를 추가하세요</option>';
   $("targetComplex").disabled = !choices.length;
+  budgetView?.updateWatch();
 }
 async function loadNational() {
   if (nationalIndex) return;
@@ -321,15 +330,17 @@ async function loadNationalDistrict(code) {
   nationalPending.set(code, promise);
   return promise;
 }
-async function toggleWatch(id) {
+async function toggleWatch(id, addOnly = false) {
   const c = registry.complexes.find(c => c.id === id);
-  if (!meetsHouseholdMinimum(c) || c.id === currentBaseId()) return;
+  if (!meetsHouseholdMinimum(c) || c.id === currentBaseId()) return false;
   const removing = isWatched(c);
+  if (addOnly && removing) return true;
   const isDefault = defaultIds.has(id) || id === registry.baseId;
   if (!removing && !isDefault) {
     $("watchStatus").textContent = "해당 지역의 공식 실거래를 불러오는 중…";
     try { await loadNationalDistrict(c.districtCode); }
-    catch { $("watchStatus").textContent = "지역 거래를 불러오지 못해 추가하지 않았습니다. 다시 시도하세요."; return; }
+    catch { $("watchStatus").textContent = "지역 거래를 불러오지 못해 추가하지 않았습니다. 다시 시도하세요."; return false; }
+    if (c.id === currentBaseId()) return false;
   }
   preferences.removed = preferences.removed.filter(x => x !== id);
   preferences.added = preferences.added.filter(x => x !== id);
@@ -337,6 +348,58 @@ async function toggleWatch(id) {
   else if (!isDefault) preferences.added.push(id);
   saveWatch(); targetOptions(); activateData();
   $("watchStatus").textContent += " " + c.name + (removing ? " 제거됨." : " 추가됨. 가격 배율·면적 필터에 따라 목록에서 숨겨질 수 있습니다.");
+  return true;
+}
+
+function budgetWatchState(id) {
+  if (id === currentBaseId()) return "base";
+  const c = registry.complexes.find(c => c.id === id);
+  return c && isWatched(c) ? "saved" : "";
+}
+
+async function resolveBudgetComplex(id, districtCode) {
+  let c = registry.complexes.find(item => item.id === id);
+  if (!c) {
+    await loadNational();
+    c = registry.complexes.find(item => item.id === id);
+  }
+  if (!meetsHouseholdMinimum(c) || c.districtCode !== districtCode || c.comparisonEligible === false) {
+    throw new Error("이 단지의 공식 상세 자료를 불러오지 못했습니다. 다시 시도하세요.");
+  }
+  return c;
+}
+
+async function saveBudgetResult(trade, districtCode) {
+  const c = await resolveBudgetComplex(trade.id, districtCode);
+  if (c.id === currentBaseId()) return "비교 기준으로 선택한 주택입니다.";
+  if (isWatched(c)) return "이미 관심 목록에 있습니다.";
+  if (!await toggleWatch(c.id, true)) return "관심 목록에 추가하지 못했습니다. 다시 시도하세요.";
+  return $("watchStatus").textContent;
+}
+
+async function openBudgetResult(trade, districtCode, action, isCurrent) {
+  if (demo) return "공식 데이터로 돌아간 뒤 이 실거래를 열어주세요.";
+  const request = ++budgetOpenRequest;
+  const c = await resolveBudgetComplex(trade.id, districtCode);
+  if (c.id.startsWith("n-")) {
+    try { await loadNationalDistrict(c.districtCode); }
+    catch { return "해당 지역의 실거래를 불러오지 못했습니다. 다시 시도하세요."; }
+  }
+  if (request !== budgetOpenRequest || !isCurrent()) return "";
+  if (demo) return "공식 데이터로 돌아간 뒤 이 실거래를 열어주세요.";
+
+  const calculateFromTrade = action === "calculate";
+  budgetSelection = {band: areaClass(trade.size), price: calculateFromTrade ? trade.price : null, date: trade.date};
+  selected = c.id;
+  exact = String(trade.size);
+  targetAuto = !calculateFromTrade;
+  if (calculateFromTrade) $("targetPrice").value = String(trade.price / 10000);
+  targetOptions();
+  activateData();
+  const destination = calculateFromTrade ? "calculator" : "detail";
+  $(destination).scrollIntoView({behavior: "smooth", block: "start"});
+  $(calculateFromTrade ? "calculatorTitle" : "selectedName").focus({preventScroll: true});
+  return calculateFromTrade ? "이 거래 가격을 자금 계획에 반영했습니다." : "단지 상세로 이동했습니다.";
 }
 function renderChart(container, series, keys, title, labels = {}, emptyMessage) {
   const points = series.flatMap(p => keys.map(k => p[k])).filter(n => n != null);
@@ -379,11 +442,16 @@ function syncPrices() {
     return;
   }
   const eligible = target.comparisonEligible !== false;
-  const value = priceFor(getSummary(target, exact), $("metric").value);
+  const value = priceFor(getSummary(target, exact, detailBand()), $("metric").value);
   if (targetAuto || !eligible) $("targetPrice").value = value == null ? "" : (value / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
   $("targetPrice").disabled = !eligible;
   $("resetTarget").disabled = !eligible;
-  $("targetHint").textContent = !eligible ? "국민임대 단지로 매매 가격과 매수 자금 계산을 제공하지 않습니다. 다른 매매 단지를 선택하세요." : (demo ? "[샘플] " : "") + target.name + " · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + " · " +
+  if (eligible && !targetAuto && budgetSelection?.price != null) {
+    $("targetHint").textContent = target.name + " · 전용 " + detailAreaLabel() + " · " +
+      dateLabel(budgetSelection.date) + " 실거래를 가정한 목표 매수가";
+    return;
+  }
+  $("targetHint").textContent = !eligible ? "국민임대 단지로 매매 가격과 매수 자금 계산을 제공하지 않습니다. 다른 매매 단지를 선택하세요." : (demo ? "[샘플] " : "") + target.name + " · " + detailAreaLabel() + " · " +
     $("metric").selectedOptions[0].textContent + (targetAuto ? " 연동" : "을 참고한 직접 입력 시나리오") +
     (value == null ? " · 거래 부족: 목표 매수가를 직접 입력하면 계산할 수 있습니다." : " · 미래 가격 예측이 아닙니다.");
 }
@@ -416,12 +484,14 @@ function renderDetail(resetTypes = false) {
   $("detail").hidden = !c;
   if (!c) { syncPrices(); renderCalculation(); return; }
   if (resetTypes) {
-    const types = getSummary(c).areas;
-    $("exactArea").innerHTML = '<option value="all">선택 면적급 전체 타입</option>' + types.map(a => '<option value="' + a + '">' + a + "㎡</option>").join("");
+    const types = getSummary(c, "all", detailBand()).areas;
+    if (budgetSelection && exact !== "all" && !types.includes(Number(exact))) types.push(Number(exact));
+    $("exactArea").innerHTML = '<option value="all">' + (detailBand() ? "선택 면적급" : "그 외 면적") +
+      ' 전체 타입</option>' + types.map(a => '<option value="' + a + '">' + a + "㎡</option>").join("");
     if (!types.some(a => String(a) === exact)) exact = "all";
     $("exactArea").value = exact;
   }
-  const r = record(c, exact);
+  const r = record(c, exact, detailBand());
   const gap = personalMode() ? r.assetGap : r.gap;
   const eligible = c.comparisonEligible !== false;
   $("useTarget").disabled = !eligible;
@@ -429,7 +499,7 @@ function renderDetail(resetTypes = false) {
   $("selectedRegion").textContent = c.region + (demo ? " · 샘플" : "");
   $("selectedAge").textContent = buildingAge(c);
   $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " +
-    (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계") + (c.displayNote ? " · " + c.displayNote : "");
+    (exact === "all" ? detailAreaLabel() + "의 타입을 함께 집계" : "정확한 전용 " + detailAreaLabel() + "만 집계") + (c.displayNote ? " · " + c.displayNote : "");
   $("selectedMetrics").innerHTML = [
     [$("metric").selectedOptions[0].textContent, !eligible ? "매매 비교 제외" : r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
     [personalMode() ? "내 집 + 현금 대비 차액" : "자본 대비 차액", gap == null ? "—" : signed(gap) + "억"],
@@ -440,7 +510,7 @@ function renderDetail(resetTypes = false) {
     " · 선택한 전용면적의 실제 거래만 사용합니다. 아래 그래프는 월별 중앙값입니다." : "아래 그래프는 선택한 비교 가격과 별도로 월별 중앙값을 표시합니다.";
   if (c.id.startsWith("n-")) $("selectedPriceDetail").textContent += " · 해당 지역 거래 갱신 " + stamp(nationalStamps.get(c.districtCode));
   if (personalMode()) $("selectedPriceDetail").textContent += " · 주택끼리 가격 차이 " + signed(r.gap) + "억 / 자산 차액 " + signed(r.assetGap) + "억. 양수는 부족, 음수는 여유이며 부채·세금·비용은 별도입니다.";
-  const ts = eligible ? forArea(trades, c.id, area, exact) : [];
+  const ts = eligible ? forArea(trades, c.id, detailBand(), exact) : [];
   renderComparisonHistory(ts, eligible);
   $("recentTrades").innerHTML = ts.length ? '<div class="ledger-list">' + ts.slice(0, 10).map(t => '<div><time>' + dateLabel(t.date) + '</time><span>' + t.area + "㎡ · " + escape(t.floor) + '층</span><b>' + money(t.priceManwon / 10000) + '억</b><small>' + escape(t.dealingType || "거래유형 미제공") + (demo ? " · 샘플" : "") + "</small></div>").join("") + "</div>" +
     (r.stats.sameDateCount > 1 ? '<p class="field-help">최신 계약일에 ' + r.stats.sameDateCount + "건이 있습니다. 최근 1건은 거래 ID 순으로 선택하며 당일 거래 내역도 함께 확인하세요.</p>" : "") : '<p class="empty">' + (eligible ? '거래 부족 · 해당 전용면적의 최근 12개월 거래가 없습니다.' : '국민임대 단지입니다. 매매 가격을 제공하지 않습니다.') + '</p>';
@@ -453,7 +523,7 @@ function renderDetail(resetTypes = false) {
 function renderCalculation() {
   const selectedMonth = $("targetMonth").value;
   $("planTarget").textContent = selectedComplex()?.name || "목표 주택";
-  $("planSubtitle").textContent = (selectedMonth || "이번 달") + " 매수 가정 · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + (demo ? " · 샘플 가격" : "");
+  $("planSubtitle").textContent = (selectedMonth || "이번 달") + " 매수 가정 · " + detailAreaLabel() + (demo ? " · 샘플 가격" : "");
   const resultIds = ["shortage", "netSale", "assetResult", "savingsResult", "equityResult", "loanResult", "availableResult", "costResult"];
   try {
     if (!selectedComplex()) throw new Error("검색에서 관심 단지를 추가하세요.");
@@ -484,7 +554,11 @@ function activateData() {
   neighborhoods?.update({ demo, payload, complexes: registry.complexes });
 }
 function choose(id, scroll = false) {
+  ++budgetOpenRequest;
+  const wasBudgetSelection = Boolean(budgetSelection);
+  budgetSelection = null;
   selected = id; exact = "all"; targetAuto = true;
+  if (wasBudgetSelection) targetOptions();
   renderList(); renderDetail(true);
   if (scroll) $("detail").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -514,6 +588,7 @@ async function loadOfficial() {
 }
 document.querySelectorAll("[data-area]").forEach(button => button.addEventListener("click", () => {
   area = button.dataset.area; exact = "all"; targetAuto = true;
+  if (budgetSelection) { budgetSelection.band = area; budgetSelection.price = null; }
   document.querySelectorAll("[data-area]").forEach(b => { b.classList.toggle("selected", b === button); b.setAttribute("aria-pressed", String(b === button)); });
   renderListFromStart(); renderDetail(true);
 }));
@@ -588,7 +663,10 @@ $("targetComplex").addEventListener("change", () => choose($("targetComplex").va
 $("calculatorForm").addEventListener("submit", e => e.preventDefault());
 for (const id of ids) $(id).addEventListener("input", () => {
   if (id === "sale") saleAuto = false;
-  if (id === "targetPrice") targetAuto = false;
+  if (id === "targetPrice") {
+    targetAuto = false;
+    if (budgetSelection) budgetSelection.price = null;
+  }
   syncPrices(); renderCalculation(); save();
 });
 $("resetSale").addEventListener("click", () => { saleAuto = true; syncPrices(); renderCalculation(); save(); });
@@ -630,7 +708,7 @@ async function init() {
     setupRegistry();
     controls.forEach(control => { control.disabled = false; });
     neighborhoods = initNeighborhood({ getJSON, renderChart });
-    initBudget(getJSON);
+    budgetView = initBudget(getJSON, {watchState: budgetWatchState, saveResult: saveBudgetResult, openResult: openBudgetResult});
     await loadOfficial();
     if (personalMode()) renderBaseSearch();
     if (preferences.added.length || (personalMode() && tracker.id?.startsWith("n-"))) await loadNational();

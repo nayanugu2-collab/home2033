@@ -24,29 +24,43 @@
 .budget-status:empty { margin: 0; }
 .budget-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
 .budget-card { border: 1px solid var(--line); background: #f6f8f3; padding: 14px; border-radius: 9px; overflow-wrap: anywhere; }
-.budget-card h4 { margin: 0 0 6px; }
+.budget-card h3, .budget-card h4 { margin: 0 0 6px; }
 .budget-card p { margin: 4px 0; }
-.budget-example strong { color: var(--green); }
-.budget-complex-link {
+.budget-range {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  width: fit-content;
-  min-height: 32px;
-  max-width: 100%;
-  color: var(--green-deep);
-  font-weight: 650;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  gap: 4px 8px;
+  grid-column: 1 / -1;
 }
-.budget-card details { margin-top: 8px; }
-.budget-card summary { cursor: pointer; min-height: 36px; line-height: 36px; font-size: 13px; }
-.budget-card ul { margin: 0; padding-inline-start: 18px; }
-.budget-card li { margin-bottom: 8px; }
+.budget-range select { width: auto; max-width: 100%; margin-top: 0; }
+.budget-card .budget-trade-dong { margin-top: 12px; }
+.budget-trade { padding: 10px 0; border-top: 1px solid var(--line); }
+.budget-trade-name { display: flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; }
+.budget-trade-name span { font-size: 11px; color: #556559; }
+.budget-trade strong { color: var(--green); }
+.budget-result-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+.budget-result-actions .outline-button {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+.budget-result-actions button:disabled { cursor: default; opacity: .6; }
+.budget-action-status:empty { display: none; }
+.budget-card details { margin-top: 6px; }
+.budget-card summary { cursor: pointer; min-height: 44px; padding-block: 11px; font-size: 13px; }
+.budget-dong + .budget-dong { margin-top: 10px; }
+.budget-dong h4 { font-size: 13px; }
 #budgetMore { margin-top: 14px; min-height: 44px; }
 @media(max-width: 750px) {
   .budget-panel { padding: 16px; }
   .budget-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .budget-amount-field, .budget-form .primary-button { grid-column: 1 / -1; }
   .budget-form .primary-button { margin-top: 0; min-height: 46px; }
+  .budget-range select { flex: 1 1 200px; }
   .budget-results { grid-template-columns: 1fr; }
 }

@@ -9,7 +9,7 @@
   <title>아파트 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=home-entry">
-  <link rel="stylesheet" href="./assets/neighborhood.css?v=home-entry">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=budget-candidates">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -34,7 +34,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=naver-land-mobile"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=budget-candidates"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -61,7 +61,7 @@
   </section>
   <section id="budget" class="panel budget-panel" aria-labelledby="budgetTitle">
     <h2 id="budgetTitle">내 예산으로 단지 찾기</h2>
-    <p class="small muted">최근 6개월 국토부 실거래 · 300세대 이상 · 상한보다 2억 원 미만 낮은 거래</p>
+    <p class="small muted">최근 6개월 국토부 실거래 · 300세대 이상</p>
     <form id="budgetForm" class="budget-form">
       <div class="budget-amount-field">
         <label for="budgetAmount">매수가 상한 (억 원)</label>
@@ -71,8 +71,11 @@
       <label for="budgetRegion">지역<select id="budgetRegion"><option value="all">5개 지역 모두</option><option value="11">서울</option><option value="41">경기</option><option value="26">부산</option><option value="27">대구</option><option value="30">대전</option></select></label>
       <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
       <button class="primary-button" type="submit">단지 찾기</button>
+      <label class="budget-range" for="budgetRange">가격 범위
+        <select id="budgetRange"><option value="near">상한에 가까운 거래 (2억 원 미만 차이)</option><option value="all">상한 이하 전체</option></select>
+      </label>
     </form>
-    <p class="small muted">취득세와 중개비는 별도예요. 단지명을 누르면 네이버 부동산에서 검색합니다.</p>
+    <p class="small muted">상한에 가까운 순으로 표시합니다. 취득세와 중개비는 별도예요.</p>
     <p id="budgetStatus" class="budget-status" role="status"></p>
     <div id="budgetResults" class="budget-results"></div>
     <button id="budgetMore" class="outline-button" type="button" hidden>더 보기</button>
@@ -159,7 +162,7 @@
   <section class="detail-section" id="detail" aria-label="선택 단지 상세">
     <div class="section-heading"><div><span class="eyebrow muted">02 / THE BIGGER PICTURE</span><h2>거래 흐름을 함께 보기</h2></div></div>
     <div class="panel detail-panel">
-      <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName">단지를 선택하세요</h3><p class="small" id="selectedAge"></p><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
+      <div class="detail-top"><div><span class="pill" id="selectedRegion">관심 단지</span><h3 id="selectedName" tabindex="-1">단지를 선택하세요</h3><p class="small" id="selectedAge"></p><p class="muted small" id="selectedAddress"></p></div><label>전용면적 타입<select id="exactArea"><option value="all">선택 면적급 전체 타입</option></select></label></div>
       <div class="selected-metrics" id="selectedMetrics"></div>
       <p class="small muted" id="selectedPriceDetail"></p>
       <div class="charts"><div class="chart-panel"><h4>실거래가 추세 <span>월별 중앙값 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i>선택 단지</span><span id="chartBaseLegend" hidden><i class="base-legend"></i><span id="chartBaseLabel"></span></span></div><div id="priceChart" class="chart"></div></div><div class="chart-panel"><h4>차액 추세 <span id="gapChartSubtitle">자본 대비 · 억원</span></h4><div class="legend"><span><i class="target-legend"></i><span id="gapChartLegend">선택 단지 − 입력 자본</span></span></div><div id="gapChart" class="chart"></div></div></div><p class="small muted" id="gapChartNote"></p>
@@ -170,7 +173,7 @@
     </div>
   </section>
   <section id="calculator" class="calculator-section">
-    <div class="section-heading"><h2>갈아타기 자금 계획</h2><span class="muted small">입력값은 이 브라우저에만 저장됩니다</span></div>
+    <div class="section-heading"><h2 id="calculatorTitle" tabindex="-1">갈아타기 자금 계획</h2><span class="muted small">입력값은 이 브라우저에만 저장됩니다</span></div>
     <div class="calculator-layout">
       <form class="panel calculator-form" id="calculatorForm">
         <div class="form-section"><h3><span>01</span> 지금의 자산</h3><div class="form-grid">
@@ -186,7 +189,7 @@
           <label>신규 주택담보대출 <span>억원</span><input id="newLoan" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
         </div></div>
         <div class="form-section"><h3><span>03</span> 목표 주택과 거래비용</h3><label>목표 단지<select id="targetComplex"></select></label><p class="field-help" id="targetHint"></p><div class="form-grid">
-          <label>가정한 목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="선택 단지 가격 연동"></label>
+          <label>가정한 목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.0001" inputmode="decimal" placeholder="선택 단지 가격 연동"></label>
           <label>취득세 예상액 <span>억원</span><input id="tax" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
           <label>매도 양도세·지방소득세 합계 <span>억원</span><input id="saleTax" type="number" min="0" step="0.0001" value="0" inputmode="decimal"></label>
           <label>기타 거래비용 <span>억원</span><input id="fees" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
