@@ -11,6 +11,8 @@ const stamp = iso => iso ? new Date(iso).toLocaleString("ko-KR", { timeZone: "As
 const ids = ["sale", "mortgage", "family", "assets", "monthly", "bonus", "targetMonth", "newLoan", "tax", "saleTax", "fees", "targetPrice"];
 const controls = [...document.querySelectorAll("button, input, select")];
 controls.forEach(control => { control.disabled = true; });
+const WATCH_PAGE_SIZE = 8;
+let watchPage = 0;
 let registry, official = null, status = null, demo = false, payload = null, trades = [], baseTrades = [];
 let area = "84", region = "all", selected = "gracium", exact = "all", saleAuto = true, targetAuto = true, loadError = "";
 let officialPlanSnapshot = null, neighborhoods = null;
@@ -177,6 +179,17 @@ function medianCell(price, n) {
   return '<span class="cell-price">' + money(price == null ? null : price / 10000) + '</span><small class="' + (n < 3 ? "low-sample" : "muted") + '">' +
     (n < 3 ? "거래 부족 · " + n + "건" : n + "건") + "</small>";
 }
+function renderWatchPageControls(resultCount) {
+  const pageCount = Math.max(1, Math.ceil(resultCount / WATCH_PAGE_SIZE));
+  watchPage = Math.min(watchPage, pageCount - 1);
+  for (const pager of $("watchList").querySelectorAll("[data-watch-pager]")) {
+    pager.hidden = pageCount === 1;
+    pager.querySelector('[data-watch-step="-1"]').disabled = watchPage === 0;
+    pager.querySelector('[data-watch-step="1"]').disabled = watchPage === pageCount - 1;
+    pager.querySelector("span").textContent = `${watchPage + 1} / ${pageCount} 페이지`;
+  }
+  return watchPage * WATCH_PAGE_SIZE;
+}
 function renderList() {
   const search = $("search").value;
   const candidates = registry.complexes.filter(c => isWatched(c) &&
@@ -196,13 +209,16 @@ function renderList() {
     "선택한 비교 가격을 기준 주택 59㎡급의 최근 거래 1건과 비교합니다.";
   const sameArea = currentBaseType() === "band" + area;
   $("areaNotice").innerHTML = (sameArea ? '' : '<span class="area-warning">면적이 다른 비교</span>') + '<span class="small">기준 ' + escape(baseAreaLabel()) + ' ↔ 비교 ' + area + '㎡급 · 실제 전용면적과 타입은 다를 수 있습니다.</span>';
-  $("resultCount").innerHTML = "<b>" + records.length + "</b>개 관심 단지 <span class='muted'>· " + area + "㎡급" + (demo ? " · 샘플" : "") + "</span>";
-  $("apartmentRows").innerHTML = records.map((r, index) => {
+  const offset = renderWatchPageControls(records.length);
+  const resultLabel = `${records.length.toLocaleString("ko-KR")}개 · ${area}㎡급${demo ? " · 샘플" : ""}`;
+  $("watchListCount").textContent = resultLabel;
+  $("resultCount").textContent = records.length ? `${resultLabel} · ${offset + 1}–${Math.min(offset + WATCH_PAGE_SIZE, records.length)}번째 표시` : resultLabel;
+  $("apartmentRows").innerHTML = records.slice(offset, offset + WATCH_PAGE_SIZE).map((r, index) => {
     const latest = r.stats.latest, low = (metric === "median3" ? r.stats.count3 < 3 : metric === "median6" ? r.stats.count6 < 3 : averageMode() ? r.stats.count10 < 3 : r.stats.count < 3) || (averageMode() && baseSummary().count10 < 3);
     const priceDetail = r.c.comparisonEligible === false ? "국민임대 · 매매 비교 제외" : averageMode() ? averageSample(r.stats) + " · " + averagePeriod(r.stats) :
       metric === "latest" ? (latest ? dateLabel(latest.date) + " · " + latest.area + "㎡" : "거래 부족 · 0건") :
       (metric === "median3" ? r.stats.count3 : r.stats.count6) + "건 · 최근 " + (metric === "median3" ? "3" : "6") + "개월";
-    return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(index + 1).padStart(2, "0") +
+    return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(offset + index + 1).padStart(2, "0") +
       '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + householdLabel(r.c) + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small><small class="building-age">' + escape(buildingAge(r.c)) + '</small><button type="button" class="watch-remove" data-watch="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 관심 제거">관심 제거</button></div></td>' +
       '<td data-label="' + escape(metricLabel) + '"><span class="cell-price">' + money(r.price == null ? null : r.price / 10000) + '</span><small class="' + (low ? "low-sample" : "muted") + '">' + priceDetail + "</small></td>" +
       '<td data-label="3개월 중앙값">' + medianCell(r.stats.median3, r.stats.count3) + '</td><td data-label="6개월 중앙값">' + medianCell(r.stats.median6, r.stats.count6) + "</td>" +
@@ -211,7 +227,11 @@ function renderList() {
   }).join("");
   $("noResults").hidden = records.length > 0;
   $("assetColumnLabel").hidden = !personalMode();
-  renderManager();
+  if ($("watchManager").open) renderManager();
+}
+function renderListFromStart() {
+  watchPage = 0;
+  renderList();
 }
 function householdLabel(c) { return c.households == null ? "세대수 확인 필요" : c.households.toLocaleString() + "세대" + (c.minimumHouseholdsException ? " · 요청 예외" : ""); }
 function renderManager() {
@@ -429,13 +449,22 @@ async function loadOfficial() {
 document.querySelectorAll("[data-area]").forEach(button => button.addEventListener("click", () => {
   area = button.dataset.area; exact = "all"; targetAuto = true;
   document.querySelectorAll("[data-area]").forEach(b => { b.classList.toggle("selected", b === button); b.setAttribute("aria-pressed", String(b === button)); });
-  renderList(); renderDetail(true);
+  renderListFromStart(); renderDetail(true);
 }));
 $("regions").addEventListener("click", e => {
   const button = e.target.closest("[data-region]"); if (!button) return;
   region = button.dataset.region;
   $("regions").querySelectorAll("button").forEach(b => { b.classList.toggle("selected", b === button); b.setAttribute("aria-pressed", String(b === button)); });
+  renderListFromStart();
+});
+$("watchList").addEventListener("click", e => {
+  const button = e.target.closest("[data-watch-step]");
+  if (!button || button.disabled || !registry) return;
+  watchPage += Number(button.dataset.watchStep);
   renderList();
+  const heading = $("watchResultHeading");
+  heading.focus({preventScroll: true});
+  heading.scrollIntoView({block: "start"});
 });
 $("apartmentRows").addEventListener("click", e => {
   const watch = e.target.closest("[data-watch]");
@@ -444,7 +473,7 @@ $("apartmentRows").addEventListener("click", e => {
   if (button) { e.preventDefault(); choose(button.dataset.select || button.dataset.detail, true); return; }
   const row = e.target.closest("[data-complex]"); if (row) choose(row.dataset.complex);
 });
-$("search").addEventListener("input", renderList);
+$("search").addEventListener("input", renderListFromStart);
 document.querySelectorAll("[data-tracker]").forEach(button => button.addEventListener("click", () => {
   ++baseRequest; tracker.mode = button.dataset.tracker; targetAuto = true;
   saveTracker(); targetOptions(); activateData();
@@ -466,9 +495,9 @@ $("applyTracker").addEventListener("click", () => {
 $("catalogSearch").addEventListener("input", renderManager);
 $("watchManager").addEventListener("toggle", () => { if ($("watchManager").open) { renderManager(); loadNational(); } });
 $("catalogRows").addEventListener("click", e => { const button = e.target.closest("[data-watch]"); if (button) toggleWatch(button.dataset.watch); });
-$("minimumRatio").addEventListener("change", () => { preferences.minimum = Number($("minimumRatio").value); saveWatch(); renderList(); });
-$("sort").addEventListener("change", renderList);
-$("metric").addEventListener("change", () => { targetAuto = true; renderList(); renderDetail(); });
+$("minimumRatio").addEventListener("change", () => { preferences.minimum = Number($("minimumRatio").value); saveWatch(); renderListFromStart(); });
+$("sort").addEventListener("change", renderListFromStart);
+$("metric").addEventListener("change", () => { targetAuto = true; renderListFromStart(); renderDetail(); });
 $("exactArea").addEventListener("change", () => { exact = $("exactArea").value; targetAuto = true; renderDetail(); });
 $("targetComplex").addEventListener("change", () => choose($("targetComplex").value));
 $("calculatorForm").addEventListener("submit", e => e.preventDefault());
