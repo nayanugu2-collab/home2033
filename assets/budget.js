@@ -14,10 +14,10 @@ export function budgetInManwon(value) {
 }
 
 export function naverComplexSearchURL(districtName, dongName, complexName, mobile = false) {
-  const query = `${districtName} ${dongName} ${complexName}`;
   if (mobile) {
-    return `https://m.search.naver.com/search.naver?query=${encodeURIComponent(query + " 네이버부동산")}`;
+    return `https://fin.land.naver.com/search?q=${encodeURIComponent(complexName)}`;
   }
+  const query = `${districtName} ${dongName} ${complexName}`;
   return `https://new.land.naver.com/search?sk=${encodeURIComponent(query)}`;
 }
 
@@ -54,12 +54,11 @@ export function initBudget(getJSON) {
   const $ = id => document.getElementById(id);
   const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const searchLabel = mobile ? "네이버 검색 결과에서 열기" : "네이버 부동산에서 열기";
   const cache = new Map();
   let request = 0, matches = [], rendered = 0;
   function example(trade, district, dong) {
     const url = naverComplexSearchURL(district.name, dong.name, trade.name, mobile);
-    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)} (${trade.households.toLocaleString('ko-KR')}세대)<span class="sr-only"> ${searchLabel}</span></a>` +
+    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)} (${trade.households.toLocaleString('ko-KR')}세대)<span class="sr-only"> 네이버 부동산에서 열기</span></a>` +
       `<strong>${money(trade.price)}</strong> · ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}`;
   }
   function showMore() {

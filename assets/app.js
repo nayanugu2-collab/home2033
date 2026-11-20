@@ -1,6 +1,6 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
 import { initNeighborhood } from "./neighborhood.js?v=300-households";
-import { initBudget } from "./budget.js?v=mobile-naver-search";
+import { initBudget } from "./budget.js?v=naver-land-mobile";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));

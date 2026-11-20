@@ -481,9 +481,9 @@ test("budget result links search by district, dong and apartment on Naver Real E
   assert.equal(url.pathname, "/search");
   assert.deepEqual([...url.searchParams], [["sk", "경기도 성남시 분당구 서현동 시범단지 삼성한신 & 상가"]]);
   const mobileURL = new URL(naverComplexSearchURL("경기도 성남시 분당구", "서현동", "시범단지 삼성한신 & 상가", true));
-  assert.equal(mobileURL.origin, "https://m.search.naver.com");
-  assert.equal(mobileURL.pathname, "/search.naver");
-  assert.deepEqual([...mobileURL.searchParams], [["query", "경기도 성남시 분당구 서현동 시범단지 삼성한신 & 상가 네이버부동산"]]);
+  assert.equal(mobileURL.origin, "https://fin.land.naver.com");
+  assert.equal(mobileURL.pathname, "/search");
+  assert.deepEqual([...mobileURL.searchParams], [["q", "시범단지 삼성한신 & 상가"]]);
 });
 test("budget ranking keeps exact upper prices, excludes prices 2억 below, and deduplicates complexes", () => {
   const input = [
