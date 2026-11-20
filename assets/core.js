@@ -10,7 +10,8 @@ export function passesRatio(ratio, minimum) {
 export function watchPreferences(value) {
   return { removed: Array.isArray(value?.removed) ? value.removed.filter(x => typeof x === "string") : [],
     added: Array.isArray(value?.added) ? value.added.filter(x => typeof x === "string" && x.startsWith("n-")) : [],
-    minimum: value?.minimum === 0 ? 0 : 1.5 };
+    minimum: value?.minimum === 0 ? 0 : 1.5,
+    capitalMinimum: value?.capitalMinimum === 1.5 ? 1.5 : 0 };
 }
 export function areaClass(area) {
   return Object.keys(AREA_BANDS).find(key => area >= AREA_BANDS[key][0] && area < AREA_BANDS[key][1]) ?? null;
@@ -76,18 +77,20 @@ export function summary(trades, asOf) {
 export function priceFor(summaryValue, metric) {
   return metric === "latest" ? summaryValue.latest?.priceManwon ?? null : summaryValue[metric];
 }
-export function referencePrice(summaryValue, metric) {
-  return priceFor(summaryValue, metric === "average10" ? "average10" : "latest");
-}
 export function comparison(price, base) {
   return price == null || base == null || base <= 0 ? { gap: null, ratio: null } :
     { gap: (price - base) / 10000, ratio: price / base };
 }
 export function trackerPreferences(value) {
-  return { mode: value?.mode === "personal" ? "personal" : "standard",
-    id: typeof value?.id === "string" && /^[a-z0-9-]+$/.test(value.id) ? value.id : "base",
+  return { mode: value?.mode === "personal" ? "personal" : "capital",
+    id: typeof value?.id === "string" && /^[a-z0-9-]+$/.test(value.id) ? value.id : null,
     area: typeof value?.area === "string" && /^(band(59|74|84)|\d+(\.\d+)?)$/.test(value.area) ? value.area : "band59",
-    cash: Number.isFinite(value?.cash) && value.cash >= 0 ? value.cash : 0 };
+    cash: value?.cash === null ? null : Number.isFinite(value?.cash) && value.cash >= 0 ? value.cash : 0,
+    capital: Number.isFinite(value?.capital) && value.capital >= 0 ? value.capital : null };
+}
+export function capitalComparison(price, capital) {
+  if (!Number.isFinite(price) || price <= 0 || !Number.isFinite(capital) || capital < 0) return { gap: null, ratio: null };
+  return { gap: price - capital, ratio: capital > 0 ? price / capital : null };
 }
 export function referenceTrades(trades, id, type) {
   if (/^band(59|74|84)$/.test(type)) return forArea(trades, id, type.slice(4));

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
-import { areaClass, assetComparison, calculate, comparison, constructionLabel, checkNeighborhoodPayload, checkTrendPayload, regionalCoverage, regionalSeries, rawRegionalPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referencePrice, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
+import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, checkNeighborhoodPayload, checkTrendPayload, regionalCoverage, regionalSeries, rawRegionalPayload, neighborhoodSeries, forArea, matchesComplex, median, monthSeries, monthsUntil, nextDay, passesRatio, priceFor, referenceTrades, shiftMonth, summary, trackerPreferences, validTrades, watchPreferences } from "../assets/core.js";
 
 import { initNeighborhood } from "../assets/neighborhood.js";
 
@@ -61,10 +61,21 @@ test("custom baseline separates apartments and exact areas including 101 square 
   assert.equal(referenceTrades(rows,"mine","band74").length,0);
   assert.equal(referenceTrades(rows,"mine","bad").length,0);
 });
-test("persisted tracker validates mode, reference ID, area and cash", () => {
-  assert.deepEqual(trackerPreferences(null),{mode:"standard",id:"base",area:"band59",cash:0});
-  assert.deepEqual(trackerPreferences({mode:"personal",id:"n-abc",area:"101.8",cash:2.25}),{mode:"personal",id:"n-abc",area:"101.8",cash:2.25});
-  assert.deepEqual(trackerPreferences({mode:"bad",id:"<script>",area:"-1",cash:-3}),{mode:"standard",id:"base",area:"band59",cash:0});
+test("tracker lists no default apartment and preserves saved home and capital choices", () => {
+  const blank = {mode:"capital",id:null,area:"band59",cash:0,capital:null};
+  assert.deepEqual(trackerPreferences(null),blank);
+  assert.deepEqual(trackerPreferences({mode:"standard"}),blank);
+  assert.deepEqual(trackerPreferences({mode:"personal",id:"n-abc",area:"101.8",cash:2.25,capital:12.5}),{mode:"personal",id:"n-abc",area:"101.8",cash:2.25,capital:12.5});
+  assert.deepEqual(trackerPreferences({mode:"bad",id:"<script>",area:"-1",cash:-3,capital:-1}),blank);
+  assert.equal(trackerPreferences({capital:0}).capital,0);
+});
+test("direct capital reports shortage and surplus, and distinguishes zero from blank", () => {
+  assert.deepEqual(capitalComparison(18,12),{gap:6,ratio:1.5});
+  assert.deepEqual(capitalComparison(12,16),{gap:-4,ratio:0.75});
+  assert.deepEqual(capitalComparison(12.5,12.5),{gap:0,ratio:1});
+  assert.deepEqual(capitalComparison(18,0),{gap:18,ratio:null});
+  for (const [price,capital] of [[null,12],[18,null],[18,-1],[18,Infinity]])
+    assert.deepEqual(capitalComparison(price,capital),{gap:null,ratio:null});
 });
 test("1.5 ratio excludes strictly below threshold and keeps unknown separately", () => {
   assert.equal(passesRatio(1.49999, 1.5), false);
@@ -83,8 +94,8 @@ test("nationwide search includes address, region and aliases across whitespace",
   assert.equal(matchesComplex(c, "7단지"), false);
 });
 test("watch preferences validate persisted values and retain removed apartments", () => {
-  assert.deepEqual(watchPreferences(null), {removed:[],added:[],minimum:1.5});
-  assert.deepEqual(watchPreferences({removed:["base",null,23],added:["n-abc","base"],minimum:0}), {removed:["base"],added:["n-abc"],minimum:0});
+  assert.deepEqual(watchPreferences(null), {removed:[],added:[],minimum:1.5,capitalMinimum:0});
+  assert.deepEqual(watchPreferences({removed:["base",null,23],added:["n-abc","base"],minimum:0,capitalMinimum:1.5}), {removed:["base"],added:["n-abc"],minimum:0,capitalMinimum:1.5});
   assert.equal(watchPreferences({minimum:"bad"}).minimum, 1.5);
 });
 test("building age uses all areas and current year, independent of contract year", () => {
@@ -196,14 +207,12 @@ test("mean respects complex, area band and exact area selection", () => {
   assert.equal(summary(forArea(rows, "base", "59"), today).average10, 140000);
   assert.equal(summary(forArea(rows, "base", "59", "59.87"), today).average10, 120000);
 });
-test("mean comparison uses means for both homes; other price options retain latest baseline", () => {
+test("home comparison can use the same price metric for both homes", () => {
   const base = summary([trade({ priceManwon: 150000 }), trade({ date: "2026-09-01", priceManwon: 90000 })], today);
   const target = summary([trade({ priceManwon: 170000 }), trade({ date: "2026-09-01", priceManwon: 190000 })], today);
-  assert.deepEqual(comparison(priceFor(target, "average10"), referencePrice(base, "average10")), { gap: 6, ratio: 1.5 });
-  assert.equal(referencePrice(base, "latest"), 150000);
-  assert.equal(referencePrice(base, "median3"), 150000);
-  assert.equal(referencePrice(base, "median6"), 150000);
-  assert.equal(referencePrice(summary([], today), "average10"), null);
+  assert.deepEqual(comparison(priceFor(target, "average10"), priceFor(base, "average10")), { gap: 6, ratio: 1.5 });
+  assert.equal(comparison(priceFor(target, "latest"), priceFor(base, "latest")).gap, 2);
+  assert.equal(comparison(priceFor(target, "median3"), priceFor(base, "median3")).gap, 6);
 });
 test("negative gap is preserved", () => {
   assert.equal(comparison(100000, 120000).gap, -2);
