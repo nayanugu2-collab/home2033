@@ -1,6 +1,6 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=capital-tracker";
 import { initNeighborhood } from "./neighborhood.js?v=five-region-comparison";
-import { initBudget } from "./budget.js?v=near-budget";
+import { initBudget } from "./budget.js?v=naver-listings";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -41,13 +41,16 @@ function saveWatch() {
   catch { $("watchStatus").textContent = "저장소를 사용할 수 없어 이번 화면에만 적용합니다."; }
 }
 const today = koreaToday();
+const currentMonth = today.slice(0, 7);
 $("todayLabel").textContent = today.replaceAll("-", ". ");
-$("targetMonth").min = today.slice(0, 7);
-if ($("targetMonth").value < today.slice(0, 7)) $("targetMonth").value = today.slice(0, 7);
+$("targetMonth").min = currentMonth;
 try {
   const saved = JSON.parse(localStorage.getItem("home2033-plan-v2") || "null");
   if (saved) {
-    for (const id of ids.filter(id => id !== "targetPrice")) if (saved.values?.[id] != null) $(id).value = saved.values[id];
+    for (const id of ids.filter(id => id !== "targetPrice" && id !== "targetMonth")) if (saved.values?.[id] != null) $(id).value = saved.values[id];
+    const month = saved.values?.targetMonth;
+    // Legacy saves included the prefilled month even when the user never changed it.
+    if (typeof month === "string" && month >= currentMonth && (month !== "2033-12" || saved.targetMonthSelected === true)) $("targetMonth").value = month;
     saleAuto = saved.saleAuto !== false;
   }
 } catch { $("saveState").textContent = "브라우저 저장소를 사용할 수 없습니다. 현재 입력은 계산에 반영됩니다."; }
@@ -59,7 +62,8 @@ function save() {
   try {
     // A scenario target price is never retained across apartment/area changes.
     localStorage.setItem("home2033-plan-v2", JSON.stringify({
-      values: Object.fromEntries(ids.filter(id => id !== "targetPrice").map(id => [id, $(id).value])), saleAuto
+      values: Object.fromEntries(ids.filter(id => id !== "targetPrice").map(id => [id, $(id).value])), saleAuto,
+      targetMonthSelected: $("targetMonth").value !== ""
     }));
     $("saveState").textContent = "이 브라우저에 저장됨";
   } catch { $("saveState").textContent = "브라우저 저장 불가 · 현재 입력으로 계산 중"; }
@@ -109,7 +113,7 @@ function notice() {
   $("demoToggle").setAttribute("aria-pressed", String(demo));
   $("updateLabel").textContent = demo ? "가상 거래 · 기준일 " + payload.asOf : "최종 정상 갱신 " + stamp(official?.updatedAt);
   const messages = [];
-  if (demo) messages.push("샘플 모드 · 모든 가격과 거래는 UI 확인을 위한 가상 데이터입니다. 실제 시장 가격이나 2033년 예측이 아닙니다.");
+  if (demo) messages.push("샘플 모드 · 모든 가격과 거래는 화면 확인용 가상 데이터입니다.");
   else {
     if (loadError) messages.push(loadError);
     if (status?.ok === false) messages.push("최근 수집 실패 · 마지막 정상 실거래를 유지합니다. " + status.message);
@@ -446,16 +450,17 @@ function renderDetail(resetTypes = false) {
   renderCalculation();
 }
 function renderCalculation() {
-  $("planTarget").textContent = selectedComplex()?.name || "2033년의 다음 집";
-  $("planSubtitle").textContent = $("targetMonth").value + " 매수 가정 · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + (demo ? " · 샘플 가격" : "");
+  const selectedMonth = $("targetMonth").value;
+  $("planTarget").textContent = selectedComplex()?.name || "목표 주택";
+  $("planSubtitle").textContent = (selectedMonth || "이번 달") + " 매수 가정 · " + (exact === "all" ? area + "㎡급" : exact + "㎡") + (demo ? " · 샘플 가격" : "");
   const resultIds = ["shortage", "netSale", "assetResult", "savingsResult", "equityResult", "loanResult", "availableResult", "costResult"];
   try {
     if (!selectedComplex()) throw new Error("검색에서 관심 단지를 추가하세요.");
     if (selectedComplex().comparisonEligible === false) throw new Error("국민임대 단지는 매수 자금 계산 대상이 아닙니다. 다른 매매 단지를 선택하세요.");
     for (const id of ids) {
-      if ($(id).value === "") throw new Error(id === "sale" ? "현재 주택 예상 매도가를 입력하세요." : id === "targetPrice" ? "거래 부족 · 목표 매수가를 직접 입력하세요." : "비어 있는 입력값을 확인하세요.");
+      if (id !== "targetMonth" && $(id).value === "") throw new Error(id === "sale" ? "현재 주택 예상 매도가를 입력하세요." : id === "targetPrice" ? "거래 부족 · 목표 매수가를 직접 입력하세요." : "비어 있는 입력값을 확인하세요.");
     }
-    const input = Object.fromEntries(ids.map(id => [id, id === "targetMonth" ? $(id).value : Number($(id).value)]));
+    const input = Object.fromEntries(ids.map(id => [id, id === "targetMonth" ? selectedMonth || currentMonth : Number($(id).value)]));
     if (!input.targetPrice) throw new Error("목표 매수가는 0보다 커야 합니다.");
     const r = calculate(input, today);
     $("shortage").innerHTML = money(r.shortage) + "<small>억원</small>";
@@ -588,7 +593,7 @@ for (const id of ids) $(id).addEventListener("input", () => {
 $("resetSale").addEventListener("click", () => { saleAuto = true; syncPrices(); renderCalculation(); save(); });
 $("resetTarget").addEventListener("click", () => { targetAuto = true; syncPrices(); renderCalculation(); });
 $("resetCalculator").addEventListener("click", () => {
-  for (const id of ids) $(id).value = id === "targetMonth" ? (today.slice(0, 7) > "2033-12" ? today.slice(0, 7) : "2033-12") : "0";
+  for (const id of ids) $(id).value = id === "targetMonth" ? "" : "0";
   saleAuto = true; targetAuto = true; syncPrices(); renderCalculation(); save();
 });
 $("useTarget").addEventListener("click", () => { $("calculator").scrollIntoView({ behavior: "smooth" }); $("targetComplex").focus({ preventScroll: true }); });

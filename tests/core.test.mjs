@@ -470,7 +470,13 @@ test("regional coverage counts a complex once across months and selected bands, 
   assert.deepEqual(regionalCoverage(value, "4113511000", ["all"], points), {complexCount:3,households:600,unknown:1,coveredMonths:3});
 });
 
-import { budgetInManwon, districtsWithinBudget } from "../assets/budget.js";
+import { budgetInManwon, districtsWithinBudget, naverComplexSearchURL } from "../assets/budget.js";
+test("budget result links search by district, dong and apartment on Naver Real Estate", () => {
+  const url = new URL(naverComplexSearchURL("경기도 성남시 분당구", "서현동", "시범단지 삼성한신 & 상가"));
+  assert.equal(url.origin, "https://new.land.naver.com");
+  assert.equal(url.pathname, "/search");
+  assert.deepEqual([...url.searchParams], [["sk", "경기도 성남시 분당구 서현동 시범단지 삼성한신 & 상가"]]);
+});
 test("budget ranking keeps exact upper prices, excludes prices 2억 below, and deduplicates complexes", () => {
   const input = [
     {code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[

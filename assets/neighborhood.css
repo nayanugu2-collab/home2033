@@ -24,6 +24,17 @@
 .budget-card h4 { margin: 0 0 6px; }
 .budget-card p { margin: 4px 0; }
 .budget-example strong { color: var(--green); }
+.budget-complex-link {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 32px;
+  max-width: 100%;
+  color: var(--green-deep);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .budget-card details { margin-top: 8px; }
 .budget-card summary { cursor: pointer; min-height: 36px; line-height: 36px; font-size: 13px; }
 .budget-card ul { margin: 0; padding-inline-start: 18px; }

@@ -11,6 +11,10 @@ export function budgetInManwon(value) {
   return Number.isSafeInteger(amount) && amount > 0 ? amount : null;
 }
 
+export function naverComplexSearchURL(districtName, dongName, complexName) {
+  return `https://new.land.naver.com/search?sk=${encodeURIComponent(`${districtName} ${dongName} ${complexName}`)}`;
+}
+
 export function districtsWithinBudget(districts, limit, area) {
   const minimum = Math.max(0, limit - PRICE_WINDOW_MANWON);
   const byCloseness = (a, b) => b.price - a.price || b.date.localeCompare(a.date) || a.name.localeCompare(b.name, "ko");
@@ -43,17 +47,19 @@ export function initBudget(getJSON) {
   const $ = id => document.getElementById(id);
   const cache = new Map();
   let request = 0, matches = [], rendered = 0;
-  function example(trade) {
-    return `<strong>${money(trade.price)}</strong> · ${escape(trade.name)} · ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}`;
+  function example(trade, district, dong) {
+    const url = naverComplexSearchURL(district.name, dong.name, trade.name);
+    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)}<span class="sr-only"> 네이버 부동산에서 열기</span></a>` +
+      `<strong>${money(trade.price)}</strong> · ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}`;
   }
   function showMore() {
     const cards = matches.slice(rendered, rendered + PAGE_SIZE).map(district =>
       `<article class="budget-card"><h4>${escape(district.name)}</h4>
         <p><strong>${district.count.toLocaleString('ko-KR')}개 단지</strong> · ${district.dongs.length}개 법정동</p>
-        <p class="small budget-example">상한에 가장 가까운 거래<br>${example(district.closest)}</p>
+        <p class="small budget-example">상한에 가장 가까운 거래<br>${example(district.closest, district, district.dongs[0])}</p>
         <p class="small muted">집계 기간 ${escape(district.from)} ~ ${escape(district.asOf)}</p>
         <details><summary>동네별 실거래 보기</summary><ul>${district.dongs.map(dong =>
-          `<li><b>${escape(dong.name)}</b> · ${dong.count}개 단지<br><span class="small">${example(dong.closest)}</span></li>`).join('')}</ul></details>
+          `<li><b>${escape(dong.name)}</b> · ${dong.count}개 단지<br><span class="small">${example(dong.closest, district, dong)}</span></li>`).join('')}</ul></details>
       </article>`);
     $('budgetResults').insertAdjacentHTML('beforeend', cards.join(''));
     rendered += cards.length;
