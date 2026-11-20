@@ -8,6 +8,8 @@
 
 운영 저장소는 [nayanugu2-collab/home2033](https://github.com/nayanugu2-collab/home2033)입니다. Secret 연결, 공식 수집, Pages 배포를 완료했으며, 아래 설정으로 관리합니다.
 
+클라우드에서 작업을 이어갈 때는 이 저장소의 `main` 브랜치에서 시작하세요. 코드, 테스트, 마지막으로 수집된 자료가 함께 들어 있습니다.
+
 - [API Secret 설정](https://github.com/nayanugu2-collab/home2033/settings/secrets/actions): 이름은 **MOLIT_SERVICE_KEY**, 값은 발급받은 인증키입니다. 같은 이름이 이미 있으면 중복 등록하지 않습니다.
 - [Pages 설정](https://github.com/nayanugu2-collab/home2033/settings/pages): **Build and deployment → Source → GitHub Actions**를 선택합니다.
 - [수집·배포 실행](https://github.com/nayanugu2-collab/home2033/actions/workflows/update.yml): **Run workflow → main → Run workflow**로 수동 실행합니다. 매일 07:17 한국시간에도 자동 실행을 시도합니다.
@@ -285,9 +287,9 @@ python scripts/build_site.py
 
 `scripts/collect_trends.py`는 상세 [국토부 API](https://www.data.go.kr/data/15126468/openapi.do)의 지역코드·계약년월 조회로 최근 120개 계약월을 받습니다. 과거 원본 전체 대신 `data/trends/<지역코드>.json`에 법정동/지역 전체 × 면적별 월별 중앙값·건수·단지 수를 저장해 모바일 다운로드와 Pages 용량을 줄입니다. 최근 12개월 중 첫 달의 잘린 거래는 완전한 월로 사용하지 않습니다. 전국 최근 거래 파일로 완전한 달을 갱신하고, 더 오래된 달은 API로 보충합니다.
 
-GitHub Actions는 하루 최대 **1,400개 지역·계약월 작업**으로 나눠 자동 실행합니다(페이지 수·재시도에 따라 실제 API 호출 수는 더 많습니다). 분당·수지·동탄과 안양 전 구·광명·일산동구·일산서구·수원 전 구 등 관심 지역을 우선 완성하고, 다음 실행에서 빠진 지역·월을 이어 받습니다. 따라서 서울·경기·부산·대구·대전의 최초 10년 수집은 여러 날이 걸릴 수 있습니다. 화면의 수집 `N/120개월`로 실제 확보 기간을 확인하세요. 수집 완료 후 90일 이상 지난 월도 오래된 순서로 재조회해 늦은 취소를 반영합니다. 과거 모든 월이 매일 재검증되는 것은 아닙니다.
+GitHub Actions는 정기 실행에서 최대 **1,400개 지역·계약월 작업**을 처리합니다. 서울·경기·부산·대구·대전의 시·군·구를 번갈아 조회하며, 최근 미수집 계약월부터 채웁니다. 10년 자료의 실제 확보 기간은 화면의 수집 `N/120개월`에서 확인하세요. 수집이 끝나면 90일 이상 지난 월을 오래된 순서로 재조회해 늦은 취소를 반영합니다.
 
-API 키는 기존 `MOLIT_SERVICE_KEY` Secret을 재사용합니다. 누락·한도·수신 오류 시 해당 월의 마지막 정상 통계를 유지하고 실패를 표시합니다. 5회 실패 시 추가 과거 요청을 중단해 호출 낭비를 줄입니다. 최초 자료가 없거나 추세 메뉴에 미수집 월이 있으면 코드 push로도 과거 수집을 시작합니다. 기존 추세 자료가 있으면 빠진 지역·월만 요청합니다. API 한도나 오류로 마치지 못한 월은 다음 예약 또는 수동 실행에서 이어 받습니다.
+API 키는 `MOLIT_SERVICE_KEY` Secret을 사용합니다. 일일 한도 초과 등으로 수집이 멈추면 최근 정상 자료를 유지하고, 다음 예약 또는 수동 실행에서 빠진 계약월을 이어 받습니다. 실제 API 호출 수는 페이지 수와 재시도 횟수에 따라 달라집니다.
 
 ~~~powershell
 # API 호출 없이 현재 로컬 자료의 월별 통계만 생성 (미리보기용)
