@@ -1,4 +1,8 @@
 export const AREA_BANDS = { "59": [58, 60], "74": [73, 75], "84": [83, 85.01] };
+export const MIN_HOUSEHOLDS = 300;
+export function meetsHouseholdMinimum(complex) {
+  return Number.isSafeInteger(complex?.households) && complex.households >= MIN_HOUSEHOLDS;
+}
 export function matchesComplex(c, query) {
   const normalize = value => String(value).replace(/\s+/g, "").toLowerCase();
   const text = normalize([c.name, c.region, c.legalDong, ...(c.jibuns || []), ...(c.aliases || [])].join(" "));
@@ -147,7 +151,7 @@ export function checkNeighborhoodPayload(value, districtCode) {
 export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, period = 12) {
   const length = [6, 12, 24, 36, 60, 120].includes(period) ? period : 12;
   const first = shiftMonth(asOf.slice(0, 7) + "-01", 1 - length);
-  const known = new Map(complexes.filter(c => (dongCode === "all" || c.legalDongCode === dongCode) && c.comparisonEligible !== false).map(c => [c.id, c]));
+  const known = new Map(complexes.filter(c => (dongCode === "all" || c.legalDongCode === dongCode) && c.comparisonEligible !== false && meetsHouseholdMinimum(c)).map(c => [c.id, c]));
   const rows = trades.filter(t => !t.canceled && known.get(t.complexId)?.legalDongCode === t.legalDongCode &&
     (band === "all" || areaClass(t.area) === band) && t.date >= first && t.date <= asOf &&
     Number.isFinite(t.priceManwon) && t.priceManwon > 0 && Number.isFinite(t.area) && t.area > 0);
@@ -163,20 +167,20 @@ export function neighborhoodSeries(trades, complexes, dongCode, band, asOf, peri
 const TREND_AREA_MASKS = {"59": 1, "74": 2, "84": 4};
 
 export function checkTrendPayload(value, code) {
-  if (value?.schemaVersion !== 1 || value.kind !== "regional-monthly-median" || value.districtCode !== code || !Array.isArray(value.months)) throw new Error("추세 자료 형식 오류");
+  if (value?.schemaVersion !== 1 || value.minimumHouseholds !== MIN_HOUSEHOLDS || value.kind !== "regional-monthly-median" || value.districtCode !== code || !Array.isArray(value.months)) throw new Error("추세 자료 형식 오류");
   const seen = new Set();
   for (const m of value.months) {
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(m.month) || seen.has(m.month) || !Number.isFinite(Date.parse(m.updatedAt)) || !Array.isArray(m.rows)) throw new Error("추세 계약월 오류");
     seen.add(m.month);
-    if (m.members !== undefined) {
-      if (!Array.isArray(m.members)) throw new Error("추세 단지 자료 오류");
+    {
+      if (m.minimumHouseholds !== MIN_HOUSEHOLDS || !Array.isArray(m.members)) throw new Error("추세 단지 자료 오류");
       const identities = new Set();
       for (const entry of m.members) {
         if (!Array.isArray(entry) || entry.length !== 4) throw new Error("추세 단지 자료 오류");
         const [id, dong, mask, households] = entry;
         if (typeof id !== "string" || !id || identities.has(id) || !/^\d{10}$/.test(dong) || !dong.startsWith(code) ||
             !Number.isInteger(mask) || mask < 0 || mask > 7 ||
-            (households !== null && (!Number.isSafeInteger(households) || households <= 0))) throw new Error("추세 단지 자료 오류");
+            !meetsHouseholdMinimum({households})) throw new Error("추세 단지 자료 오류");
         identities.add(id);
       }
     }
@@ -218,9 +222,9 @@ export function regionalCoverage(value, dong, areas, points) {
     }
     coveredMonths++;
     for (const [id, memberDong, mask, householdCount] of month.members) {
-      if ((dong !== "all" && memberDong !== dong) || (!allAreas && !(mask & areaMask))) continue;
+      if ((dong !== "all" && memberDong !== dong) || (!allAreas && !(mask & areaMask)) || !meetsHouseholdMinimum({households:householdCount})) continue;
       if (!complexes.has(id)) complexes.set(id, new Set());
-      if (householdCount !== null) complexes.get(id).add(householdCount);
+      complexes.get(id).add(householdCount);
     }
   }
   let households = 0, known = 0;
@@ -247,11 +251,11 @@ export function rawRegionalPayload(value, code) {
   const members = new Map();
   for (const t of input) {
     const c = known.get(t.complexId), month = t.date.slice(0, 7);
-    if (conflicts.has(month+"|"+t.legalDongCode)) continue;
+    if (conflicts.has(month+"|"+t.legalDongCode) || !meetsHouseholdMinimum(c)) continue;
     const band = areaClass(t.area);
     if (!members.has(month)) members.set(month, new Map());
     const monthlyMembers = members.get(month);
-    if (!monthlyMembers.has(c.id)) monthlyMembers.set(c.id, [c.id, c.legalDongCode, 0, Number.isSafeInteger(c.households) && c.households > 0 ? c.households : null]);
+    if (!monthlyMembers.has(c.id)) monthlyMembers.set(c.id, [c.id, c.legalDongCode, 0, c.households]);
     monthlyMembers.get(c.id)[2] |= TREND_AREA_MASKS[band] || 0;
     for (const [dongCode, dongName] of [["all", "전체"], [c.legalDongCode, c.legalDong]]) for (const area of ["all", ...(band ? [band] : [])]) {
       const key = month + "|" + dongCode + "|" + area;
@@ -264,8 +268,8 @@ export function rawRegionalPayload(value, code) {
     if (!rows.has(g.month)) rows.set(g.month, []);
     rows.get(g.month).push({dongCode:g.dongCode,dongName:g.dongName,area:g.area,priceManwon:median(g.prices),count:g.prices.length,complexCount:g.ids.size});
   }
-  const months = neighborhoodSeries([], [], "all", "all", day, 12).filter(p=>fullMonth(p.month)).map(p=>({month:p.month,updatedAt:value.updatedAt || day+"T00:00:00+09:00",rows:rows.get(p.month) || [],members:[...(members.get(p.month)?.values() ?? [])],excludedIdentityConflicts:input.filter(t=>t.date.startsWith(p.month)&&conflicts.has(p.month+"|"+t.legalDongCode)).length}));
-  return {schemaVersion:1,kind:"regional-monthly-median",districtCode:code,months};
+  const months = neighborhoodSeries([], [], "all", "all", day, 12).filter(p=>fullMonth(p.month)).map(p=>({month:p.month,updatedAt:value.updatedAt || day+"T00:00:00+09:00",minimumHouseholds:MIN_HOUSEHOLDS,rows:rows.get(p.month) || [],members:[...(members.get(p.month)?.values() ?? [])],excludedIdentityConflicts:input.filter(t=>t.date.startsWith(p.month)&&conflicts.has(p.month+"|"+t.legalDongCode)).length}));
+  return {schemaVersion:1,minimumHouseholds:MIN_HOUSEHOLDS,kind:"regional-monthly-median",districtCode:code,months};
 }
 export function monthsUntil(today, targetMonth) {
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(targetMonth)) throw new Error("목표 매수 시점을 확인하세요.");

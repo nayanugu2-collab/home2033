@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import update
 from scripts.collect_nationwide import district_payload
-from scripts.trend_households import counts_by_trade_id, download_households, household_count
+from scripts.trend_households import MIN_HOUSEHOLDS, counts_by_trade_id, download_households, household_count, stored_household_counts
 
 GYEONGGI_BACKFILL_CODES = ('41171', '41173', '41210', '41285', '41287', '41111', '41113', '41115', '41117')
 PRIORITY = ('41135', '41465', '41597', *GYEONGGI_BACKFILL_CODES,
@@ -40,12 +40,19 @@ def identity_conflicts(payload, month):
 
 
 def aggregate_month(payload, month, members=None, household_lookup=None):
-    known = {c['id']: c for c in payload['complexes']}
+    known = {}
+    for c in payload['complexes']:
+        count = household_lookup(c) if household_lookup else c.get('households')
+        if c.get('comparisonEligible') is not False and type(count) is int and count >= MIN_HOUSEHOLDS:
+            known[c['id']] = (c, count)
     groups = {}
     conflicts = identity_conflicts(payload, month)
     for t in payload['trades']:
-        c = known.get(t['complexId'])
-        if not c or c.get('comparisonEligible') is False or t.get('canceled') or not t['date'].startswith(month) or c['legalDongCode'] in conflicts:
+        match = known.get(t['complexId'])
+        if not match or t.get('canceled') or not t['date'].startswith(month):
+            continue
+        c, households = match
+        if c['legalDongCode'] in conflicts:
             continue
         if t['legalDongCode'] != c['legalDongCode']:
             raise update.CollectionError('추세 거래 신원 오류')
@@ -53,7 +60,6 @@ def aggregate_month(payload, month, members=None, household_lookup=None):
         bands = ['all', band] if band else ['all']
         if members is not None:
             if c['id'] not in members:
-                households = household_lookup(c) if household_lookup else c.get('households')
                 members[c['id']] = [c['id'], c['legalDongCode'], 0, households]
             members[c['id']][2] |= AREA_MASKS.get(band, 0)
         for dong, name in [('all', '전체'), (c['legalDongCode'], c['legalDong'])]:
@@ -70,20 +76,20 @@ def summarize(payload, month, updated_at, household_lookup=None):
     conflicts = identity_conflicts(payload, month)
     members = {}
     rows = aggregate_month(payload, month, members, household_lookup)
-    return {'month': month, 'updatedAt': updated_at, 'rows': rows, 'members': [members[key] for key in sorted(members)],
+    return {'month': month, 'updatedAt': updated_at, 'minimumHouseholds': MIN_HOUSEHOLDS,
+            'rows': rows, 'members': [members[key] for key in sorted(members)],
             'excludedIdentityConflicts': sum(t['legalDongCode'] in conflicts and not t.get('canceled')
                                              and t['date'].startswith(month) for t in payload['trades'])}
 
 
-def preserve_households(month, previous_counts):
+def valid_stored_month(month, code, counts=None):
+    if month.get('minimumHouseholds') != MIN_HOUSEHOLDS or not isinstance(month.get('members'), list):
+        return False
     for entry in month['members']:
-        counts = previous_counts.get(entry[0], set())
-        if entry[3] is None and len(counts) == 1:
-            entry[3] = next(iter(counts))
-    return month
-
-
-def valid_stored_month(month, code):
+        if not isinstance(entry, list) or len(entry) != 4 or type(entry[3]) is not int or entry[3] < MIN_HOUSEHOLDS:
+            return False
+        if counts and counts.get(entry[0], entry[3]) < MIN_HOUSEHOLDS:
+            return False
     seen = set()
     for row in month['rows']:
         dong, band = row.get('dongCode'), row.get('area')
@@ -105,40 +111,33 @@ def compact_json(path, value):
     os.replace(temporary, path)
 
 
+def seed_recent_months(existing, raw, wanted, household_lookup):
+    # The first month of a rolling-year snapshot may start mid-month.
+    start = update.window_start(dt.date.fromisoformat(raw['asOf']))
+    cutoff = start.strftime('%Y-%m')
+    for month in wanted:
+        full = cutoff < month or (cutoff == month and start.day == 1)
+        newer = month not in existing or raw['updatedAt'] >= existing[month]['updatedAt']
+        if full and month <= raw['asOf'][:7] and newer:
+            existing[month] = summarize(raw, month, raw['updatedAt'], household_lookup)
+
+
 def collect_history(districts, today, registry, fetcher, budget=1400, dest=None, nationwide=None,
                     household_lookup=None, verified_counts=None, seoul_backfill=False, backfill_only=False):
     dest = dest or ROOT/'data/trends'
     nationwide = nationwide or ROOT/'data/nationwide'
     wanted = months_for(today)
     states = {}
-    previous_by_district = {}
     verified_counts = verified_counts or {}
     for d in districts:
         code = d['code']; path = dest/(code+'.json')
         state = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {
             'schemaVersion': 1, 'kind': 'regional-monthly-median', 'districtCode': code, 'name': d['name'], 'months': []}
-        existing = {m['month']: m for m in state['months'] if m['month'] in wanted and valid_stored_month(m, code)}
-        previous_counts = {}
-        for month in existing.values():
-            for entry in month.get('members', []):
-                ident, _, _, count = entry
-                if count is None and ident in verified_counts:
-                    count = entry[3] = verified_counts[ident]
-                if count is not None:
-                    previous_counts.setdefault(ident, set()).add(count)
-        previous_by_district[code] = previous_counts
+        existing = {m['month']: m for m in state['months'] if m['month'] in wanted and valid_stored_month(m, code, verified_counts)}
         raw_path = nationwide/(code+'.json')
         if raw_path.exists():
             raw = json.loads(raw_path.read_text(encoding='utf-8'))
-            # The first month in a rolling-year file is truncated: never seed it.
-            start = update.window_start(dt.date.fromisoformat(raw['asOf']))
-            cutoff = start.strftime('%Y-%m')
-            for month in wanted:
-                full = cutoff < month or (cutoff == month and start.day == 1)
-                newer = month not in existing or raw['updatedAt'] >= existing[month]['updatedAt']
-                if full and month <= raw['asOf'][:7] and newer:
-                    summary = summarize(raw, month, raw['updatedAt'], household_lookup)
-                    existing[month] = preserve_households(summary, previous_counts)
+            seed_recent_months(existing, raw, wanted, household_lookup)
         state['months'] = existing
         state['asOf'] = today.isoformat()
         state['failedMonths'] = []
@@ -147,21 +146,6 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     active = [d for d in districts if d['code'].startswith(TREND_REGIONS)]
     ordered = sorted(active, key=lambda d: (priority.get(d['code'], 999), d['code']))
     jobs = [(d, month) for d in ordered for month in reversed(wanted) if month not in states[d['code']]['months']]
-    missing_members = []
-    for d in ordered:
-        months = states[d['code']]['months']
-        for month in reversed(wanted):
-            saved = months.get(month)
-            if saved is None or 'members' in saved:
-                continue
-            if not saved['rows']:
-                saved['members'] = []
-            else:
-                missing_members.append((d, month))
-    # Give the regions shown in the quick picker first access to complete counts.
-    quick_codes = set(PRIORITY[:3])
-    priority_members = [task for task in missing_members if task[0]['code'] in quick_codes]
-    other_members = [task for task in missing_members if task[0]['code'] not in quick_codes]
     # Update each Seoul district's recent months before moving on to older years.
     seoul = [d for d in ordered if d['code'].startswith('11')]
     seoul_jobs = [(d, month) for month in reversed(wanted) for d in seoul
@@ -172,7 +156,8 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
     if seoul_backfill:
         jobs = seoul_jobs
     else:
-        tasks = [*priority_members, *seoul_jobs, *other_members[:max(0, budget//3)], *jobs, *other_members]
+        quick_codes = set(PRIORITY[:3])
+        tasks = [*(task for task in jobs if task[0]['code'] in quick_codes), *seoul_jobs, *jobs]
         if not backfill_only:
             tasks.extend((d, m['month']) for d, m in old)
         jobs = list({(d['code'], month): (d, month) for d, month in tasks}.values())
@@ -187,7 +172,6 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
             value = district_payload(d['code'], d['name'], [month.replace('-', '')], today, registry,
                                      fetcher, start=first)
             result = summarize(value, month, dt.datetime.now(update.KST).isoformat(), household_lookup)
-            preserve_households(result, previous_by_district[d['code']])
             return d['code'], month, result, True, ''
         except Exception as exc:
             # Log only a whitelisted API result code or exception class, never a URL/key.
@@ -217,7 +201,7 @@ def collect_history(districts, today, registry, fetcher, budget=1400, dest=None,
         index.append({'code':code,'name':d['name'],'availableMonths':len(state['months']),
                       'memberMonths':sum('members' in m for m in state['months']),
                       'totalMonths':len(wanted),'failedMonths':len(state['failedMonths'])})
-    compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'districts':index,
+    compact_json(dest/'index.json', {'schemaVersion':1,'asOf':today.isoformat(),'minimumHouseholds':MIN_HOUSEHOLDS,'districts':index,
                                     'failedRequests':failures,'failureReasons':reasons,'monthBudget':budget,
                                     'source':'https://www.data.go.kr/data/15126468/openapi.do'})
     if not failures:
@@ -261,10 +245,15 @@ def main():
     except (OSError, ValueError, KeyError):
         print('공식 세대수 자료 수신 실패 · 기존 확인값 유지', flush=True)
     registry = update.load_registry()
+    trends = ROOT/'data/trends'
+    counts = stored_household_counts(trends)
+    counts.update(counts_by_trade_id(index, registry))
+    if counts:
+        compact_json(trends/'households.json', counts)
     return collect_history(districts, dt.datetime.now(update.KST).date(), registry,
                            lambda code, month:update.fetch_month(key, code, month), args.budget,
-                           household_lookup=lambda c: household_count(c, index),
-                           verified_counts=counts_by_trade_id(index, registry) if index else None,
+                           household_lookup=lambda c: household_count(c, index) or counts.get(c['id']),
+                           verified_counts=counts,
                            seoul_backfill=args.seoul_backfill,
                            backfill_only=args.backfill_only)
 

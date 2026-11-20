@@ -286,10 +286,12 @@ test("sample data is separate from official prices and every identity exists", a
 
 
 const neighborhoodComplexes = [
-  {id:"a",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["1"]},
-  {id:"b",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["2"]},
-  {id:"elsewhere",districtCode:"41135",legalDongCode:"4113510500",legalDong:"서현동",jibuns:["3"]},
-  {id:"rental",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["4"],comparisonEligible:false}
+  {id:"a",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["1"],households:300},
+  {id:"b",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["2"],households:600},
+  {id:"elsewhere",districtCode:"41135",legalDongCode:"4113510500",legalDong:"서현동",jibuns:["3"],households:700},
+  {id:"rental",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["4"],households:500,comparisonEligible:false},
+  {id:"small",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["5"],households:299},
+  {id:"unknown",districtCode:"41135",legalDongCode:"4113511000",legalDong:"백현동",jibuns:["6"],households:null}
 ];
 const neighborhoodTrade = (overrides={}) => ({id:"n",complexId:"a",legalDongCode:"4113511000",date:"2026-10-01",area:84.9,priceManwon:100000,canceled:false,...overrides});
 const neighborhoodPayload = trades => ({schemaVersion:2,mode:"official",districtCode:"41135",complexes:neighborhoodComplexes,trades});
@@ -297,7 +299,8 @@ const neighborhoodPayload = trades => ({schemaVersion:2,mode:"official",district
 test("dong series uses exact legal code, selected area and eligible identities, excluding cancels and future dates", () => {
   const rows = [neighborhoodTrade(),neighborhoodTrade({complexId:"b",priceManwon:200000}),
     neighborhoodTrade({area:59.9,priceManwon:900000}),neighborhoodTrade({complexId:"elsewhere",legalDongCode:"4113510500"}),
-    neighborhoodTrade({complexId:"rental"}),neighborhoodTrade({canceled:true}),neighborhoodTrade({date:"2026-11-01"}),
+    neighborhoodTrade({complexId:"rental"}),neighborhoodTrade({complexId:"small",priceManwon:900000}),
+    neighborhoodTrade({complexId:"unknown",priceManwon:900000}),neighborhoodTrade({canceled:true}),neighborhoodTrade({date:"2026-11-01"}),
     neighborhoodTrade({complexId:"a",legalDongCode:"4113510500"}),neighborhoodTrade({priceManwon:0})];
   const p = neighborhoodSeries(rows,neighborhoodComplexes,"4113511000","84",today).at(-1);
   assert.deepEqual(p,{month:"2026-10",price:15,count:2,complexCount:2,partial:true});
@@ -325,7 +328,7 @@ test("dong aggregation counts distinct apartments and weights monthly median by 
 test("district payload refuses mismatched district, unknown identity or legal dong, missing address and duplicate apartment IDs", () => {
   const valid = neighborhoodPayload([neighborhoodTrade()]);
   assert.equal(checkNeighborhoodPayload(valid,"41135"),valid);
-  for (const d of [ {...valid,districtCode:"11110"}, {...valid,trades:[neighborhoodTrade({complexId:"unknown"})]},
+  for (const d of [ {...valid,districtCode:"11110"}, {...valid,trades:[neighborhoodTrade({complexId:"unregistered"})]},
     {...valid,trades:[neighborhoodTrade({legalDongCode:"4113510500"})]},
     {...valid,complexes:valid.complexes.map(c=>({...c,jibuns:[]}))},
     {...valid,complexes:[...valid.complexes,valid.complexes[0]]}, {...valid,mode:"sample"} ])
@@ -404,7 +407,7 @@ test("regional statistics distinguish missing collection from collected zero tra
   assert.deepEqual([s.at(-2).available,s.at(-2).count,s.at(-2).price],[true,0,null]);
 });
 test("all-area raw fallback includes other sizes and calculates a contract-weighted district median",()=>{
-  const p={...neighborhoodPayload([neighborhoodTrade(),neighborhoodTrade({priceManwon:110000}),neighborhoodTrade({complexId:"b",area:101,priceManwon:300000})]),asOf:today};
+  const p={...neighborhoodPayload([neighborhoodTrade(),neighborhoodTrade({priceManwon:110000}),neighborhoodTrade({complexId:"small",priceManwon:900000}),neighborhoodTrade({complexId:"unknown",priceManwon:900000}),neighborhoodTrade({complexId:"b",area:101,priceManwon:300000})]),asOf:today};
   const value=rawRegionalPayload(p,"41135");
   assert.equal(regionalSeries(value,"all","all",today).at(-1).price,11);
   assert.equal(regionalSeries(value,"all","all",today).at(-1).count,3);
@@ -414,6 +417,7 @@ test("history validator rejects wrong districts, duplicate months, duplicate sta
   const good=rawRegionalPayload({...neighborhoodPayload([neighborhoodTrade()]),asOf:today},"41135");
   assert.equal(checkTrendPayload(good,"41135"),good);
   assert.throws(()=>checkTrendPayload(good,"11110"));
+  assert.throws(()=>checkTrendPayload({...good,minimumHouseholds:undefined},"41135"));
   assert.throws(()=>checkTrendPayload({...good,months:[good.months[0],good.months[0]]},"41135"));
   const last=good.months.at(-1),row=last.rows[0];
   for(const rows of [[row,row],[{...row,count:0}],[{...row,complexCount:100}],[{...row,dongCode:"1111010100"}]])
@@ -459,15 +463,15 @@ test("raw fallback quarantines contradictory code/name identities from both dong
 });
 
 
-test("regional coverage counts a complex once across months and selected bands, with unknown households separate", () => {
+test("regional coverage counts qualifying complexes once and skips small or unverified complexes", () => {
   const value = { months: [
     { month: "2026-09", rows: [], members: [["a", "4113511000", 5, 500], ["b", "4113511000", 4, null]] },
     { month: "2026-10", rows: [], members: [["a", "4113511000", 1, 500], ["c", "4113510500", 4, 300], ["d", "4113511000", 0, 100]] },
     { month: "2026-08", rows: [{dongCode:"all",area:"84"}] }
   ] };
   const points = regionalSeries(value, "all", "all", "2026-10-31", 6);
-  assert.deepEqual(regionalCoverage(value, "all", ["59", "84"], points), {complexCount:3,households:800,unknown:1,coveredMonths:2});
-  assert.deepEqual(regionalCoverage(value, "4113511000", ["all"], points), {complexCount:3,households:600,unknown:1,coveredMonths:3});
+  assert.deepEqual(regionalCoverage(value, "all", ["59", "84"], points), {complexCount:2,households:800,unknown:0,coveredMonths:2});
+  assert.deepEqual(regionalCoverage(value, "4113511000", ["all"], points), {complexCount:1,households:500,unknown:0,coveredMonths:3});
 });
 
 import { budgetInManwon, districtsWithinBudget, naverComplexSearchURL } from "../assets/budget.js";
@@ -480,15 +484,17 @@ test("budget result links search by district, dong and apartment on Naver Real E
 test("budget ranking keeps exact upper prices, excludes prices 2억 below, and deduplicates complexes", () => {
   const input = [
     {code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[
-      ["a","A","84",[[125501,"2026-11-10",84.95],[125500,"2026-11-10",84.95],[95000,"2026-11-08",84.95]]],
-      ["a","A","59",[[118000,"2026-11-10",59.9]]],
-      ["b","B","84",[[105500,"2026-11-12",84.9]]],
-      ["c","C","other",[[110000,"2026-11-13",101]]]
-    ]}, {code:"1168010200",name:"개포동",sales:[["d","D","84",[[105499,"2026-11-13",84.9]]]]}]},
+      ["a","A","84",[[125501,"2026-11-10",84.95],[125500,"2026-11-10",84.95],[95000,"2026-11-08",84.95]],300],
+      ["a","A","59",[[118000,"2026-11-10",59.9]],300],
+      ["b","B","84",[[105500,"2026-11-12",84.9]],600],
+      ["c","C","other",[[110000,"2026-11-13",101]],500],
+      ["small","Small","84",[[125499,"2026-11-12",84.9]],299],
+      ["unknown","Unknown","84",[[125499,"2026-11-12",84.9]],null]
+    ]}, {code:"1168010200",name:"개포동",sales:[["d","D","84",[[105499,"2026-11-13",84.9]],500]]}]},
     {code:"11710",name:"송파구",dongs:[{code:"1171010100",name:"잠실동",sales:[
-      ["e","E","84",[[120000,"2026-11-11",84.9]]], ["f","F","84",[[111000,"2026-11-11",84.9]]]
+      ["e","E","84",[[120000,"2026-11-11",84.9]],500], ["f","F","84",[[111000,"2026-11-11",84.9]],500]
     ]}]},
-    {code:"11740",name:"강동구",dongs:[{code:"1174010100",name:"명일동",sales:[["g","G","84",[[105500,"2026-11-13",84.9]]]]}]}
+    {code:"11740",name:"강동구",dongs:[{code:"1174010100",name:"명일동",sales:[["g","G","84",[[105500,"2026-11-13",84.9]],500]]}]}
   ];
   assert.equal(budgetInManwon("12.55"),125500);
   assert.equal(budgetInManwon("0.00001"),null);
@@ -498,6 +504,7 @@ test("budget ranking keeps exact upper prices, excludes prices 2억 below, and d
   assert.equal(result[0].count,1);
   assert.deepEqual(result[0].dongs.map(d=>d.name),["역삼동"]);
   assert.equal(result[0].closest.price,125500);
+  assert.equal(result[0].closest.households,300);
   assert.equal(districtsWithinBudget(input,125500,"all")[0].count,2);
   assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
 });

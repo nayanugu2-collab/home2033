@@ -65,7 +65,7 @@ class TrendTests(unittest.TestCase):
     def test_all_area_and_district_medians_are_from_contracts_not_medians_of_medians(self):
         p = district_payload('41135','분당',['201701'],dt.date(2026,11,19),update.load_registry(),
             lambda *_:[self.raw(),self.raw(dealAmount='110,000'),self.raw(umdCd='10500',umdNm='서현동',jibun='2',excluUseAr='101',dealAmount='300,000')], start=dt.date(2017,1,1))
-        rows=aggregate_month(p,'2017-01')
+        rows=aggregate_month(p,'2017-01',household_lookup=lambda _: 300)
         all_row=next(r for r in rows if r['dongCode']=='all' and r['area']=='all')
         self.assertEqual((all_row['priceManwon'],all_row['count'],all_row['complexCount']),(110000,3,2))
         self.assertEqual(next(r for r in rows if r['dongCode']=='all' and r['area']=='84')['priceManwon'],105000)
@@ -78,13 +78,15 @@ class TrendTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=update.ROOT/'.test-output') as folder:
             root=Path(folder); dest=root/'trends'; dest.mkdir()
             old={'schemaVersion':1,'kind':'regional-monthly-median','districtCode':'41135','name':'분당','months':[
-                {'month':'2017-01','updatedAt':'2026-11-01T00:00:00+09:00','rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':1}]}]}
+                {'month':'2017-01','updatedAt':'2026-11-01T00:00:00+09:00','minimumHouseholds':300,'members':[['a','4113511000',4,300]],'rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':1}]},
+                {'month':'2017-02','updatedAt':'2026-11-01T00:00:00+09:00','rows':[]}]}
             (dest/'41135.json').write_text(json.dumps(old),encoding='utf-8')
             def fail(*_):raise RuntimeError('secret-in-url')
             result=collect_history([{'code':'41135','name':'분당'}],dt.date(2026,11,19),update.load_registry(),fail,1,dest,root/'raw')
             value=json.loads((dest/'41135.json').read_text(encoding='utf-8'))
             self.assertEqual(result,1)
             self.assertEqual(next(m for m in value['months'] if m['month']=='2017-01'),old['months'][0])
+            self.assertNotIn('2017-02', [m['month'] for m in value['months']])
             self.assertNotIn('secret-in-url',json.dumps(value))
             self.assertEqual(len(value['failedMonths']),1)
 
@@ -105,7 +107,7 @@ class TrendTests(unittest.TestCase):
             p={'asOf':'2026-10-31','updatedAt':'2026-10-31T00:00:00+09:00','complexes':[],'trades':[]}
             (raw/'41135.json').write_text(json.dumps(p),encoding='utf-8')
             newer={'schemaVersion':1,'kind':'regional-monthly-median','districtCode':'41135','name':'분당','months':[
-                {'month':'2026-01','updatedAt':'2026-11-01T00:00:00+09:00','rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':2}]}]}
+                {'month':'2026-01','updatedAt':'2026-11-01T00:00:00+09:00','minimumHouseholds':300,'members':[['a','4113511000',4,300]],'rows':[{'dongCode':'all','dongName':'전체','area':'all','priceManwon':100000,'count':1,'complexCount':1,'keep':2}]}]}
             (dest/'41135.json').write_text(json.dumps(newer),encoding='utf-8')
             collect_history([{'code':'41135','name':'분당'}],dt.date(2026,10,31),update.load_registry(),lambda *_:[],0,dest,raw)
             result=json.loads((dest/'41135.json').read_text(encoding='utf-8'))
@@ -117,7 +119,7 @@ class TrendTests(unittest.TestCase):
         from scripts.collect_trends import summarize
         p=district_payload('41135','분당',['201701'],dt.date(2026,11,19),update.load_registry(),
             lambda *_:[self.raw(),self.raw(umdNm='다른동',aptNm='다른단지',jibun='2'),self.raw(umdCd='10500',umdNm='서현동',jibun='3',dealAmount='900,000')],start=dt.date(2017,1,1))
-        result=summarize(p,'2017-01','2026-11-19T00:00:00+09:00')
+        result=summarize(p,'2017-01','2026-11-19T00:00:00+09:00',lambda _: 300)
         self.assertEqual(result['excludedIdentityConflicts'],2)
         self.assertFalse(any(r['dongCode']=='4113511000' for r in result['rows']))
         total=next(r for r in result['rows'] if r['dongCode']=='all' and r['area']=='all')
@@ -138,11 +140,14 @@ class TrendTests(unittest.TestCase):
 
     def test_summary_records_distinct_complex_separately_from_transaction_count(self):
         from scripts.collect_trends import summarize
-        rows = [self.raw(excluUseAr='59.5'),self.raw(),self.raw(),self.raw(umdCd='10500',umdNm='서현동',jibun='2',excluUseAr='101')]
+        rows = [self.raw(excluUseAr='59.5'),self.raw(),self.raw(),self.raw(umdCd='10500',umdNm='서현동',jibun='2',excluUseAr='101',dealAmount='900,000'),
+                self.raw(umdCd='10500',umdNm='서현동',jibun='3',excluUseAr='101',dealAmount='950,000')]
         p = district_payload('41135','분당',['201701'],dt.date(2026,11,19),update.load_registry(),lambda *_:rows,start=dt.date(2017,1,1))
-        value = summarize(p,'2017-01','2026-11-19T00:00:00+09:00',lambda c:500 if c['legalDong']=='백현동' else None)
+        value = summarize(p,'2017-01','2026-11-19T00:00:00+09:00',lambda c:{'1':300, '2':299}.get(c['jibuns'][0]))
         members = {dong:(mask,count) for _,dong,mask,count in value['members']}
-        self.assertEqual(members,{'4113511000':(5,500),'4113510500':(0,None)})
+        self.assertEqual(members,{'4113511000':(5,300)})
+        row = next(row for row in value['rows'] if row['dongCode']=='all' and row['area']=='all')
+        self.assertEqual((row['priceManwon'], row['count'], row['complexCount']), (100000, 3, 1))
 
     def test_dongtan_before_district_change_matches_exact_parcel_and_name(self):
         from hashlib import sha256

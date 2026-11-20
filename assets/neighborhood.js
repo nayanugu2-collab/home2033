@@ -1,4 +1,4 @@
-import { checkNeighborhoodPayload, checkTrendPayload, koreaToday, rawRegionalPayload, regionalCoverage, regionalSeries } from "./core.js?v=regional-coverage";
+import { checkNeighborhoodPayload, checkTrendPayload, koreaToday, rawRegionalPayload, regionalCoverage, regionalSeries } from "./core.js?v=300-households";
 
 export function initNeighborhood({ getJSON }) {
   const $ = id => document.getElementById(id);
@@ -100,7 +100,9 @@ export function initNeighborhood({ getJSON }) {
       const n=(cache.get(c)?.months||[]).filter(m=>m.month>=firstMonth&&m.month<=day().slice(0,7)).reduce((n,m)=>n+(m.excludedIdentityConflicts||0),0);
       return n?districtName(c)+' 법정동 정보가 충돌한 '+n+'건은 집계에서 제외했습니다.':'';
     });
-    $("neighborhoodCoverage").textContent=[...scopes.map(s=>warnings.get(s.code)),...conflictNotes].filter(Boolean).join(' ');
+    const incomplete = lines.some(line => line.points.some(point => !point.available));
+    $("neighborhoodCoverage").textContent=[...scopes.map(s=>warnings.get(s.code)), ...conflictNotes,
+      incomplete ? '300세대 기준으로 재집계 중입니다. 집계된 계약월만 표시합니다.' : ''].filter(Boolean).join(' ');
     $("neighborhoodCoverage").hidden=!$("neighborhoodCoverage").textContent;
     $("neighborhoodSource").textContent=source?.demo?'샘플 가상 거래 · 실제 시세가 아닙니다.': '출처: 국토교통부 아파트 매매 실거래가 · '+scopes.map(s=>{const ms=cache.get(s.code)?.months||[],stamps=ms.map(m=>m.updatedAt).sort();return labelFor(s.code,s.dong)+': 최신 수집 '+stamp(stamps.at(-1))+' / 가장 오래된 월 검증 '+stamp(stamps[0]);}).join(' · ');
   }

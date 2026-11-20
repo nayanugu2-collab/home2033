@@ -5,12 +5,14 @@ from collections import defaultdict
 
 import update
 from scripts.collect_trends import TREND_REGIONS, identity_conflicts
+from scripts.trend_households import MIN_HOUSEHOLDS
 
 
 def district_budget(snapshot, name):
     as_of = dt.date.fromisoformat(snapshot['asOf'])
     cutoff = update.window_start(as_of, 6).isoformat()
-    known = {c['id']: c for c in snapshot['complexes'] if c.get('comparisonEligible') is not False}
+    known = {c['id']: c for c in snapshot['complexes'] if c.get('comparisonEligible') is not False
+             and type(c.get('households')) is int and c['households'] >= MIN_HOUSEHOLDS}
     conflicts = {month: identity_conflicts(snapshot, month) for month in
                  {t['date'][:7] for t in snapshot['trades'] if cutoff <= t['date'] <= snapshot['asOf']}}
     prices_by_complex = defaultdict(dict)
@@ -35,7 +37,7 @@ def district_budget(snapshot, name):
     for (complex_id, band), prices in sorted(prices_by_complex.items()):
         district_complex = known[complex_id]
         sales = [[price, *prices[price]] for price in sorted(prices, reverse=True)]
-        by_dong[district_complex['legalDongCode']].append([complex_id, district_complex['name'], band, sales])
+        by_dong[district_complex['legalDongCode']].append([complex_id, district_complex['name'], band, sales, district_complex['households']])
     names = {c['legalDongCode']: c['legalDong'] for c in known.values()}
     return {'code': snapshot['districtCode'], 'name': name, 'asOf': snapshot['asOf'], 'from': cutoff,
             'dongs': [{'code': dong, 'name': names[dong], 'sales': sales} for dong, sales in sorted(by_dong.items())]}
@@ -54,5 +56,6 @@ def build_budgets(data_dir, dest):
             snapshot = json.loads(path.read_text(encoding='utf-8'))
             if snapshot.get('mode') == 'official' and snapshot.get('districtCode') == district['code']:
                 covered.append(district_budget(snapshot, district['name']))
-        value = {'schemaVersion': 2, 'region': region, 'districtCount': len(expected), 'districts': covered}
+        value = {'schemaVersion': 3, 'minimumHouseholds': MIN_HOUSEHOLDS, 'region': region,
+                 'districtCount': len(expected), 'districts': covered}
         (dest/f'{region}.json').write_text(json.dumps(value, ensure_ascii=False, separators=(',', ':'))+'\n', encoding='utf-8')

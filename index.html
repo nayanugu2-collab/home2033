@@ -34,7 +34,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=trade-monitor"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=300-households"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -81,8 +81,8 @@
     <article class="summary-card"><div class="tiny-label" id="minGapLabel">내 자본과 가장 가까운 단지</div><strong id="minGap">—</strong><div class="summary-caption" id="minGapDetail">자기자본을 입력하면 차액이 표시됩니다</div><span class="stat-symbol">↗</span></article>
   </section>
   <section id="monitor" class="monitor-section">
-    <div class="section-heading"><h2>관심 단지 모니터</h2><span class="muted small">최근 12개월 실거래</span></div>
-    <details class="panel watch-manager" id="watchManager"><summary>＋ 아파트 검색·추가 / 제거</summary><p class="small muted">전국 실거래 명부에서 검색해 내 관심 단지를 관리하세요. 선택은 이 기기의 브라우저에 저장됩니다. 백현6·7은 요청에 따라 500세대 기준의 예외로 포함했습니다.</p><label>전국 아파트 검색<input type="search" id="catalogSearch" placeholder="예: 부산 해운대, 백현마을, 래미안" autocomplete="off"></label><p class="small muted" id="catalogSource">전국 명부는 이 창을 열면 불러옵니다.</p><p class="small" id="catalogCount"></p><div id="catalogRows" class="catalog-list"></div><p class="small" id="watchStatus" role="status" aria-live="polite"></p></details>
+    <div class="section-heading"><h2>관심 단지 모니터</h2><span class="muted small">300세대 이상 · 최근 12개월</span></div>
+    <details class="panel watch-manager" id="watchManager"><summary>＋ 아파트 검색·추가 / 제거</summary><p class="small muted">300세대 이상으로 확인된 단지를 검색해 관심 목록에 추가할 수 있습니다. 선택은 이 기기의 브라우저에 저장됩니다.</p><label>전국 아파트 검색<input type="search" id="catalogSearch" placeholder="예: 부산 해운대, 백현마을, 래미안" autocomplete="off"></label><p class="small muted" id="catalogSource">전국 명부는 이 창을 열면 불러옵니다.</p><p class="small" id="catalogCount"></p><div id="catalogRows" class="catalog-list"></div><p class="small" id="watchStatus" role="status" aria-live="polite"></p></details>
     <details class="watch-list" id="watchList">
       <summary class="panel watch-list-summary">
         <span class="watch-list-caption"><span class="watch-list-open-label">관심 단지 목록 보기</span><span class="watch-list-close-label">관심 단지 목록 접기</span></span>
@@ -110,7 +110,7 @@
     <div class="section-heading"><div><span class="eyebrow muted">NEIGHBORHOOD / PRICE TRENDS</span><h2>지역·면적별 가격 흐름</h2></div><a class="outline-button" href="#budget">예산으로 지역 찾기</a></div>
     <section id="budget" class="panel budget-panel" aria-labelledby="budgetTitle">
       <h3 id="budgetTitle">내 예산으로 지역 찾기</h3>
-      <p class="small muted">최근 6개월 실거래에서 매수가 상한보다 2억 원 미만으로 저렴한 지역을 찾습니다. 단지명을 누르면 네이버 부동산에서 해당 단지를 검색합니다.</p>
+      <p class="small muted">최근 6개월 실거래에서 매수가 상한보다 2억 원 미만으로 저렴한 300세대 이상 단지를 찾습니다. 단지명을 누르면 네이버 부동산에서 해당 단지를 검색합니다.</p>
       <form id="budgetForm" class="budget-form">
         <label for="budgetAmount">매수가 상한 (억 원)<input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 15.5" required></label>
         <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
@@ -135,11 +135,11 @@
       <p id="neighborhoodCoverage" class="notice warning" role="status" hidden></p>
       <div id="neighborhoodLegend" class="trend-legend" aria-label="그래프 범례, 누르면 표시 전환"></div>
       <div class="neighborhood-body"><div><div class="chart" id="neighborhoodChart"><p class="muted small">지역 통계를 불러오는 중…</p></div><p class="neighborhood-point" id="neighborhoodPoint" aria-live="polite"></p></div><div class="neighborhood-metrics" id="neighborhoodMetrics"></div></div>
-      <p class="small muted trend-coverage-note">반영 단지는 선택한 기간·면적에 거래가 있는 단지를 한 번씩 셉니다. 세대수는 해당 단지의 전체 세대수를 합산합니다.</p>
+      <p class="small muted trend-coverage-note">300세대 이상으로 확인된 단지의 거래만 가격과 거래 건수에 반영합니다. 단지는 선택한 기간·면적에 거래가 있으면 한 번씩 세고, 해당 단지의 전체 세대수를 합산합니다.</p>
       <p class="small muted">월별 실거래 중앙값 · 억원. 지역은 색으로, 면적은 선 모양으로 구분합니다. 범례를 눌러 선을 숨기거나 다시 표시할 수 있습니다. 전체 면적에는 59·74·84㎡ 외의 면적도 포함합니다.</p>
       <p class="neighborhood-caution">취소 거래 제외 · 거래된 단지·층·연식·면적 구성이 달라져도 중앙값이 변합니다. 공식 가격지수나 동일 주택 상승률이 아닙니다. 3건 미만은 ‘거래 부족’, 아직 수집하지 않은 기간은 ‘미수집’으로 구분합니다. 이번 달은 집계 중이며 신고 지연이 있을 수 있습니다.</p>
       <details><summary>지역·면적별 월별 가격과 거래 건수 보기</summary><div class="scroll-table"><table class="history-table"><caption class="sr-only">지역·면적·계약월별 중앙값과 거래 건수</caption><thead><tr><th>지역 / 면적</th><th>계약월</th><th>중앙값 (억원)</th><th>거래 건수</th><th>거래 단지 수</th></tr></thead><tbody id="neighborhoodRows"></tbody></table></div></details>
-      <p class="small muted">지역 전체는 해당 시·군·구 경계 기준입니다. 동탄 전체는 현재 동탄구, 분당·수지는 각각 분당구·수지구입니다. 세부 동네는 법정동 코드로 구분합니다. 관심 목록·1.5배·500세대 필터는 적용하지 않습니다. 과거 수집이 끝나지 않은 지역은 확보된 구간만 그리며 매일 자동 보충합니다.</p>
+      <p class="small muted">지역 전체는 시·군·구 경계, 세부 동네는 법정동 기준입니다. 세대수가 확인되지 않은 단지는 집계에서 제외합니다. 과거 통계는 300세대 기준으로 재집계된 기간만 표시합니다.</p>
       <p class="small muted" id="neighborhoodSource" aria-live="polite">출처: 국토교통부 아파트 매매 실거래가</p>
     </div>
   </section>

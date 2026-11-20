@@ -1,6 +1,6 @@
-import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=capital-tracker";
-import { initNeighborhood } from "./neighborhood.js?v=five-region-comparison";
-import { initBudget } from "./budget.js?v=naver-listings";
+import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
+import { initNeighborhood } from "./neighborhood.js?v=300-households";
+import { initBudget } from "./budget.js?v=300-households";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -25,7 +25,7 @@ try { tracker = trackerPreferences(JSON.parse(localStorage.getItem("home2033-tra
 function personalMode() { return tracker.mode === "personal"; }
 function currentBaseId() { return personalMode() ? tracker.id : null; }
 function currentBaseType() { return tracker.area; }
-function currentBase() { return registry.complexes.find(c => c.id === currentBaseId()); }
+function currentBase() { return registry.complexes.find(c => c.id === currentBaseId() && meetsHouseholdMinimum(c)); }
 function baseAreaLabel() { return currentBaseType().startsWith("band") ? currentBaseType().slice(4) + "㎡급" : currentBaseType() + "㎡"; }
 function baseLabel() { return currentBase() ? currentBase().name + " · 전용 " + baseAreaLabel() : "기준 아파트 미선택"; }
 function trackerStatus(message) { $("trackerState").hidden = !message; $("trackerState").textContent = message; }
@@ -35,7 +35,7 @@ function saveTracker() {
   catch { trackerStatus("저장소 사용 불가 · 이번 화면에만 적용합니다."); }
 }
 try { preferences = watchPreferences(JSON.parse(localStorage.getItem("home2033-watch-v1"))); } catch {}
-function isWatched(c) { return c.id !== currentBaseId() && !preferences.removed.includes(c.id) && (c.id === registry.baseId || defaultIds.has(c.id) || preferences.added.includes(c.id)); }
+function isWatched(c) { return meetsHouseholdMinimum(c) && c.id !== currentBaseId() && !preferences.removed.includes(c.id) && (c.id === registry.baseId || defaultIds.has(c.id) || preferences.added.includes(c.id)); }
 function saveWatch() {
   try { localStorage.setItem("home2033-watch-v1", JSON.stringify(preferences)); $("watchStatus").textContent = "관심 목록을 이 브라우저에 저장했습니다."; }
   catch { $("watchStatus").textContent = "저장소를 사용할 수 없어 이번 화면에만 적용합니다."; }
@@ -138,14 +138,14 @@ function renderOverview(records) {
   const closest = records.filter(r => r[key] != null).sort((a, b) => distance(a[key]) - distance(b[key]))[0];
   $("minGapLabel").textContent = personalMode() ? "내 집 + 현금 대비 최소 차액" : "내 자본과 가장 가까운 단지";
   $("minGap").innerHTML = closest ? signed(closest[key]) + "<small>억</small>" : "—";
-  $("minGapDetail").textContent = closest ? closest.c.name + " · 전용 " + area + "㎡급" : personalMode() ?
+  $("minGapDetail").textContent = closest ? complexLabel(closest.c) + " · 전용 " + area + "㎡급" : personalMode() ?
     basePrice() != null ? "비교 가능한 거래 없음" : "기준 실거래가가 필요합니다" :
     tracker.capital == null ? "자기자본을 입력하면 차액이 표시됩니다" : "비교 가능한 거래 없음";
   renderBaseControls();
 }
 function renderHomeReference() {
   const home = currentBase(), base = baseSummary(), latest = base.latest, price = basePrice();
-  $("baseName").textContent = home?.name || "기준 아파트를 선택하세요";
+  $("baseName").textContent = home ? `${home.name} (${householdLabel(home)})` : "기준 아파트를 선택하세요";
   $("baseAreaLabel").textContent = home ? "전용 " + baseAreaLabel() : "";
   $("baseAge").textContent = home ? buildingAge(home) : "위 검색에서 내 아파트를 선택하세요.";
   $("basePrice").innerHTML = money(price == null ? null : price / 10000) + "<small>억원" + (demo ? " · 샘플" : "") + "</small>";
@@ -183,9 +183,9 @@ function renderBaseSearch() {
     $("baseSearchStatus").textContent = currentBase() ? "선택 기준: " + baseLabel() + " · 이름을 입력해 변경하세요." : "아파트 이름을 입력하면 전국 검색 명부를 불러옵니다.";
     return;
   }
-  const matches = registry.complexes.filter(c => matchesComplex(c, query));
+  const matches = registry.complexes.filter(c => meetsHouseholdMinimum(c) && matchesComplex(c, query));
   $("baseSearchStatus").textContent = (nationalLoading ? "전국 명부 불러오는 중 · " : nationalIndex ? "전국 명부 · " : "기본 명부 · 전국 자료 연결 상태 확인 · ") + matches.length + "개 검색됨 · 앞 30개 표시";
-  const markup = matches.slice(0, 30).map(c => '<div class="catalog-row"><div><b>' + escape(c.name) + '</b><small>' + escape(c.region + " · " + c.legalDong + " " + c.jibuns.join(", ")) + '</small></div><button type="button" class="outline-button" data-base="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + ' aria-label="' + escape(c.name) + ' 기준으로 선택">' + (c.comparisonEligible === false ? "국민임대" : c.id === tracker.id ? "선택됨" : "기준 선택") + '</button></div>').join("");
+  const markup = matches.slice(0, 30).map(c => '<div class="catalog-row"><div><b>' + escape(c.name + " (" + householdLabel(c) + ")") + '</b><small>' + escape(c.region + " · " + c.legalDong + " " + c.jibuns.join(", ")) + '</small></div><button type="button" class="outline-button" data-base="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + ' aria-label="' + escape(c.name) + ' 기준으로 선택">' + (c.comparisonEligible === false ? "국민임대" : c.id === tracker.id ? "선택됨" : "기준 선택") + '</button></div>').join("");
   if (markup !== baseSearchMarkup) {
     $("baseSearchRows").innerHTML = markup;
     baseSearchMarkup = markup;
@@ -193,7 +193,7 @@ function renderBaseSearch() {
 }
 async function chooseBase(id) {
   const c = registry.complexes.find(c => c.id === id), request = ++baseRequest;
-  if (!c || c.comparisonEligible === false) return;
+  if (!meetsHouseholdMinimum(c) || c.comparisonEligible === false) return;
   $("baseSearchStatus").textContent = "기준 주택의 공식 거래를 확인하는 중…";
   try {
     if (id.startsWith("n-")) await loadNationalDistrict(c.districtCode);
@@ -260,7 +260,7 @@ function renderList() {
       personal ? "기준 실거래가 필요" : "자기자본 입력 필요" : low || baseLow ? "거래 부족 · 표본 유의" :
       personal ? "기준 " + baseAreaLabel() + " 실거래 대비" : r.gap > 0 ? "추가 필요" : r.gap < 0 ? "여유 금액" : "입력 자본과 같음";
     return '<tr class="' + (selected === r.c.id ? "selected-row" : "") + '" data-complex="' + r.c.id + '"><td class="name-cell"><span class="rank">' + String(offset + index + 1).padStart(2, "0") +
-      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name) + '</button><small>' + escape(r.c.region) + " · " + householdLabel(r.c) + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small><small class="building-age">' + escape(buildingAge(r.c)) + '</small><button type="button" class="watch-remove" data-watch="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 관심 제거">관심 제거</button></div></td>' +
+      '</span><div><button type="button" class="complex-button" data-select="' + r.c.id + '">' + escape(r.c.name + " (" + householdLabel(r.c) + ")") + '</button><small>' + escape(r.c.region) + (r.c.comparisonEligible === false ? ' · 국민임대' : '') + '</small><small class="building-age">' + escape(buildingAge(r.c)) + '</small><button type="button" class="watch-remove" data-watch="' + r.c.id + '" aria-label="' + escape(r.c.name) + ' 관심 제거">관심 제거</button></div></td>' +
       '<td data-label="' + escape(metricLabel) + '"><span class="cell-price">' + money(r.price == null ? null : r.price / 10000) + '</span><small class="' + (low ? "low-sample" : "muted") + '">' + priceDetail + "</small></td>" +
       '<td data-label="3개월 중앙값">' + medianCell(r.stats.median3, r.stats.count3) + '</td><td data-label="6개월 중앙값">' + medianCell(r.stats.median6, r.stats.count6) + "</td>" +
       '<td data-label="' + gapLabel + '" class="gap-cell"><b>' + signed(r.gap) + '</b><small>' + escape(gapDetail) + '</small></td><td data-label="배율"><b>' +
@@ -274,17 +274,18 @@ function renderListFromStart() {
   watchPage = 0;
   renderList();
 }
-function householdLabel(c) { return c.households == null ? "세대수 확인 필요" : c.households.toLocaleString() + "세대" + (c.minimumHouseholdsException ? " · 요청 예외" : ""); }
+function householdLabel(c) { return c.households == null ? "세대수 확인 필요" : c.households.toLocaleString('ko-KR') + "세대"; }
+function complexLabel(c) { return c.name + " (" + householdLabel(c) + ")"; }
 function renderManager() {
-  const matches = registry.complexes.filter(c => c.id !== currentBaseId() && matchesComplex(c, $("catalogSearch").value));
+  const matches = registry.complexes.filter(c => meetsHouseholdMinimum(c) && c.id !== currentBaseId() && matchesComplex(c, $("catalogSearch").value));
   const shown = matches.slice(0, 60);
   $("catalogCount").textContent = matches.length + "개 검색됨" + (matches.length > shown.length ? " · 앞 60개 표시, 지역·단지명을 더 입력하세요." : "");
-  $("catalogRows").innerHTML = shown.map(c => '<div class="catalog-row"><div><b>' + escape(c.name) + '</b><small>' + escape(c.region + " · " + c.legalDong + " " + c.jibuns.join(", ") + " · " + householdLabel(c)) + '</small><small>' + escape(buildingAge(c)) + '</small></div><button type="button" class="outline-button" data-watch="' + c.id + '" aria-label="' + escape(c.name) + (isWatched(c) ? ' 관심 제거' : ' 관심 추가') + '">' + (isWatched(c) ? "제거" : "+ 추가") + '</button></div>').join("") || '<p class="empty">검색 결과가 없습니다. 지역·단지명을 확인하세요.</p>';
+  $("catalogRows").innerHTML = shown.map(c => '<div class="catalog-row"><div><b>' + escape(complexLabel(c)) + '</b><small>' + escape(c.region + " · " + c.legalDong + " " + c.jibuns.join(", ")) + '</small><small>' + escape(buildingAge(c)) + '</small></div><button type="button" class="outline-button" data-watch="' + c.id + '" aria-label="' + escape(c.name) + (isWatched(c) ? ' 관심 제거' : ' 관심 추가') + '">' + (isWatched(c) ? "제거" : "+ 추가") + '</button></div>').join("") || '<p class="empty">검색 결과가 없습니다. 지역·단지명을 확인하세요.</p>';
 }
 function targetOptions() {
   const choices = registry.complexes.filter(isWatched);
   if (!choices.some(c => c.id === selected)) { selected = choices.find(c => c.comparisonEligible !== false)?.id || choices[0]?.id || null; exact = "all"; targetAuto = true; }
-  $("targetComplex").innerHTML = choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("") || '<option value="">관심 단지를 추가하세요</option>';
+  $("targetComplex").innerHTML = choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + " (" + householdLabel(c) + ")" + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("") || '<option value="">관심 단지를 추가하세요</option>';
   $("targetComplex").disabled = !choices.length;
 }
 async function loadNational() {
@@ -294,7 +295,7 @@ async function loadNational() {
     $("catalogSource").textContent = "전국 검색 명부를 불러오는 중…";
     try {
       const index = await getJSON("./data/nationwide/index.json");
-      if (index.schemaVersion !== 1 || !Array.isArray(index.complexes)) throw new Error();
+      if (index.schemaVersion !== 1 || index.minimumHouseholds !== MIN_HOUSEHOLDS || !Array.isArray(index.complexes)) throw new Error();
       const existing = new Set(registry.complexes.map(c => c.id));
       for (const c of index.complexes) if (!existing.has(c.id) && /^n-[a-f0-9]{20}$/.test(c.id) && /^\d{10}$/.test(c.legalDongCode) && c.districtCode === c.legalDongCode.slice(0, 5) && Array.isArray(c.jibuns) && c.jibuns.length && Array.isArray(c.sources) && c.sources.length) registry.complexes.push(c);
       nationalIndex = index;
@@ -322,7 +323,7 @@ async function loadNationalDistrict(code) {
 }
 async function toggleWatch(id) {
   const c = registry.complexes.find(c => c.id === id);
-  if (!c || c.id === currentBaseId()) return;
+  if (!meetsHouseholdMinimum(c) || c.id === currentBaseId()) return;
   const removing = isWatched(c);
   const isDefault = defaultIds.has(id) || id === registry.baseId;
   if (!removing && !isDefault) {
@@ -424,10 +425,10 @@ function renderDetail(resetTypes = false) {
   const gap = personalMode() ? r.assetGap : r.gap;
   const eligible = c.comparisonEligible !== false;
   $("useTarget").disabled = !eligible;
-  $("selectedName").textContent = c.name;
+  $("selectedName").textContent = c.name + " (" + householdLabel(c) + ")";
   $("selectedRegion").textContent = c.region + (demo ? " · 샘플" : "");
   $("selectedAge").textContent = buildingAge(c);
-  $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " + householdLabel(c) + " · " +
+  $("selectedAddress").textContent = c.legalDong + " " + c.jibuns.join(", ") + " · " +
     (exact === "all" ? area + "㎡급의 타입을 함께 집계" : "정확한 전용 " + exact + "㎡만 집계") + (c.displayNote ? " · " + c.displayNote : "");
   $("selectedMetrics").innerHTML = [
     [$("metric").selectedOptions[0].textContent, !eligible ? "매매 비교 제외" : r.price == null ? "거래 부족" : money(r.price / 10000) + "억"],
@@ -491,9 +492,9 @@ function setupRegistry() {
   $("regions").innerHTML = ["all", ...new Set(registry.complexes.map(c => c.region))].map(r =>
     '<button type="button" data-region="' + r + '" aria-pressed="' + (r === region) + '" class="' + (r === region ? "selected" : "") + '">' + (r === "all" ? "전체 지역" : r) + "</button>").join("");
   targetOptions();
-  $("registryNote").textContent = registry.notes.join(" ") + " 확인일 " + registry.checkedAt + ". 비교 후보 " + (registry.complexes.length - 1) + "개.";
-  $("registryAudit").innerHTML = '<div class="audit-list">' + registry.complexes.map(c => '<div><b>' + escape(c.name) + '</b><span>' + escape(c.legalDong + " " + c.jibuns.join(", ") + " · 법정동 " + c.legalDongCode + " · " + c.households + "세대") + '</span>' +
-    (c.note ? "<small>" + escape(c.note) + "</small>" : "") + '<a target="_blank" rel="noopener" href="' + escape(c.sources[0].url) + '">확인 출처 ↗</a></div>').join("") + "</div><h4>500세대 미만으로 제외한 구분 단지</h4>" +
+  $("registryNote").textContent = "기본 명부에서 300세대 이상으로 확인된 단지의 출처입니다. 확인일 " + registry.checkedAt + ".";
+  $("registryAudit").innerHTML = '<div class="audit-list">' + registry.complexes.filter(meetsHouseholdMinimum).map(c => '<div><b>' + escape(complexLabel(c)) + '</b><span>' + escape(c.legalDong + " " + c.jibuns.join(", ") + " · 법정동 " + c.legalDongCode) + '</span>' +
+    (c.note ? "<small>" + escape(c.note) + "</small>" : "") + '<a target="_blank" rel="noopener" href="' + escape(c.sources[0].url) + '">확인 출처 ↗</a></div>').join("") + "</div><h4>초기 후보 검증 이력</h4>" +
     registry.excludedCandidates.map(c => "<p>" + escape(c.name + " · " + c.households + "세대 · " + c.reason) + ' <a target="_blank" rel="noopener" href="' + escape(c.source) + '">출처 ↗</a></p>').join("");
 }
 async function loadOfficial() {

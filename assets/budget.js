@@ -1,3 +1,5 @@
+import { MIN_HOUSEHOLDS, meetsHouseholdMinimum } from "./core.js?v=300-households";
+
 const REGIONS = ["11", "41", "26", "27", "30"];
 const PAGE_SIZE = 12;
 const PRICE_WINDOW_MANWON = 20000;
@@ -24,12 +26,13 @@ export function districtsWithinBudget(districts, limit, area) {
     const dongs = [];
     for (const dong of district.dongs) {
       const complexes = new Map();
-      for (const [id, name, band, sales] of dong.sales) {
+      for (const [id, name, band, sales, households] of dong.sales) {
+        if (!meetsHouseholdMinimum({households})) continue;
         if (area !== "all" && area !== band) continue;
         const match = sales.find(([price]) => price <= limit && price > minimum);
         if (!match) continue;
         const [price, date, size] = match;
-        const trade = {name, price, date, size};
+        const trade = {name, price, date, size, households};
         if (!complexes.has(id) || byCloseness(trade, complexes.get(id)) < 0) complexes.set(id, trade);
         districtIds.add(id);
       }
@@ -49,7 +52,7 @@ export function initBudget(getJSON) {
   let request = 0, matches = [], rendered = 0;
   function example(trade, district, dong) {
     const url = naverComplexSearchURL(district.name, dong.name, trade.name);
-    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)}<span class="sr-only"> 네이버 부동산에서 열기</span></a>` +
+    return `<a class="budget-complex-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(trade.name)} (${trade.households.toLocaleString('ko-KR')}세대)<span class="sr-only"> 네이버 부동산에서 열기</span></a>` +
       `<strong>${money(trade.price)}</strong> · ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}`;
   }
   function showMore() {
@@ -86,7 +89,7 @@ export function initBudget(getJSON) {
     const responses = await Promise.allSettled(regions.map(async code => {
       if (cache.has(code)) return cache.get(code);
       const data = await getJSON(`./data/budget/${code}.json`);
-      if (data?.schemaVersion !== 2 || data.region !== code || !Array.isArray(data.districts)) throw new Error('Budget data');
+      if (data?.schemaVersion !== 3 || data.minimumHouseholds !== MIN_HOUSEHOLDS || data.region !== code || !Array.isArray(data.districts)) throw new Error('Budget data');
       cache.set(code, data);
       return data;
     }));

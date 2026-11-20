@@ -12,6 +12,7 @@ from collections import defaultdict
 import update
 
 SOURCE = 'https://www.data.go.kr/data/15106861/fileData.do'
+MIN_HOUSEHOLDS = 300
 PORTAL = 'https://www.data.go.kr'
 NAME_COLUMNS = ('단지명_공시가격', '단지명_건축물대장', '단지명_도로명주소')
 # Pre-2026 Hwaseong parcel codes still occur in the REB file. Keep the exact
@@ -86,6 +87,37 @@ def counts_by_trade_id(index, registry):
         if count is not None:
             counts[complex_['id']] = count
     return counts
+
+
+def stored_household_counts(trends):
+    cache = trends / 'households.json'
+    if cache.is_file():
+        return json.loads(cache.read_text(encoding='utf-8'))
+    # The old monthly files still contain verified identities, even though their
+    # price summaries cannot be reused for the new population.
+    counts = defaultdict(set)
+    for path in trends.glob('[0-9]*.json'):
+        state = json.loads(path.read_text(encoding='utf-8'))
+        for month in state['months']:
+            for identity, _, _, count in month.get('members', []):
+                if type(count) is int and count > 0:
+                    counts[identity].add(count)
+    return {identity: next(iter(values)) for identity, values in counts.items() if len(values) == 1}
+
+
+def filter_snapshot(snapshot, counts):
+    complexes = []
+    for complex_ in snapshot['complexes']:
+        count = complex_.get('households')
+        if type(count) is not int or count <= 0:
+            count = counts.get(complex_['id'])
+        if type(count) is int and count >= MIN_HOUSEHOLDS:
+            complexes.append(dict(complex_, households=count))
+    result = dict(snapshot, complexes=complexes)
+    if 'trades' in snapshot:
+        ids = {complex_['id'] for complex_ in complexes}
+        result['trades'] = [trade for trade in snapshot['trades'] if trade['complexId'] in ids]
+    return result
 
 
 def download_households():
