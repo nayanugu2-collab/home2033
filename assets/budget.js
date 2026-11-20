@@ -1,5 +1,6 @@
 const REGIONS = ["11", "41", "26", "27", "30"];
 const PAGE_SIZE = 12;
+const PRICE_WINDOW_MANWON = 20000;
 const money = value => (value / 10000).toLocaleString("ko-KR", {maximumFractionDigits: 4}) + "억 원";
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
 
@@ -11,28 +12,31 @@ export function budgetInManwon(value) {
 }
 
 export function districtsWithinBudget(districts, limit, area) {
-  const byPriceThenDate = (a, b) => a.price - b.price || b.date.localeCompare(a.date) || a.name.localeCompare(b.name, "ko");
+  const minimum = Math.max(0, limit - PRICE_WINDOW_MANWON);
+  const byCloseness = (a, b) => b.price - a.price || b.date.localeCompare(a.date) || a.name.localeCompare(b.name, "ko");
   const matches = [];
   for (const district of districts) {
     const districtIds = new Set();
     const dongs = [];
     for (const dong of district.dongs) {
       const complexes = new Map();
-      for (const [id, name, band, price, date, size] of dong.sales) {
-        if ((area !== "all" && area !== band) || price > limit) continue;
+      for (const [id, name, band, sales] of dong.sales) {
+        if (area !== "all" && area !== band) continue;
+        const match = sales.find(([price]) => price <= limit && price > minimum);
+        if (!match) continue;
+        const [price, date, size] = match;
         const trade = {name, price, date, size};
-        if (!complexes.has(id) || byPriceThenDate(trade, complexes.get(id)) < 0) complexes.set(id, trade);
+        if (!complexes.has(id) || byCloseness(trade, complexes.get(id)) < 0) complexes.set(id, trade);
         districtIds.add(id);
       }
       if (!complexes.size) continue;
-      dongs.push({code: dong.code, name: dong.name, count: complexes.size, lowest: [...complexes.values()].sort(byPriceThenDate)[0]});
+      dongs.push({code: dong.code, name: dong.name, count: complexes.size, closest: [...complexes.values()].sort(byCloseness)[0]});
     }
     if (!districtIds.size) continue;
-    dongs.sort((a, b) => b.count - a.count || byPriceThenDate(a.lowest, b.lowest));
-    const lowest = dongs.map(dong => dong.lowest).sort(byPriceThenDate)[0];
-    matches.push({code: district.code, name: district.name, asOf: district.asOf, from: district.from, count: districtIds.size, dongs, lowest});
+    dongs.sort((a, b) => byCloseness(a.closest, b.closest) || b.count - a.count);
+    matches.push({code: district.code, name: district.name, asOf: district.asOf, from: district.from, count: districtIds.size, dongs, closest: dongs[0].closest});
   }
-  return matches.sort((a, b) => b.count - a.count || byPriceThenDate(a.lowest, b.lowest));
+  return matches.sort((a, b) => byCloseness(a.closest, b.closest) || b.count - a.count);
 }
 
 export function initBudget(getJSON) {
@@ -46,10 +50,10 @@ export function initBudget(getJSON) {
     const cards = matches.slice(rendered, rendered + PAGE_SIZE).map(district =>
       `<article class="budget-card"><h4>${escape(district.name)}</h4>
         <p><strong>${district.count.toLocaleString('ko-KR')}개 단지</strong> · ${district.dongs.length}개 법정동</p>
-        <p class="small budget-example">최저 거래 ${example(district.lowest)}</p>
+        <p class="small budget-example">상한에 가장 가까운 거래<br>${example(district.closest)}</p>
         <p class="small muted">집계 기간 ${escape(district.from)} ~ ${escape(district.asOf)}</p>
         <details><summary>동네별 실거래 보기</summary><ul>${district.dongs.map(dong =>
-          `<li><b>${escape(dong.name)}</b> · ${dong.count}개 단지<br><span class="small">${example(dong.lowest)}</span></li>`).join('')}</ul></details>
+          `<li><b>${escape(dong.name)}</b> · ${dong.count}개 단지<br><span class="small">${example(dong.closest)}</span></li>`).join('')}</ul></details>
       </article>`);
     $('budgetResults').insertAdjacentHTML('beforeend', cards.join(''));
     rendered += cards.length;
@@ -72,11 +76,11 @@ export function initBudget(getJSON) {
     const id = ++request;
     $('budgetResults').innerHTML = '';
     $('budgetMore').hidden = true;
-    $('budgetStatus').textContent = '실거래 자료에서 예산 이하 거래를 찾는 중입니다.';
+    $('budgetStatus').textContent = '매수가 상한에 가까운 실거래를 찾는 중입니다.';
     const responses = await Promise.allSettled(regions.map(async code => {
       if (cache.has(code)) return cache.get(code);
       const data = await getJSON(`./data/budget/${code}.json`);
-      if (data?.schemaVersion !== 1 || data.region !== code || !Array.isArray(data.districts)) throw new Error('Budget data');
+      if (data?.schemaVersion !== 2 || data.region !== code || !Array.isArray(data.districts)) throw new Error('Budget data');
       cache.set(code, data);
       return data;
     }));
@@ -91,7 +95,9 @@ export function initBudget(getJSON) {
     rendered = 0;
     const coverage = loaded.length < regions.length || districts.length < loaded.reduce((n, data) => n + data.districtCount, 0)
       ? ' · 일부 지역 자료 누락' : '';
-    $('budgetStatus').textContent = `${money(limit)} 이하 · ${area === 'all' ? '전체 면적' : area + '㎡급'} · ` +
+    const minimum = Math.max(0, limit - PRICE_WINDOW_MANWON);
+    const range = minimum > 0 ? `${money(minimum)} 초과 ~ ${money(limit)} 이하` : `${money(limit)} 이하`;
+    $('budgetStatus').textContent = `${range} · ${area === 'all' ? '전체 면적' : area + '㎡급'} · ` +
       (matches.length ? `실거래가 있었던 시·군·구 ${matches.length}곳` : '조건에 맞는 실거래 없음') + coverage;
     showMore();
   });

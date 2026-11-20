@@ -462,16 +462,27 @@ test("regional coverage counts a complex once across months and selected bands, 
 });
 
 import { budgetInManwon, districtsWithinBudget } from "../assets/budget.js";
-test("budget filter uses exact price caps and counts the same complex once when all areas are selected", () => {
-  const input = [{code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[
-    ["a","A","84",125500,"2026-11-10",84.95], ["a","A","59",90000,"2026-11-10",59.9],
-    ["b","B","84",125501,"2026-11-12",84.9], ["c","C","other",110000,"2026-11-13",101]
-  ]}]}];
+test("budget ranking keeps exact upper prices, excludes prices 2억 below, and deduplicates complexes", () => {
+  const input = [
+    {code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[
+      ["a","A","84",[[125501,"2026-11-10",84.95],[125500,"2026-11-10",84.95],[95000,"2026-11-08",84.95]]],
+      ["a","A","59",[[118000,"2026-11-10",59.9]]],
+      ["b","B","84",[[105500,"2026-11-12",84.9]]],
+      ["c","C","other",[[110000,"2026-11-13",101]]]
+    ]}, {code:"1168010200",name:"개포동",sales:[["d","D","84",[[105499,"2026-11-13",84.9]]]]}]},
+    {code:"11710",name:"송파구",dongs:[{code:"1171010100",name:"잠실동",sales:[
+      ["e","E","84",[[120000,"2026-11-11",84.9]]], ["f","F","84",[[111000,"2026-11-11",84.9]]]
+    ]}]},
+    {code:"11740",name:"강동구",dongs:[{code:"1174010100",name:"명일동",sales:[["g","G","84",[[105500,"2026-11-13",84.9]]]]}]}
+  ];
   assert.equal(budgetInManwon("12.55"),125500);
   assert.equal(budgetInManwon("0.00001"),null);
   assert.equal(budgetInManwon("1e3"),null);
-  assert.equal(districtsWithinBudget(input,125500,"84")[0].count,1);
-  assert.equal(districtsWithinBudget(input,125500,"84")[0].lowest.price,125500);
+  const result = districtsWithinBudget(input,125500,"84");
+  assert.deepEqual(result.map(r=>r.code),["11680","11710"]);
+  assert.equal(result[0].count,1);
+  assert.deepEqual(result[0].dongs.map(d=>d.name),["역삼동"]);
+  assert.equal(result[0].closest.price,125500);
   assert.equal(districtsWithinBudget(input,125500,"all")[0].count,2);
   assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
 });

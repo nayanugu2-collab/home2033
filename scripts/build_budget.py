@@ -13,7 +13,7 @@ def district_budget(snapshot, name):
     known = {c['id']: c for c in snapshot['complexes'] if c.get('comparisonEligible') is not False}
     conflicts = {month: identity_conflicts(snapshot, month) for month in
                  {t['date'][:7] for t in snapshot['trades'] if cutoff <= t['date'] <= snapshot['asOf']}}
-    minima = {}
+    prices_by_complex = defaultdict(dict)
     for trade in snapshot['trades']:
         date = trade['date']
         complex_id = trade['complexId']
@@ -25,18 +25,17 @@ def district_budget(snapshot, name):
             continue
         area = trade['area']
         band = update.area_class(area) or 'other'
-        key = (complex_id, band)
-        previous = minima.get(key)
-        if previous is None or trade['priceManwon'] < previous['priceManwon'] or (
-                trade['priceManwon'] == previous['priceManwon'] and date > previous['date']):
-            minima[key] = trade
+        price = trade['priceManwon']
+        prices = prices_by_complex[complex_id, band]
+        if price not in prices or date > prices[price][0]:
+            prices[price] = (date, area)
     by_dong = defaultdict(list)
-    # The lowest observed transaction is enough to test a price cap. Retain its
-    # contract date and area so every result can show the supporting transaction.
-    for (complex_id, band), trade in sorted(minima.items()):
+    # Keep each observed price so a cheaper past trade cannot hide a recent
+    # trade in the user's price range. Ties keep the latest supporting contract.
+    for (complex_id, band), prices in sorted(prices_by_complex.items()):
         district_complex = known[complex_id]
-        by_dong[district_complex['legalDongCode']].append([
-            complex_id, district_complex['name'], band, trade['priceManwon'], trade['date'], trade['area']])
+        sales = [[price, *prices[price]] for price in sorted(prices, reverse=True)]
+        by_dong[district_complex['legalDongCode']].append([complex_id, district_complex['name'], band, sales])
     names = {c['legalDongCode']: c['legalDong'] for c in known.values()}
     return {'code': snapshot['districtCode'], 'name': name, 'asOf': snapshot['asOf'], 'from': cutoff,
             'dongs': [{'code': dong, 'name': names[dong], 'sales': sales} for dong, sales in sorted(by_dong.items())]}
@@ -55,5 +54,5 @@ def build_budgets(data_dir, dest):
             snapshot = json.loads(path.read_text(encoding='utf-8'))
             if snapshot.get('mode') == 'official' and snapshot.get('districtCode') == district['code']:
                 covered.append(district_budget(snapshot, district['name']))
-        value = {'schemaVersion': 1, 'region': region, 'districtCount': len(expected), 'districts': covered}
+        value = {'schemaVersion': 2, 'region': region, 'districtCount': len(expected), 'districts': covered}
         (dest/f'{region}.json').write_text(json.dumps(value, ensure_ascii=False, separators=(',', ':'))+'\n', encoding='utf-8')
