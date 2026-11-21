@@ -35,8 +35,8 @@ export function districtsWithinBudget(districts, limit, area, range = "near") {
         if (area !== "all" && area !== band) continue;
         const match = sales.find(([price]) => price <= limit && price > minimum);
         if (!match) continue;
-        const [price, date, size] = match;
-        const trade = {id, name, price, date, size, households};
+        const [price, date, size, contractCount] = match;
+        const trade = {id, name, price, date, size, households, contractCount};
         if (!complexes.has(id) || byCloseness(trade, complexes.get(id)) < 0) complexes.set(id, trade);
         districtIds.add(id);
       }
@@ -60,15 +60,18 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
   const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const cache = new Map(), visibleTrades = new Map(), visibleDistricts = new Map();
-  const results = $('budgetResults');
+  const results = $('budgetResults'), officialContent = $('budgetOfficialContent');
   let request = 0, matches = [], rendered = 0;
 
   function renderTrade(trade, district, dong) {
     visibleTrades.set(trade.id, {trade, district});
     const url = naverComplexSearchURL(district.name, dong.name, trade.name, mobile);
+    const count = Number.isSafeInteger(trade.contractCount) && trade.contractCount > 0
+      ? ` · 동일 면적 ${trade.contractCount.toLocaleString('ko-KR')}건` : "";
     return `<div class="budget-trade" data-budget-id="${escape(trade.id)}">
       <p class="budget-trade-name"><b>${escape(trade.name)}</b><span>${trade.households.toLocaleString('ko-KR')}세대</span></p>
-      <p class="small"><strong>${money(trade.price)}</strong> · 전용 ${trade.size.toLocaleString('ko-KR')}㎡ · ${escape(trade.date)}</p>
+      <p class="small"><strong>${money(trade.price)}</strong> · 계약일 ${escape(trade.date)}</p>
+      <p class="small budget-trade-basis">최근 6개월 실거래 · 전용 ${trade.size.toLocaleString('ko-KR', {maximumFractionDigits: 6})}㎡${count}</p>
       <div class="budget-result-actions" role="group" aria-label="${escape(trade.name)} 단지 작업">
         <button type="button" class="outline-button" data-budget-action="detail">단지 상세</button>
         <button type="button" class="outline-button" data-budget-action="save">관심 저장</button>
@@ -152,6 +155,7 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
   });
   $('budgetForm').addEventListener('submit', async event => {
     event.preventDefault();
+    if (officialContent.hidden) return;
     const limit = budgetInManwon($('budgetAmount').value);
     if (limit === null) {
       $('budgetAmount').setCustomValidity('0보다 큰 예산을 억 원 단위로 입력하세요. 예: 12.5');
@@ -192,5 +196,11 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
       (matches.length ? `실거래가 있었던 시·군·구 ${matches.length}곳` : '조건에 맞는 실거래 없음') + coverage;
     showMore();
   });
-  return { updateWatch };
+  return {
+    updateWatch,
+    setSampleMode(sample) {
+      officialContent.hidden = sample;
+      $('budgetSampleNotice').hidden = !sample;
+    }
+  };
 }

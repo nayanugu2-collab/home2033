@@ -1,7 +1,7 @@
 """Build small public indexes of observed six-month apartment purchase prices."""
 import datetime as dt
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 import update
 from scripts.collect_trends import TREND_REGIONS, identity_conflicts
@@ -16,6 +16,7 @@ def district_budget(snapshot, name):
     conflicts = {month: identity_conflicts(snapshot, month) for month in
                  {t['date'][:7] for t in snapshot['trades'] if cutoff <= t['date'] <= snapshot['asOf']}}
     prices_by_complex = defaultdict(dict)
+    contracts_by_size = Counter()
     for trade in snapshot['trades']:
         date = trade['date']
         complex_id = trade['complexId']
@@ -26,6 +27,7 @@ def district_budget(snapshot, name):
         if trade['legalDongCode'] != dong or dong in conflicts[date[:7]]:
             continue
         area = trade['area']
+        contracts_by_size[complex_id, area] += 1
         band = update.area_class(area) or 'other'
         price = trade['priceManwon']
         prices = prices_by_complex[complex_id, band]
@@ -36,7 +38,8 @@ def district_budget(snapshot, name):
     # trade in the user's price range. Ties keep the latest supporting contract.
     for (complex_id, band), prices in sorted(prices_by_complex.items()):
         district_complex = known[complex_id]
-        sales = [[price, *prices[price]] for price in sorted(prices, reverse=True)]
+        sales = [[price, date, area, contracts_by_size[complex_id, area]]
+                 for price, (date, area) in sorted(prices.items(), reverse=True)]
         by_dong[district_complex['legalDongCode']].append([complex_id, district_complex['name'], band, sales, district_complex['households']])
     names = {c['legalDongCode']: c['legalDong'] for c in known.values()}
     return {'code': snapshot['districtCode'], 'name': name, 'asOf': snapshot['asOf'], 'from': cutoff,

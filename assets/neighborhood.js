@@ -27,6 +27,8 @@ export function initNeighborhood({ getJSON }) {
     $("neighborhoodChart").innerHTML='<div class="chart-empty">'+escape(message)+'</div>';
     $("neighborhoodRows").innerHTML=""; $("neighborhoodPoint").textContent="";
     $("neighborhoodMetrics").innerHTML=""; $("neighborhoodLegend").innerHTML="";
+    $("neighborhoodRange").textContent="";
+    $("neighborhoodDataMonths").innerHTML="";
   }
   function setDongs() {
     const value=cache.get(code), names=new Map();
@@ -39,11 +41,8 @@ export function initNeighborhood({ getJSON }) {
     const line=lines[li], p=line?.points[mi]; if(!p)return;
     $("neighborhoodPoint").textContent=line.label+" · "+p.month+" · "+(!p.available?"이 계약월은 아직 수집되지 않았습니다":p.price==null?"거래 없음":money(p.price)+"억원 · "+p.count+"건 / "+p.complexCount+"개 단지"+(p.count<3?" · 거래 부족":""))+(p.partial?" · 이번 달 집계 중":"");
   }
-  function coverageCard(scope) {
-    const value = cache.get(scope.code) || { months: [] };
-    const points = regionalSeries(value, scope.dong, "all", day(), period);
-    const available = points.filter(p => p.available).length;
-    const {complexCount, households, unknown, coveredMonths} = regionalCoverage(value, scope.dong, bands(), points);
+  function coverageCard({scope, value, points}) {
+    const {complexCount, households, unknown, coveredMonths} = regionalCoverage(value || {months: []}, scope.dong, bands(), points);
     const complete = coveredMonths === period;
     const title = escape(labelFor(scope.code, scope.dong));
     const complexText = coveredMonths ? (complete ? "" : "집계된 ") + number(complexCount) + "개 단지" : "단지 수 집계 중";
@@ -51,7 +50,7 @@ export function initNeighborhood({ getJSON }) {
       ? "확인된 세대수 없음" : (complete && !unknown ? "총 " : "확인된 세대수 ") + number(households) + "세대";
     return `<div style="border-color:${regionColors[colorIndex(scope)]}"><span>${title} · 거래 반영</span><b>${complexText}</b><small class="trend-households">${householdText}</small>
       ${unknown ? `<small>세대수 미확인 ${number(unknown)}개 단지</small>` : ""}
-      <small>가격 자료 ${available}/${period}개월${!complete ? ` · 단지 집계 ${coveredMonths}/${period}개월` : ""}</small></div>`;
+      ${!complete ? `<small>단지 집계 ${coveredMonths}/${period}개월</small>` : ""}</div>`;
   }
   function plot() {
     const visible=lines.filter(l=>!hidden.has(l.id));
@@ -87,22 +86,36 @@ export function initNeighborhood({ getJSON }) {
       const value=cache.get(s.code); if(!value)continue;
       lines.push({id:scopeKey(s)+':'+band,label:labelFor(s.code,s.dong)+' · '+areaLabel(band),color:regionColors[colorIndex(s)],dash:areaDashes[band],points:regionalSeries(value,s.dong,band,day(),period)});
     }
-    if(!lines.length){clear('동네 자료를 불러오지 못했습니다. 새로고침으로 다시 시도하세요.');$("neighborhoodRange").textContent='';}
+    const coverage = scopes.map(scope => {
+      const value = cache.get(scope.code);
+      const points = regionalSeries(value || {months: []}, scope.dong, "all", day(), period);
+      return {scope, value, points, available: points.filter(point => point.available).length};
+    });
+    const selectedPeriod = period === 6 ? "6개월 보기" : (period / 12) + "년 보기";
+    if(!lines.length){
+      clear('동네 자료를 불러오지 못했습니다. 새로고침으로 다시 시도하세요.');
+      $("neighborhoodRange").textContent = selectedPeriod;
+    }
     else{
-      $("neighborhoodRange").textContent=lines[0].points[0].month+' – '+lines[0].points.at(-1).month+' · '+period+'개 계약월 (이번 달 포함) · 월별 중앙값 / 억원';
+      $("neighborhoodRange").textContent = selectedPeriod + ' · ' + lines[0].points[0].month + ' – ' +
+        lines[0].points.at(-1).month + ' · ' + period + '개 계약월 (이번 달 포함) · 월별 중앙값 / 억원';
       $("neighborhoodLegend").innerHTML=lines.map(l=>{const latest=l.points.filter(p=>p.price!=null).at(-1);return '<button type="button" data-series="'+escape(l.id)+'" aria-pressed="'+!hidden.has(l.id)+'" class="trend-legend-button'+(hidden.has(l.id)?' dimmed':'')+'"><svg viewBox="0 0 34 8" aria-hidden="true"><line x1="0" x2="34" y1="4" y2="4" stroke="'+l.color+'" stroke-width="3" stroke-dasharray="'+l.dash+'"/></svg><span>'+escape(l.label)+'<small>'+(latest?latest.month+' · '+money(latest.price)+'억':'거래 부족')+'</small></span></button>';}).join('');
-      $("neighborhoodMetrics").innerHTML=scopes.map(coverageCard).join('');
+      $("neighborhoodMetrics").innerHTML=coverage.map(coverageCard).join('');
       $("neighborhoodRows").innerHTML=lines.flatMap((l,li)=>l.points.map((p,mi)=>'<tr><td>'+escape(l.label)+'</td><td><button class="link-button" type="button" data-line="'+li+'" data-month="'+mi+'">'+p.month+'</button>'+(p.partial?' · 집계 중':'')+'</td><td>'+money(p.price)+'</td><td>'+(!p.available?'미수집':p.count+(p.count<3?' · 거래 부족':''))+'</td><td>'+(p.complexCount??'—')+'</td></tr>')).join('');
       plot();const li=lines.findIndex(l=>!hidden.has(l.id));if(li>=0){const latest=lines[li].points.findLastIndex(p=>p.price!=null);showPoint(li,latest<0?period-1:latest);}else $("neighborhoodPoint").textContent='범례에서 표시할 선을 선택하세요.';
     }
+    $("neighborhoodDataMonths").innerHTML = coverage.map(({scope, value, available}) => {
+      const status = value ? (source?.demo ? "샘플 자료 " : "수집 자료 ") + available + "/" + period + "개월" : "자료 확인 불가";
+      return `<li style="border-color:${regionColors[colorIndex(scope)]}"><span>${escape(labelFor(scope.code, scope.dong))}</span> <b>${status}</b></li>`;
+    }).join("");
     const firstMonth=lines[0]?.points[0].month;
     const conflictNotes=[...new Set(scopes.map(s=>s.code))].map(c=>{
       const n=(cache.get(c)?.months||[]).filter(m=>m.month>=firstMonth&&m.month<=day().slice(0,7)).reduce((n,m)=>n+(m.excludedIdentityConflicts||0),0);
       return n?districtName(c)+' 법정동 정보가 충돌한 '+n+'건은 집계에서 제외했습니다.':'';
     });
-    const incomplete = lines.some(line => line.points.some(point => !point.available));
+    const incomplete = coverage.some(({value, available}) => value && available < period);
     $("neighborhoodCoverage").textContent=[...scopes.map(s=>warnings.get(s.code)), ...conflictNotes,
-      incomplete ? '300세대 기준으로 재집계 중입니다. 집계된 계약월만 표시합니다.' : ''].filter(Boolean).join(' ');
+      !source?.demo && incomplete ? '아직 수집하지 못한 계약월은 그래프에서 비워 둡니다.' : ''].filter(Boolean).join(' ');
     $("neighborhoodCoverage").hidden=!$("neighborhoodCoverage").textContent;
     $("neighborhoodSource").textContent=source?.demo?'샘플 가상 거래 · 실제 시세가 아닙니다.': '출처: 국토교통부 아파트 매매 실거래가 · '+scopes.map(s=>{const ms=cache.get(s.code)?.months||[],stamps=ms.map(m=>m.updatedAt).sort();return labelFor(s.code,s.dong)+': 최신 수집 '+stamp(stamps.at(-1))+' / 가장 오래된 월 검증 '+stamp(stamps[0]);}).join(' · ');
   }

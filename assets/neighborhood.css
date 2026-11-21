@@ -64,3 +64,34 @@
   .budget-range select { flex: 1 1 200px; }
   .budget-results { grid-template-columns: 1fr; }
 }
+
+.budget-trade-basis { color: #536559; }
+.budget-sample-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+.budget-sample-notice p { font-size: 13px; }
+.budget-sample-notice .outline-button { min-height: 44px; }
+.neighborhood-data-months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+.neighborhood-data-months:empty { display: none; }
+.neighborhood-data-months li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 8px;
+  border-inline-start: 3px solid;
+  border-radius: 4px;
+  padding: 5px 9px;
+  background: #f1f5ed;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}

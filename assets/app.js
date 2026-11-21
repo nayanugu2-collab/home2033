@@ -1,6 +1,6 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
-import { initNeighborhood } from "./neighborhood.js?v=300-households";
-import { initBudget } from "./budget.js?v=budget-candidates";
+import { initNeighborhood } from "./neighborhood.js?v=data-basis";
+import { initBudget } from "./budget.js?v=data-basis";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -119,12 +119,12 @@ function notice() {
   $("demoToggle").setAttribute("aria-pressed", String(demo));
   $("updateLabel").textContent = demo ? "가상 거래 · 기준일 " + payload.asOf : "최종 정상 갱신 " + stamp(official?.updatedAt);
   const messages = [];
-  if (demo) messages.push("샘플 모드 · 모든 가격과 거래는 화면 확인용 가상 데이터입니다.");
+  if (demo) messages.push("샘플 모드 · 단지 비교와 지역 추세에 화면 확인용 가상 거래를 표시합니다.");
   else {
     if (loadError) messages.push(loadError);
     if (status?.ok === false) messages.push("최근 수집 실패 · 마지막 정상 실거래를 유지합니다. " + status.message);
     if (!official?.updatedAt) messages.push("공식 실거래 수집 전입니다. README에 따라 MOLIT_SERVICE_KEY 등록 후 Actions를 실행하세요. 샘플로 화면을 둘러볼 수 있습니다.");
-    if (official?.updatedAt && Date.now() - new Date(official.updatedAt).getTime() > 48 * 3600000) messages.push("정상 데이터 갱신 후 48시간이 지났습니다. Actions 실행 상태를 확인하세요.");
+    if (official?.updatedAt && Date.now() - new Date(official.updatedAt).getTime() > 48 * 3600000) messages.push("마지막 정상 실거래 갱신 후 48시간이 지났습니다. 화면에 표시된 갱신일을 확인하세요.");
     if (personalMode() && currentBase() && !baseSummary().latest) messages.push("선택한 기준 주택·면적의 최근 12개월 실거래가 없습니다. 기준가·격차·자산 부족액은 계산하지 않습니다.");
     if (!messages.length) messages.push("최근 12개월 계약일 기준 · 해제 거래 제외 · 신고 지연으로 최근 거래가 아직 반영되지 않을 수 있습니다.");
   }
@@ -551,6 +551,7 @@ function activateData() {
   trades = validTrades([...(payload?.trades || []), ...(demo ? [] : nationalTrades)], asOf());
   baseTrades = currentBase() ? referenceTrades(trades, currentBaseId(), currentBaseType()) : [];
   renderList(); renderDetail(true); notice();
+  budgetView?.setSampleMode(demo);
   neighborhoods?.update({ demo, payload, complexes: registry.complexes });
 }
 function choose(id, scroll = false) {
@@ -677,6 +678,7 @@ $("resetCalculator").addEventListener("click", () => {
 });
 $("useTarget").addEventListener("click", () => { $("calculator").scrollIntoView({ behavior: "smooth" }); $("targetComplex").focus({ preventScroll: true }); });
 $("refresh").addEventListener("click", loadOfficial);
+$("budgetReturnOfficial").addEventListener("click", () => $("demoToggle").click());
 $("demoToggle").addEventListener("click", async () => {
   ++baseRequest;
   $("demoToggle").disabled = true;

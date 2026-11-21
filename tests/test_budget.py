@@ -12,6 +12,7 @@ class BudgetDataTests(unittest.TestCase):
             dict(base, date='2026-05-21', priceManwon=130000),
             dict(base, date='2026-10-10', priceManwon=130000),
             dict(base, date='2026-11-06', priceManwon=145000),
+            dict(base, date='2026-11-06', priceManwon=146000, area=84.72),
             dict(base, date='2026-11-13', priceManwon=100000, canceled=True),
             dict(base, date='2026-11-19', priceManwon=120000, area=59.5),
             dict(base, date='2026-11-18', priceManwon=150000, area=101),
@@ -23,7 +24,9 @@ class BudgetDataTests(unittest.TestCase):
                                               dict(complex_, id='unknown', households=None)], 'trades': transactions}, '강남구')
         self.assertEqual(data['from'], '2026-05-21')
         self.assertEqual(data['dongs'][0]['sales'], [
-            ['a', '아파트', '59', [[120000, '2026-11-19', 59.5]], 300],
-            ['a', '아파트', '84', [[145000, '2026-11-06', 84.95], [130000, '2026-10-10', 84.95]], 300],
-            ['a', '아파트', 'other', [[150000, '2026-11-18', 101]], 300],
+            ['a', '아파트', '59', [[120000, '2026-11-19', 59.5, 1]], 300],
+            ['a', '아파트', '84', [[146000, '2026-11-06', 84.72, 1],
+                                   [145000, '2026-11-06', 84.95, 3],
+                                   [130000, '2026-10-10', 84.95, 3]], 300],
+            ['a', '아파트', 'other', [[150000, '2026-11-18', 101, 1]], 300],
         ])

@@ -341,7 +341,7 @@ test("dong calendar buckets handle January rollover and leap February without dr
 
 async function neighborhoodUI(run) {
   const previous = globalThis.document, elements = {};
-  for (const id of ["neighborhoodChart","neighborhoodMetrics","neighborhoodRows","neighborhoodPoint","neighborhoodTitle","neighborhoodRange","neighborhoodArea","neighborhoodSource","neighborhoodDong","neighborhoodDistrict","neighborhoodPeriods","neighborhoodRefresh","neighborhoodPin","neighborhoodPins","neighborhoodLegend","neighborhoodCoverage"])
+  for (const id of ["neighborhoodChart","neighborhoodMetrics","neighborhoodRows","neighborhoodPoint","neighborhoodTitle","neighborhoodRange","neighborhoodArea","neighborhoodSource","neighborhoodDong","neighborhoodDistrict","neighborhoodPeriods","neighborhoodRefresh","neighborhoodPin","neighborhoodPins","neighborhoodLegend","neighborhoodCoverage","neighborhoodDataMonths"])
     elements[id] = {value:id==="neighborhoodArea"?"84":"",textContent:"",innerHTML:"",listeners:{},addEventListener(type,cb){this.listeners[type]=cb;},querySelectorAll(){return [];}};
   globalThis.document = {getElementById:id=>elements[id]};
   const flush = async()=>{for(let i=0;i<3;i++) await new Promise(resolve=>setImmediate(resolve));};
@@ -375,6 +375,8 @@ test("failed new district clears the old district chart instead of showing anoth
     elements.neighborhoodDistrict.listeners.change(); await flush();
     assert.match(elements.neighborhoodChart.innerHTML,/불러오지 못/);
     assert.equal(elements.neighborhoodMetrics.innerHTML,"");
+    assert.match(elements.neighborhoodDataMonths.innerHTML,/종로구 전체.*자료 확인 불가/);
+    assert.doesNotMatch(elements.neighborhoodDataMonths.innerHTML,/분당 전체/);
     assert.equal(elements.neighborhoodDong.disabled,true);
   });
 });
@@ -391,6 +393,8 @@ test("switching to sample mode cannot be overwritten by an earlier official dist
     resolveDistrict(rawRegionalPayload(payload,"41135")); await flush();
     assert.match(elements.neighborhoodTitle.textContent,/샘플/);
     assert.match(elements.neighborhoodSource.textContent,/가상 거래/);
+    assert.match(elements.neighborhoodDataMonths.innerHTML,/샘플 자료 \d+\/12개월/);
+    assert.doesNotMatch(elements.neighborhoodCoverage.textContent,/아직 수집하지 못한/);
     assert.equal(districtCalls,1);
   });
 });
@@ -448,7 +452,9 @@ test("pinning a whole region retains it while selecting another region and creat
     assert.equal((elements.neighborhoodLegend.innerHTML.match(/data-series=/g)||[]).length,8);
     assert.match(elements.neighborhoodLegend.innerHTML,/stroke="#165dac"[^>]*stroke-dasharray="9 5"/);
     elements.neighborhoodPeriods.listeners.click({target:{closest:()=>({dataset:{period:"120"}})}});
-    assert.match(elements.neighborhoodRange.textContent,/120개 계약월/);
+    assert.match(elements.neighborhoodRange.textContent,/10년 보기.*120개 계약월/);
+    assert.match(elements.neighborhoodDataMonths.innerHTML,/수지 전체.*수집 자료 \d+\/120개월/);
+    assert.match(elements.neighborhoodDataMonths.innerHTML,/분당 전체.*수집 자료 \d+\/120개월/);
     elements.neighborhoodPins.listeners.click({target:{closest:()=>({dataset:{unpin:"0"}})}});
     assert.equal(elements.neighborhoodPins.innerHTML,"");assert.doesNotMatch(elements.neighborhoodTitle.textContent,/외/);
   });
@@ -488,7 +494,7 @@ test("budget result links search by district, dong and apartment on Naver Real E
 test("budget ranking keeps exact upper prices, excludes prices 2억 below, and deduplicates complexes", () => {
   const input = [
     {code:"11680",name:"강남구",dongs:[{code:"1168010100",name:"역삼동",sales:[
-      ["a","A","84",[[125501,"2026-11-10",84.95],[125500,"2026-11-10",84.95],[95000,"2026-11-08",84.95]],300],
+      ["a","A","84",[[125501,"2026-11-10",84.95],[125500,"2026-11-10",84.95,7],[95000,"2026-11-08",84.95]],300],
       ["a","A","59",[[118000,"2026-11-10",59.9]],300],
       ["b","B","84",[[105500,"2026-11-12",84.9]],600],
       ["c","C","other",[[110000,"2026-11-13",101]],500],
@@ -509,6 +515,8 @@ test("budget ranking keeps exact upper prices, excludes prices 2억 below, and d
   assert.deepEqual(result[0].dongs.map(d=>d.name),["역삼동"]);
   assert.equal(result[0].closest.price,125500);
   assert.equal(result[0].closest.households,300);
+  assert.equal(result[0].closest.contractCount,7);
+  assert.equal(result[1].closest.contractCount,undefined);
   const fullRange = districtsWithinBudget(input,125500,"84","all");
   assert.deepEqual(fullRange[0].dongs.map(d => d.candidates.map(t => [t.id,t.price])),
     [[["a",125500],["b",105500]],[["d",105499]]]);

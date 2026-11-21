@@ -9,7 +9,7 @@
   <title>아파트 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=home-entry">
-  <link rel="stylesheet" href="./assets/neighborhood.css?v=budget-candidates">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=data-basis">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -34,7 +34,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=budget-candidates"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=data-basis"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -61,24 +61,30 @@
   </section>
   <section id="budget" class="panel budget-panel" aria-labelledby="budgetTitle">
     <h2 id="budgetTitle">내 예산으로 단지 찾기</h2>
-    <p class="small muted">최근 6개월 국토부 실거래 · 300세대 이상</p>
-    <form id="budgetForm" class="budget-form">
-      <div class="budget-amount-field">
-        <label for="budgetAmount">매수가 상한 (억 원)</label>
-        <input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 15.5" aria-describedby="budgetAmountHelp" required>
-        <p class="budget-input-help" id="budgetAmountHelp">자기자본과 대출을 더한 주택 가격 한도</p>
-      </div>
-      <label for="budgetRegion">지역<select id="budgetRegion"><option value="all">5개 지역 모두</option><option value="11">서울</option><option value="41">경기</option><option value="26">부산</option><option value="27">대구</option><option value="30">대전</option></select></label>
-      <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
-      <button class="primary-button" type="submit">단지 찾기</button>
-      <label class="budget-range" for="budgetRange">가격 범위
-        <select id="budgetRange"><option value="near">상한에 가까운 거래 (2억 원 미만 차이)</option><option value="all">상한 이하 전체</option></select>
-      </label>
-    </form>
-    <p class="small muted">상한에 가까운 순으로 표시합니다. 취득세와 중개비는 별도예요.</p>
-    <p id="budgetStatus" class="budget-status" role="status"></p>
-    <div id="budgetResults" class="budget-results"></div>
-    <button id="budgetMore" class="outline-button" type="button" hidden>더 보기</button>
+    <div id="budgetOfficialContent">
+      <p class="small muted">최근 6개월 국토부 실거래 · 300세대 이상</p>
+      <form id="budgetForm" class="budget-form">
+        <div class="budget-amount-field">
+          <label for="budgetAmount">매수가 상한 (억 원)</label>
+          <input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 15.5" aria-describedby="budgetAmountHelp" required>
+          <p class="budget-input-help" id="budgetAmountHelp">자기자본과 대출을 더한 주택 가격 한도</p>
+        </div>
+        <label for="budgetRegion">지역<select id="budgetRegion"><option value="all">5개 지역 모두</option><option value="11">서울</option><option value="41">경기</option><option value="26">부산</option><option value="27">대구</option><option value="30">대전</option></select></label>
+        <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
+        <button class="primary-button" type="submit">단지 찾기</button>
+        <label class="budget-range" for="budgetRange">가격 범위
+          <select id="budgetRange"><option value="near">상한에 가까운 거래 (2억 원 미만 차이)</option><option value="all">상한 이하 전체</option></select>
+        </label>
+      </form>
+      <p class="small muted">상한에 가까운 순으로 표시합니다. 취득세와 중개비는 별도예요.</p>
+      <p id="budgetStatus" class="budget-status" role="status"></p>
+      <div id="budgetResults" class="budget-results"></div>
+      <button id="budgetMore" class="outline-button" type="button" hidden>더 보기</button>
+    </div>
+    <div id="budgetSampleNotice" class="budget-sample-notice" hidden>
+      <p>예산 검색은 공식 실거래 모드에서 사용할 수 있어요.</p>
+      <button id="budgetReturnOfficial" class="outline-button" type="button">공식 실거래로 돌아가기</button>
+    </div>
   </section>
   <div id="notice" class="notice" role="status" aria-live="polite">공식 실거래 데이터를 불러오고 있습니다.</div>
   <div id="loadHelp" class="notice warning" hidden><a class="text-link" href="https://nayanugu2-collab.github.io/home2033/?v=local-open-fix">정상 운영 사이트 열기 ↗</a><span> · 로컬 파일을 편집하며 확인하려면 README의 HTTP 미리보기를 사용하세요.</span></div>
@@ -148,6 +154,7 @@
       <div id="neighborhoodPins" class="trend-pins" aria-label="고정 비교 지역"></div>
       <div class="trend-period-row"><span class="field-label">조회 기간</span><div class="segmented" id="neighborhoodPeriods" role="group" aria-label="지역 추세 기간"><button type="button" data-period="6" aria-pressed="false">6개월</button><button type="button" data-period="12" class="selected" aria-pressed="true">1년</button><button type="button" data-period="24" aria-pressed="false">2년</button><button type="button" data-period="36" aria-pressed="false">3년</button><button type="button" data-period="60" aria-pressed="false">5년</button><button type="button" data-period="120" aria-pressed="false">10년</button></div></div>
       <div class="neighborhood-heading"><div><h3 id="neighborhoodTitle">지역별 실거래 중앙값</h3><p class="small muted" id="neighborhoodRange"></p></div><button type="button" id="neighborhoodRefresh" class="outline-button">↻ 추세 새로고침</button></div>
+      <ul id="neighborhoodDataMonths" class="neighborhood-data-months" aria-label="지역별 자료 확보 기간" aria-live="polite"></ul>
       <p id="neighborhoodCoverage" class="notice warning" role="status" hidden></p>
       <div id="neighborhoodLegend" class="trend-legend" aria-label="그래프 범례, 누르면 표시 전환"></div>
       <div class="neighborhood-body"><div><div class="chart" id="neighborhoodChart"><p class="muted small">지역 통계를 불러오는 중…</p></div><p class="neighborhood-point" id="neighborhoodPoint" aria-live="polite"></p></div><div class="neighborhood-metrics" id="neighborhoodMetrics"></div></div>
