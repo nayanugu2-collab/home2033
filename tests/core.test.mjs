@@ -525,3 +525,16 @@ test("budget ranking keeps exact upper prices, excludes prices 2억 below, and d
   assert.equal(districtsWithinBudget(input,125500,"all")[0].count,2);
   assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
 });
+
+import { planShareURL, readPlanShare } from "../assets/plan-share.js";
+test("plan share links carry the apartment and public filters without financial fields", () => {
+  const url = planShareURL("https://example.test/home2033/?assets=3.5&loan=4", {
+    complex:"gracium", band:"84", size:"84.95", region:"41", area:"all", range:"near",
+    targetPrice:17, assets:7, mortgage:4, newLoan:6, budgetAmount:20, targetMonth:"2033-12"
+  });
+  assert.equal(url,"https://example.test/home2033/?complex=gracium&band=84&size=84.95&region=41&area=all&range=near#calculator");
+  assert.deepEqual(readPlanShare(url),{complex:"gracium",band:"84",size:"84.95",region:"41",area:"all",range:"near"});
+  assert.equal(planShareURL(url,{region:"26",area:"59",range:"all"}),"https://example.test/home2033/?region=26&area=59&range=all#budget");
+  assert.deepEqual(readPlanShare("https://example.test/?complex=%3Cscript%3E&band=all&size=-8&region=52&area=101&range=0"),
+    {complex:null,band:null,size:null,region:null,area:null,range:null});
+});

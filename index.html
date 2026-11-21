@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-title" content="실거래 모니터">
   <title>아파트 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=home-entry">
+  <link rel="stylesheet" href="./assets/styles.css?v=quick-plan">
   <link rel="stylesheet" href="./assets/neighborhood.css?v=data-basis">
   <script id="startupGuard">
   (() => {
@@ -34,7 +34,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=data-basis"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=quick-plan"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -183,27 +183,61 @@
     <div class="section-heading"><h2 id="calculatorTitle" tabindex="-1">갈아타기 자금 계획</h2><span class="muted small">입력값은 이 브라우저에만 저장됩니다</span></div>
     <div class="calculator-layout">
       <form class="panel calculator-form" id="calculatorForm">
-        <div class="form-section"><h3><span>01</span> 지금의 자산</h3><div class="form-grid">
-          <label>현재 주택 예상 매도가 <span>억원</span><input id="sale" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-          <label>주담대 잔액 <span>억원</span><input id="mortgage" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-          <label>가족 차입금 잔액 <span>억원</span><input id="family" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-          <label>사용 가능한 금융자산 <span>억원</span><input id="assets" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-        </div><button type="button" class="link-button" id="resetSale" hidden>매도가를 선택한 기준 가격에 연동</button><p class="field-help" id="saleHint">매도할 집이 있다면 예상 매도가를 직접 입력하세요.</p></div>
-        <div class="form-section"><h3><span>02</span> 그때까지 모을 자금</h3><div class="form-grid">
-          <label>월 저축액 <span>만원 / 월</span><input id="monthly" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
-          <label>연간 성과급 저축액 <span>만원 / 년</span><input id="bonus" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
-          <label>목표 매수 시점<input id="targetMonth" type="month" aria-describedby="targetMonthHelp"><small class="field-help" id="targetMonthHelp">비워두면 이번 달 기준으로 계산합니다.</small></label>
-          <label>신규 주택담보대출 <span>억원</span><input id="newLoan" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-        </div></div>
-        <div class="form-section"><h3><span>03</span> 목표 주택과 거래비용</h3><label>목표 단지<select id="targetComplex"></select></label><p class="field-help" id="targetHint"></p><div class="form-grid">
-          <label>가정한 목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.0001" inputmode="decimal" placeholder="선택 단지 가격 연동"></label>
-          <label>취득세 예상액 <span>억원</span><input id="tax" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-          <label>매도 양도세·지방소득세 합계 <span>억원</span><input id="saleTax" type="number" min="0" step="0.0001" value="0" inputmode="decimal"></label>
-          <label>기타 거래비용 <span>억원</span><input id="fees" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
-        </div><button type="button" class="link-button" id="resetTarget">목표 매수가를 선택 단지 가격에 연동</button><p class="field-help">취득세 항목에는 지방교육세·농어촌특별세를 포함한 취득 관련 세금 합계를, 양도세 항목에는 지방소득세 포함 금액을 입력하세요. 기타 비용에는 세금을 중복 입력하지 마세요. 세액 기본값 0은 비과세 판정이 아닌 미입력 가정입니다. <a href="#taxGuide">세금 적용 기준 보기 ↓</a></p></div>
-        <div class="form-actions"><span class="small muted" id="saveState">금액 기본값 0 · 실제 잔액을 입력하세요</span><button type="button" class="outline-button" id="resetCalculator">입력 초기화</button></div>
+        <div class="form-section plan-basics">
+          <div class="form-grid plan-quick-grid">
+            <label>목표 매수가 <span>억원</span><input id="targetPrice" type="number" min="0" step="0.0001" inputmode="decimal" placeholder="금액 입력"></label>
+            <label>보유 자기자본 <span>억원</span><input id="assets" type="number" min="0" step="0.01" value="0" inputmode="decimal" aria-describedby="planEquityHelp"></label>
+            <label>예상 대출 <span>억원</span><input id="newLoan" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+          </div>
+          <p class="field-help" id="planEquityHelp">별도로 입력할 주택 매도 순자금은 보유 자기자본에서 빼 주세요.</p>
+          <label for="targetComplex">목표 단지<select id="targetComplex"></select></label>
+          <p class="field-help" id="targetHint"></p>
+          <button type="button" class="link-button" id="resetTarget">목표 매수가를 선택 단지 가격에 연동</button>
+        </div>
+        <details class="plan-advanced" id="planAdvanced">
+          <summary><span>매도·부채·저축·세금</span><small id="planAdvancedStatus" hidden>상세 입력 반영 중</small></summary>
+          <div class="form-section">
+            <h3>현재 집 매도와 부채</h3>
+            <div class="form-grid">
+              <label>현재 주택 예상 매도가 <span>억원</span><input id="sale" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+              <label>주담대 잔액 <span>억원</span><input id="mortgage" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+              <label>가족 차입금 잔액 <span>억원</span><input id="family" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+            </div>
+            <button type="button" class="link-button" id="resetSale" hidden>매도가를 선택한 기준 가격에 연동</button>
+            <p class="field-help" id="saleHint">매도할 집이 있다면 예상 매도가를 직접 입력하세요.</p>
+          </div>
+          <div class="form-section">
+            <h3>목표 시점과 추가 저축</h3>
+            <div class="form-grid">
+              <label>목표 매수 시점<input id="targetMonth" type="month" aria-describedby="targetMonthHelp"><small class="field-help" id="targetMonthHelp">비워두면 이번 달 기준으로 계산합니다.</small></label>
+              <label>월 저축액 <span>만원 / 월</span><input id="monthly" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
+              <label>연간 성과급 저축액 <span>만원 / 년</span><input id="bonus" type="number" min="0" step="1" value="0" inputmode="decimal"></label>
+            </div>
+          </div>
+          <div class="form-section">
+            <h3>세금과 거래비용</h3>
+            <div class="form-grid">
+              <label>취득세 예상액 <span>억원</span><input id="tax" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+              <label>매도 양도세·지방소득세 합계 <span>억원</span><input id="saleTax" type="number" min="0" step="0.0001" value="0" inputmode="decimal"></label>
+              <label>기타 거래비용 <span>억원</span><input id="fees" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label>
+            </div>
+            <p class="field-help">취득 관련 세금과 양도세·지방소득세는 각 항목에 합산하세요. 세금 0은 미입력 가정입니다. <a href="#taxGuide">세금 적용 기준 보기</a></p>
+          </div>
+        </details>
+        <div class="form-actions plan-actions">
+          <span class="small muted" id="saveState">금액 기본값 0 · 실제 잔액을 입력하세요</span>
+          <button type="button" class="outline-button" id="copyPlanLink" aria-describedby="planShareHelp">단지·조건 링크 복사</button>
+          <button type="button" class="outline-button" id="resetCalculator">입력 초기화</button>
+        </div>
+        <p id="planShareHelp" class="field-help">단지와 검색 필터만 공유합니다. 입력한 금액과 매수 시점은 이 브라우저에만 있어요.</p>
+        <p id="planShareStatus" class="small" role="status"></p>
+        <label id="planShareFallback" hidden>공유 링크<input id="planShareURL" type="url" readonly></label>
       </form>
-      <aside class="plan-result"><div class="eyebrow">YOUR NEXT HOME</div><h3 id="planTarget">목표 주택</h3><p id="planSubtitle">선택 단지와 자금 계획을 연결합니다.</p><div class="result-main"><span>추가로 필요한 자기자본</span><strong id="shortage">—<small>억원</small></strong><span id="surplus"></span></div><div id="calcError" role="status" aria-live="polite"></div><div class="fund-flow"><div><span>매도 후 순자금</span><b id="netSale">—</b></div><div><span>금융자산</span><b id="assetResult">—</b></div><div><span>추가 저축 + 성과급</span><b id="savingsResult">—</b></div><div class="flow-total"><span>예상 자기자본</span><b id="equityResult">—</b></div><div><span>+ 신규 주담대</span><b id="loanResult">—</b></div><div class="flow-total"><span>총 조달 가능액</span><b id="availableResult">—</b></div><div><span>목표 매수가 + 비용</span><b id="costResult">—</b></div></div><p class="plan-note" id="savingMonths"></p><p class="plan-note">현재 실거래가를 미래 매수가의 가정값으로 사용합니다. 집값·금리·투자수익률·물가 변화는 반영하지 않습니다.</p></aside>
+      <aside class="plan-result" id="planResult" tabindex="-1"><h3 id="planTarget">목표 주택</h3><p id="planSubtitle">선택 단지와 자금 계획을 연결합니다.</p><div class="result-main"><span>추가로 필요한 자기자본</span><strong id="shortage">—<small>억원</small></strong><span id="surplus"></span></div><div id="calcError" role="status" aria-live="polite"></div><div class="fund-flow"><div><span>매도 후 순자금</span><b id="netSale">—</b></div><div><span>보유 자기자본</span><b id="assetResult">—</b></div><div><span>추가 저축 + 성과급</span><b id="savingsResult">—</b></div><div class="flow-total"><span>예상 자기자본</span><b id="equityResult">—</b></div><div><span>+ 신규 주담대</span><b id="loanResult">—</b></div><div class="flow-total"><span>총 조달 가능액</span><b id="availableResult">—</b></div><div><span>목표 매수가 + 비용</span><b id="costResult">—</b></div></div><p class="plan-note" id="savingMonths"></p><p class="plan-note">현재 실거래가를 미래 매수가의 가정값으로 사용합니다. 집값·금리·투자수익률·물가 변화는 반영하지 않습니다.</p></aside>
+    </div>
+    <div class="plan-mobile-result">
+      <div role="status"><span id="mobilePlanLabel">추가 필요 자금</span><strong id="mobilePlanAmount">—</strong></div>
+      <a href="#planResult" class="outline-button">계산 내역</a>
     </div>
   </section>
   <section class="panel method-section" id="taxGuide">

@@ -1,6 +1,7 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
 import { initNeighborhood } from "./neighborhood.js?v=data-basis";
 import { initBudget } from "./budget.js?v=data-basis";
+import { planShareURL, readPlanShare } from "./plan-share.js";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -16,7 +17,7 @@ let watchPage = 0;
 let registry, official = null, status = null, demo = false, payload = null, trades = [], baseTrades = [];
 let area = "84", region = "all", selected = "gracium", exact = "all", saleAuto = true, targetAuto = true, loadError = "";
 let officialPlanSnapshot = null, neighborhoods = null, budgetView = null;
-let budgetSelection = null, budgetOpenRequest = 0;
+let budgetSelection = null, budgetOpenRequest = 0, manualTarget = false;
 let preferences = watchPreferences(null), defaultIds = new Set(), nationalIndex = null, nationalLoading = null;
 let nationalTrades = [], nationalDistricts = new Set(), nationalPending = new Map();
 const nationalStamps = new Map();
@@ -292,9 +293,9 @@ function targetOptions() {
   const choices = registry.complexes.filter(isWatched);
   const preview = budgetSelection && selectedComplex();
   if (preview && !choices.includes(preview)) choices.unshift(preview);
-  if (!choices.some(c => c.id === selected)) { selected = choices.find(c => c.comparisonEligible !== false)?.id || choices[0]?.id || null; exact = "all"; targetAuto = true; }
-  $("targetComplex").innerHTML = choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + " (" + householdLabel(c) + ")" + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("") || '<option value="">관심 단지를 추가하세요</option>';
-  $("targetComplex").disabled = !choices.length;
+  if (!manualTarget && !choices.some(c => c.id === selected)) { selected = choices.find(c => c.comparisonEligible !== false)?.id || choices[0]?.id || null; exact = "all"; targetAuto = true; }
+  $("targetComplex").innerHTML = '<option value="">매수가 직접 입력</option>' + choices.map(c => '<option value="' + c.id + '"' + (c.comparisonEligible === false ? ' disabled' : '') + '>' + escape(c.region + " · " + c.name + " (" + householdLabel(c) + ")" + (c.comparisonEligible === false ? " · 국민임대(매매 제외)" : "")) + '</option>').join("");
+  $("targetComplex").value = selected ?? "";
   budgetView?.updateWatch();
 }
 async function loadNational() {
@@ -390,6 +391,7 @@ async function openBudgetResult(trade, districtCode, action, isCurrent) {
 
   const calculateFromTrade = action === "calculate";
   budgetSelection = {band: areaClass(trade.size), price: calculateFromTrade ? trade.price : null, date: trade.date};
+  manualTarget = false;
   selected = c.id;
   exact = String(trade.size);
   targetAuto = !calculateFromTrade;
@@ -428,6 +430,25 @@ function renderChart(container, series, keys, title, labels = {}, emptyMessage) 
   });
   $(container).innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + escape(title) + '"><title>' + escape(title) + '</title>' + body + "</svg>";
 }
+async function openSharedPlan(settings, request) {
+  if (!settings.complex || request !== budgetOpenRequest) return;
+  try {
+    if (!registry.complexes.some(c => c.id === settings.complex)) await loadNational();
+    const c = registry.complexes.find(c => c.id === settings.complex);
+    if (!meetsHouseholdMinimum(c) || c.comparisonEligible === false) throw new Error();
+    if (c.id.startsWith("n-")) await loadNationalDistrict(c.districtCode);
+    if (request !== budgetOpenRequest || demo || !targetAuto) return;
+    const band = settings.size ? areaClass(Number(settings.size)) : settings.band === "other" ? null : settings.band ?? area;
+    manualTarget = false;
+    selected = c.id;
+    exact = settings.size ?? "all";
+    budgetSelection = {band, price: null};
+    targetOptions();
+    activateData();
+  } catch {
+    if (request === budgetOpenRequest) $("planShareStatus").textContent = "공유 링크의 단지 자료를 불러오지 못했습니다.";
+  }
+}
 function syncPrices() {
   if (!registry) return;
   const home = currentBase(), base = home ? basePrice() : null;
@@ -437,10 +458,13 @@ function syncPrices() {
     saleAuto ? "매도할 집이 있다면 예상 매도가를 직접 입력하세요." : "직접 입력한 예상 매도가 · 실거래 비교 기준에는 영향을 주지 않습니다.";
   const target = selectedComplex();
   if (!target) {
-    $("targetPrice").value = ""; $("targetPrice").disabled = true; $("resetTarget").disabled = true;
-    $("targetHint").textContent = "검색에서 관심 단지를 추가하세요.";
+    if (targetAuto) $("targetPrice").value = "";
+    $("targetPrice").disabled = false;
+    $("resetTarget").hidden = true;
+    $("targetHint").textContent = "목표 매수가를 직접 입력해 계산할 수 있어요.";
     return;
   }
+  $("resetTarget").hidden = false;
   const eligible = target.comparisonEligible !== false;
   const value = priceFor(getSummary(target, exact, detailBand()), $("metric").value);
   if (targetAuto || !eligible) $("targetPrice").value = value == null ? "" : (value / 10000).toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
@@ -482,7 +506,7 @@ function renderComparisonHistory(ts, eligible) {
 function renderDetail(resetTypes = false) {
   const c = selectedComplex();
   $("detail").hidden = !c;
-  if (!c) { syncPrices(); renderCalculation(); return; }
+  if (!c) { $("targetComplex").value = ""; syncPrices(); renderCalculation(); return; }
   if (resetTypes) {
     const types = getSummary(c, "all", detailBand()).areas;
     if (budgetSelection && exact !== "all" && !types.includes(Number(exact))) types.push(Number(exact));
@@ -521,13 +545,18 @@ function renderDetail(resetTypes = false) {
   renderCalculation();
 }
 function renderCalculation() {
-  const selectedMonth = $("targetMonth").value;
-  $("planTarget").textContent = selectedComplex()?.name || "목표 주택";
-  $("planSubtitle").textContent = (selectedMonth || "이번 달") + " 매수 가정 · " + detailAreaLabel() + (demo ? " · 샘플 가격" : "");
+  const selectedMonth = $("targetMonth").value, target = selectedComplex();
+  $("planTarget").textContent = target?.name || "직접 입력한 목표 주택";
+  $("planSubtitle").textContent = (selectedMonth || "이번 달") + " 매수 가정" +
+    (target ? " · " + detailAreaLabel() : "") + (demo ? " · 샘플 모드" : "");
+  const advancedInputs = [...$("planAdvanced").querySelectorAll("input")];
+  const missing = advancedInputs.some(input => input.type !== "month" && input.value === "");
+  const hasAdvanced = advancedInputs.some(input => input.type === "month" ? input.value !== "" : Number(input.value) !== 0);
+  $("planAdvancedStatus").hidden = !missing && !hasAdvanced;
+  $("planAdvancedStatus").textContent = missing ? "상세 입력 확인" : "상세 입력 반영 중";
   const resultIds = ["shortage", "netSale", "assetResult", "savingsResult", "equityResult", "loanResult", "availableResult", "costResult"];
   try {
-    if (!selectedComplex()) throw new Error("검색에서 관심 단지를 추가하세요.");
-    if (selectedComplex().comparisonEligible === false) throw new Error("국민임대 단지는 매수 자금 계산 대상이 아닙니다. 다른 매매 단지를 선택하세요.");
+    if (target?.comparisonEligible === false) throw new Error("국민임대 단지는 매수 자금 계산 대상이 아닙니다. 다른 매매 단지를 선택하세요.");
     for (const id of ids) {
       if (id !== "targetMonth" && $(id).value === "") throw new Error(id === "sale" ? "현재 주택 예상 매도가를 입력하세요." : id === "targetPrice" ? "거래 부족 · 목표 매수가를 직접 입력하세요." : "비어 있는 입력값을 확인하세요.");
     }
@@ -535,6 +564,8 @@ function renderCalculation() {
     if (!input.targetPrice) throw new Error("목표 매수가는 0보다 커야 합니다.");
     const r = calculate(input, today);
     $("shortage").innerHTML = money(r.shortage) + "<small>억원</small>";
+    $("mobilePlanLabel").textContent = r.surplus > 0 ? "여유 자금" : "추가 필요 자금";
+    $("mobilePlanAmount").textContent = money(r.surplus || r.shortage) + "억 원";
     $("surplus").textContent = r.surplus > 0 ? money(r.surplus) + "억 여유" : r.shortage === 0 ? "입력한 가정에서는 자기자본이 충족됩니다." : "목표까지 더 모아야 할 금액";
     const values = { netSale: r.netSale, assetResult: input.assets, savingsResult: r.savings, equityResult: r.equity, loanResult: input.newLoan, availableResult: r.available, costResult: r.totalCost };
     for (const [id, value] of Object.entries(values)) $(id).textContent = money(value) + "억";
@@ -543,6 +574,8 @@ function renderCalculation() {
   } catch (e) {
     for (const id of resultIds) $(id).textContent = "—";
     $("surplus").textContent = "";
+    $("mobilePlanLabel").textContent = "추가 필요 자금";
+    $("mobilePlanAmount").textContent = "입력 확인";
     $("savingMonths").textContent = "";
     $("calcError").textContent = e.message;
   }
@@ -558,7 +591,8 @@ function choose(id, scroll = false) {
   ++budgetOpenRequest;
   const wasBudgetSelection = Boolean(budgetSelection);
   budgetSelection = null;
-  selected = id; exact = "all"; targetAuto = true;
+  manualTarget = !id;
+  selected = id || null; exact = "all"; targetAuto = true;
   if (wasBudgetSelection) targetOptions();
   renderList(); renderDetail(true);
   if (scroll) $("detail").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -676,6 +710,27 @@ $("resetCalculator").addEventListener("click", () => {
   for (const id of ids) $(id).value = id === "targetMonth" ? "" : "0";
   saleAuto = true; targetAuto = true; syncPrices(); renderCalculation(); save();
 });
+$("copyPlanLink").addEventListener("click", async () => {
+  const target = selectedComplex();
+  const publicTarget = target?.comparisonEligible !== false ? target : null;
+  const link = planShareURL(location.href, {
+    ...(publicTarget ? {complex: publicTarget.id, band: detailBand() ?? "other", size: exact} : {}),
+    region: $("budgetRegion").value,
+    area: $("budgetArea").value,
+    range: $("budgetRange").value
+  });
+  $("planShareFallback").hidden = true;
+  try {
+    await navigator.clipboard.writeText(link);
+    $("planShareStatus").textContent = "단지와 검색 조건만 담은 링크를 복사했습니다.";
+  } catch {
+    $("planShareFallback").hidden = false;
+    $("planShareURL").value = link;
+    $("planShareURL").focus();
+    $("planShareURL").select();
+    $("planShareStatus").textContent = "아래 링크를 복사해 공유하세요.";
+  }
+});
 $("useTarget").addEventListener("click", () => { $("calculator").scrollIntoView({ behavior: "smooth" }); $("targetComplex").focus({ preventScroll: true }); });
 $("refresh").addEventListener("click", loadOfficial);
 $("budgetReturnOfficial").addEventListener("click", () => $("demoToggle").click());
@@ -687,18 +742,22 @@ $("demoToggle").addEventListener("click", async () => {
       demo = false; payload = official;
       if (officialPlanSnapshot) {
         for (const [id, value] of Object.entries(officialPlanSnapshot.values)) $(id).value = value;
-        saleAuto = officialPlanSnapshot.saleAuto;
+        ({saleAuto, targetAuto, selected, exact, manualTarget, budgetSelection} = officialPlanSnapshot);
         tracker = { ...officialPlanSnapshot.tracker };
       }
       $("saveState").textContent = "공식 모드의 기존 입력값으로 복원됨";
       trackerStatus("공식 모드의 기존 비교 기준으로 복원했습니다.");
     } else {
       const sample = checkPayload(await getJSON("./data/sample.json"), "sample");
-      officialPlanSnapshot = { values: Object.fromEntries(ids.filter(id => id !== "targetPrice").map(id => [id, $(id).value])), saleAuto, tracker: { ...tracker } };
-      payload = sample; demo = true;
+      officialPlanSnapshot = {
+        values: Object.fromEntries(ids.map(id => [id, $(id).value])),
+        saleAuto, targetAuto, selected, exact, manualTarget,
+        budgetSelection: budgetSelection && {...budgetSelection}, tracker: {...tracker}
+      };
+      payload = sample; demo = true; targetAuto = true;
       $("saveState").textContent = "샘플 입력값은 저장하지 않습니다.";
     }
-    targetAuto = true; targetOptions(); activateData();
+    targetOptions(); activateData();
   } catch { $("notice").textContent = "샘플 파일을 불러오지 못했습니다. 배포 파일과 연결 상태를 확인하세요."; }
   finally { $("demoToggle").disabled = false; }
 });
@@ -711,7 +770,12 @@ async function init() {
     controls.forEach(control => { control.disabled = false; });
     neighborhoods = initNeighborhood({ getJSON, renderChart });
     budgetView = initBudget(getJSON, {watchState: budgetWatchState, saveResult: saveBudgetResult, openResult: openBudgetResult});
+    const shared = readPlanShare(location.href), request = budgetOpenRequest;
+    if (shared.region) $("budgetRegion").value = shared.region;
+    if (shared.area) $("budgetArea").value = shared.area;
+    if (shared.range) $("budgetRange").value = shared.range;
     await loadOfficial();
+    await openSharedPlan(shared, request);
     if (personalMode()) renderBaseSearch();
     if (preferences.added.length || (personalMode() && tracker.id?.startsWith("n-"))) await loadNational();
   } catch {
