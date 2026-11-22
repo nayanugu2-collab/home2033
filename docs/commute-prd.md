@@ -75,6 +75,8 @@
 
 각 단지의 보행 정문과 차량 출입구, 네 업무지의 보행 출구와 차량 진입점을 지도와 운영기관 자료로 확인한다. 산출물은 단지 ID·법정동 코드·출입구 이름·WGS84 좌표·출처·확인일을 담은 명부다. 어느 수단의 기준점이 미확인이면 해당 수단은 확보한 지점이 생길 때 조회한다.
 
+현재 기준점 후보와 좌표 확인 상태는 단계별 확인 기록에서 관리한다. [기준점 명부](https://github.com/nayanugu2-collab/home2033/blob/main/data/commute/endpoints.json) · [확인 기록](commute-endpoint-verification.md)
+
 ### 2단계. 길찾기 공급사와 아침 표본 검증
 
 - **지하철**. TMAP 대중교통의 경로 전체시간과 구간유형(`WALK`, `SUBWAY` 등), `searchDttm` 요청 시 실제 대기시간 반영 여부를 확인한다. ODsay의 지하철 경로를 대안으로 볼 수 있으며, 저장·가공·배포에 필요한 사전 동의 조건을 확인한다. 자체 계산을 검토할 경우 운행 시간표·환승 보행·역 출입구가 표본 경로를 덮는지 먼저 확인한다. [TMAP 대중교통 API](https://transit.tmapmobility.com/docs/routes) · [ODsay 경로 검색](https://lab.odsay.com/guide/releaseReference?platform=web) · [ODsay 이용약관](https://lab.odsay.com/doc/totalPolicy) · [국가철도공단 운행정보](https://www.data.go.kr/data/15013206/standard.do)
