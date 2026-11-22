@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-21",
-  "updatedAt": "2026-11-21T12:27:30.673458+09:00",
+  "asOf": "2026-11-22",
+  "updatedAt": "2026-11-22T11:21:31.319467+09:00",
   "districtCode": "51820",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,31 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
-      "sources": [
-        {
-          "label": "국토교통부 공식 실거래",
-          "url": "https://www.data.go.kr/data/15126468/openapi.do"
-        }
-      ],
-      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
-    },
-    {
-      "id": "n-61f68be2a549c81a6181",
-      "name": "유진클래시움",
-      "aliases": [
-        "유진클래시움"
-      ],
-      "region": "강원특별자치도 고성군",
-      "districtCode": "51820",
-      "legalDongCode": "5182033022",
-      "legalDong": "토성면 청간리",
-      "jibuns": [
-        "217"
-      ],
-      "households": null,
-      "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -188,7 +164,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -212,7 +188,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -236,7 +212,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -260,7 +236,31 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-61f68be2a549c81a6181",
+      "name": "유진클래시움",
+      "aliases": [
+        "유진클래시움"
+      ],
+      "region": "강원특별자치도 고성군",
+      "districtCode": "51820",
+      "legalDongCode": "5182033022",
+      "legalDong": "토성면 청간리",
+      "jibuns": [
+        "217"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -284,7 +284,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -308,7 +308,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -332,7 +332,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -368,19 +368,7 @@
       "canceled": false
     },
     {
-      "id": "279b7ee792f9cfcb1d61-2",
-      "complexId": "n-83102e72da2cef3c6bd1",
-      "legalDongCode": "5182033035",
-      "date": "2025-11-22",
-      "area": 81.4465,
-      "priceManwon": 33000,
-      "floor": "14",
-      "buildYear": 2021,
-      "dealingType": "중개거래",
-      "canceled": false
-    },
-    {
-      "id": "503c2b6dbea6e4c1f475-3",
+      "id": "503c2b6dbea6e4c1f475-2",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2025-11-27",
@@ -392,7 +380,7 @@
       "canceled": false
     },
     {
-      "id": "4cc3ade8994564e917ed-4",
+      "id": "4cc3ade8994564e917ed-3",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2025-11-28",
@@ -404,19 +392,7 @@
       "canceled": false
     },
     {
-      "id": "89b96ae4309042f0f008-5",
-      "complexId": "n-61f68be2a549c81a6181",
-      "legalDongCode": "5182033022",
-      "date": "2025-11-22",
-      "area": 49.8,
-      "priceManwon": 16000,
-      "floor": "14",
-      "buildYear": 2006,
-      "dealingType": "중개거래",
-      "canceled": false
-    },
-    {
-      "id": "60356ebd73f515071e51-6",
+      "id": "60356ebd73f515071e51-4",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2025-12-31",
@@ -428,7 +404,7 @@
       "canceled": false
     },
     {
-      "id": "336dde84ab0d1605f23d-7",
+      "id": "336dde84ab0d1605f23d-5",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2025-12-08",
@@ -440,7 +416,7 @@
       "canceled": false
     },
     {
-      "id": "6dde8762eea76a2dec74-8",
+      "id": "6dde8762eea76a2dec74-6",
       "complexId": "n-533034ad533dd676c6cc",
       "legalDongCode": "5182025025",
       "date": "2025-12-24",
@@ -452,7 +428,7 @@
       "canceled": false
     },
     {
-      "id": "f1e480f85e6dd917e7ac-9",
+      "id": "f1e480f85e6dd917e7ac-7",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2025-12-23",
@@ -464,7 +440,7 @@
       "canceled": false
     },
     {
-      "id": "93aafc15b1e4ecbf4a2e-10",
+      "id": "93aafc15b1e4ecbf4a2e-8",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2025-12-23",
@@ -476,7 +452,7 @@
       "canceled": false
     },
     {
-      "id": "e280c284302d76be3870-11",
+      "id": "e280c284302d76be3870-9",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2025-12-08",
@@ -488,7 +464,7 @@
       "canceled": false
     },
     {
-      "id": "9923c833c68a81d9541f-12",
+      "id": "9923c833c68a81d9541f-10",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2025-12-15",
@@ -500,7 +476,7 @@
       "canceled": false
     },
     {
-      "id": "480b51ba9b8ee77f505f-13",
+      "id": "480b51ba9b8ee77f505f-11",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2025-12-05",
@@ -512,7 +488,7 @@
       "canceled": false
     },
     {
-      "id": "74b3c789c3d18bb228d0-14",
+      "id": "74b3c789c3d18bb228d0-12",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2025-12-01",
@@ -524,7 +500,7 @@
       "canceled": false
     },
     {
-      "id": "b340af0a7e1fd9ac2de5-15",
+      "id": "b340af0a7e1fd9ac2de5-13",
       "complexId": "n-835fa33e4a3a5e75cff6",
       "legalDongCode": "5182025025",
       "date": "2026-01-13",
@@ -536,7 +512,7 @@
       "canceled": false
     },
     {
-      "id": "31c446fd8d6e1559fca6-16",
+      "id": "31c446fd8d6e1559fca6-14",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-01-19",
@@ -548,7 +524,7 @@
       "canceled": false
     },
     {
-      "id": "4bdacee225f17c7f9544-17",
+      "id": "4bdacee225f17c7f9544-15",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-01-27",
@@ -560,7 +536,7 @@
       "canceled": false
     },
     {
-      "id": "4e43aa1459f7ba477de0-18",
+      "id": "4e43aa1459f7ba477de0-16",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-01-30",
@@ -572,7 +548,7 @@
       "canceled": false
     },
     {
-      "id": "5618671167fac556a8af-19",
+      "id": "5618671167fac556a8af-17",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-01-09",
@@ -584,7 +560,7 @@
       "canceled": false
     },
     {
-      "id": "89d5eb7f8096efaaf047-20",
+      "id": "89d5eb7f8096efaaf047-18",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-01-21",
@@ -596,7 +572,7 @@
       "canceled": false
     },
     {
-      "id": "cff489c93b20e9cd2260-21",
+      "id": "cff489c93b20e9cd2260-19",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-01-19",
@@ -608,7 +584,7 @@
       "canceled": false
     },
     {
-      "id": "c4ee1b1f699dbc06fd39-22",
+      "id": "c4ee1b1f699dbc06fd39-20",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-01-19",
@@ -620,7 +596,7 @@
       "canceled": false
     },
     {
-      "id": "431809bbd74f966286f2-23",
+      "id": "431809bbd74f966286f2-21",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-01-16",
@@ -632,7 +608,7 @@
       "canceled": false
     },
     {
-      "id": "5d868e4ea99df16318d9-24",
+      "id": "5d868e4ea99df16318d9-22",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-01-10",
@@ -644,7 +620,7 @@
       "canceled": false
     },
     {
-      "id": "0decc46a7419e5ed21ca-25",
+      "id": "0decc46a7419e5ed21ca-23",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-01-07",
@@ -656,7 +632,7 @@
       "canceled": false
     },
     {
-      "id": "f7bfe2806a8a01562a42-26",
+      "id": "f7bfe2806a8a01562a42-24",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-01-23",
@@ -668,7 +644,7 @@
       "canceled": false
     },
     {
-      "id": "467d66db88de772ea566-27",
+      "id": "467d66db88de772ea566-25",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-02-20",
@@ -680,7 +656,7 @@
       "canceled": false
     },
     {
-      "id": "0cdc7ab849a8f3e805bd-28",
+      "id": "0cdc7ab849a8f3e805bd-26",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-02-27",
@@ -692,7 +668,7 @@
       "canceled": false
     },
     {
-      "id": "aadf55bde97f812e86b8-29",
+      "id": "aadf55bde97f812e86b8-27",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-02-26",
@@ -704,7 +680,7 @@
       "canceled": false
     },
     {
-      "id": "1e411ba3d22d3968e841-30",
+      "id": "1e411ba3d22d3968e841-28",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-02-14",
@@ -716,7 +692,7 @@
       "canceled": false
     },
     {
-      "id": "50252dc533c448af6ef0-31",
+      "id": "50252dc533c448af6ef0-29",
       "complexId": "n-835fa33e4a3a5e75cff6",
       "legalDongCode": "5182025025",
       "date": "2026-02-19",
@@ -728,7 +704,7 @@
       "canceled": false
     },
     {
-      "id": "599d0b21b6f576037878-32",
+      "id": "599d0b21b6f576037878-30",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-02-13",
@@ -740,7 +716,7 @@
       "canceled": false
     },
     {
-      "id": "4885d011a08383b6022e-33",
+      "id": "4885d011a08383b6022e-31",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2026-02-10",
@@ -752,7 +728,7 @@
       "canceled": false
     },
     {
-      "id": "e459edf9653e5f641e70-34",
+      "id": "e459edf9653e5f641e70-32",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-02-09",
@@ -764,7 +740,7 @@
       "canceled": false
     },
     {
-      "id": "8d65642ffcede0889470-35",
+      "id": "8d65642ffcede0889470-33",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2026-02-04",
@@ -776,7 +752,7 @@
       "canceled": false
     },
     {
-      "id": "e9221973ab3994decacc-36",
+      "id": "e9221973ab3994decacc-34",
       "complexId": "n-3dd47697c3f0981cc76c",
       "legalDongCode": "5182025022",
       "date": "2026-02-01",
@@ -788,7 +764,7 @@
       "canceled": false
     },
     {
-      "id": "88327f33200df96d4bf7-37",
+      "id": "88327f33200df96d4bf7-35",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-03-29",
@@ -800,7 +776,7 @@
       "canceled": false
     },
     {
-      "id": "aaba3ca96187fb6a6fc4-38",
+      "id": "aaba3ca96187fb6a6fc4-36",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-03-23",
@@ -812,7 +788,7 @@
       "canceled": false
     },
     {
-      "id": "3b6a190c7de89c3f7273-39",
+      "id": "3b6a190c7de89c3f7273-37",
       "complexId": "n-61f68be2a549c81a6181",
       "legalDongCode": "5182033022",
       "date": "2026-03-27",
@@ -824,7 +800,7 @@
       "canceled": false
     },
     {
-      "id": "ddc44ede239d71c451e1-40",
+      "id": "ddc44ede239d71c451e1-38",
       "complexId": "n-61f68be2a549c81a6181",
       "legalDongCode": "5182033022",
       "date": "2026-03-30",
@@ -836,7 +812,7 @@
       "canceled": false
     },
     {
-      "id": "d3fd666071dff2a5363e-41",
+      "id": "d3fd666071dff2a5363e-39",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2026-03-26",
@@ -848,7 +824,7 @@
       "canceled": false
     },
     {
-      "id": "ed56dca906c6c7f3d030-42",
+      "id": "ed56dca906c6c7f3d030-40",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-03-25",
@@ -860,7 +836,7 @@
       "canceled": false
     },
     {
-      "id": "51d372467d8e760985f7-43",
+      "id": "51d372467d8e760985f7-41",
       "complexId": "n-f9c52d5ecd4451f9ffc5",
       "legalDongCode": "5182025321",
       "date": "2026-03-13",
@@ -872,7 +848,7 @@
       "canceled": false
     },
     {
-      "id": "91ecb9193ed15c63a37b-44",
+      "id": "91ecb9193ed15c63a37b-42",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-03-15",
@@ -884,7 +860,7 @@
       "canceled": false
     },
     {
-      "id": "c389c6cd7b4686e5d385-45",
+      "id": "c389c6cd7b4686e5d385-43",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-03-13",
@@ -896,7 +872,7 @@
       "canceled": false
     },
     {
-      "id": "d38201791615c0a45223-46",
+      "id": "d38201791615c0a45223-44",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-03-02",
@@ -908,7 +884,7 @@
       "canceled": false
     },
     {
-      "id": "94bff89b74182cd5936f-47",
+      "id": "94bff89b74182cd5936f-45",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-03-04",
@@ -920,7 +896,7 @@
       "canceled": false
     },
     {
-      "id": "8929207226acffcb8a9a-48",
+      "id": "8929207226acffcb8a9a-46",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-03-07",
@@ -932,7 +908,7 @@
       "canceled": false
     },
     {
-      "id": "e1aac9d4e377c4176618-49",
+      "id": "e1aac9d4e377c4176618-47",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-03-04",
@@ -944,7 +920,7 @@
       "canceled": false
     },
     {
-      "id": "5b12d75826b5683a1c31-50",
+      "id": "5b12d75826b5683a1c31-48",
       "complexId": "n-f9c52d5ecd4451f9ffc5",
       "legalDongCode": "5182025321",
       "date": "2026-03-02",
@@ -956,7 +932,7 @@
       "canceled": false
     },
     {
-      "id": "5a8617bfcaa7a8bf25d1-51",
+      "id": "5a8617bfcaa7a8bf25d1-49",
       "complexId": "n-533034ad533dd676c6cc",
       "legalDongCode": "5182025025",
       "date": "2026-03-02",
@@ -968,7 +944,7 @@
       "canceled": false
     },
     {
-      "id": "8cb5601a0240bb41bbaa-52",
+      "id": "8cb5601a0240bb41bbaa-50",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2026-03-03",
@@ -980,7 +956,7 @@
       "canceled": false
     },
     {
-      "id": "a381ea7b02f117cc998c-53",
+      "id": "a381ea7b02f117cc998c-51",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-04-29",
@@ -992,7 +968,7 @@
       "canceled": false
     },
     {
-      "id": "1f5e3675a0787f79dc8b-54",
+      "id": "1f5e3675a0787f79dc8b-52",
       "complexId": "n-3dd47697c3f0981cc76c",
       "legalDongCode": "5182025022",
       "date": "2026-04-23",
@@ -1004,7 +980,7 @@
       "canceled": false
     },
     {
-      "id": "83b0e9db60b19c0dc5e5-55",
+      "id": "83b0e9db60b19c0dc5e5-53",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-13",
@@ -1016,7 +992,7 @@
       "canceled": false
     },
     {
-      "id": "319255696e917216607a-56",
+      "id": "319255696e917216607a-54",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-16",
@@ -1028,7 +1004,7 @@
       "canceled": false
     },
     {
-      "id": "b5f85588221556411ea4-57",
+      "id": "b5f85588221556411ea4-55",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-04-01",
@@ -1040,7 +1016,7 @@
       "canceled": false
     },
     {
-      "id": "428686ba01e60a517862-58",
+      "id": "428686ba01e60a517862-56",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-13",
@@ -1052,7 +1028,7 @@
       "canceled": false
     },
     {
-      "id": "17353bc37a18d08a2d7a-59",
+      "id": "17353bc37a18d08a2d7a-57",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-10",
@@ -1064,7 +1040,7 @@
       "canceled": false
     },
     {
-      "id": "415a7cc40683130be3be-60",
+      "id": "415a7cc40683130be3be-58",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-09",
@@ -1076,7 +1052,7 @@
       "canceled": false
     },
     {
-      "id": "c4f981d60d25ff1376fb-61",
+      "id": "c4f981d60d25ff1376fb-59",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-03",
@@ -1088,7 +1064,7 @@
       "canceled": false
     },
     {
-      "id": "d857afd987685d9ce3f2-62",
+      "id": "d857afd987685d9ce3f2-60",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-04-06",
@@ -1100,7 +1076,7 @@
       "canceled": false
     },
     {
-      "id": "fd2f999d9448b10a73f9-63",
+      "id": "fd2f999d9448b10a73f9-61",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-04-04",
@@ -1112,7 +1088,7 @@
       "canceled": false
     },
     {
-      "id": "7c555063913ca97200b9-64",
+      "id": "7c555063913ca97200b9-62",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-05-08",
@@ -1124,7 +1100,7 @@
       "canceled": false
     },
     {
-      "id": "2b2942fcb75c21a3a926-65",
+      "id": "2b2942fcb75c21a3a926-63",
       "complexId": "n-533034ad533dd676c6cc",
       "legalDongCode": "5182025025",
       "date": "2026-05-30",
@@ -1136,7 +1112,7 @@
       "canceled": false
     },
     {
-      "id": "016fb8d0de2d2f4ff10c-66",
+      "id": "016fb8d0de2d2f4ff10c-64",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-05-15",
@@ -1148,7 +1124,7 @@
       "canceled": false
     },
     {
-      "id": "463ab3a274876389fbe6-67",
+      "id": "463ab3a274876389fbe6-65",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-05-21",
@@ -1160,7 +1136,7 @@
       "canceled": false
     },
     {
-      "id": "45ad1d27d2ccca409201-68",
+      "id": "45ad1d27d2ccca409201-66",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-05-08",
@@ -1172,7 +1148,7 @@
       "canceled": false
     },
     {
-      "id": "214dce60562c1732636c-69",
+      "id": "214dce60562c1732636c-67",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-05-19",
@@ -1184,7 +1160,7 @@
       "canceled": false
     },
     {
-      "id": "56dfec95d49258b25c2f-70",
+      "id": "56dfec95d49258b25c2f-68",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-05-18",
@@ -1196,7 +1172,7 @@
       "canceled": false
     },
     {
-      "id": "400126db6b1cdad5cd31-71",
+      "id": "400126db6b1cdad5cd31-69",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-05-08",
@@ -1208,7 +1184,7 @@
       "canceled": false
     },
     {
-      "id": "13d646e928f5d786937c-72",
+      "id": "13d646e928f5d786937c-70",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-05-11",
@@ -1220,7 +1196,7 @@
       "canceled": false
     },
     {
-      "id": "15f5e5ed2f63e5599d81-73",
+      "id": "15f5e5ed2f63e5599d81-71",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-05-08",
@@ -1232,7 +1208,7 @@
       "canceled": false
     },
     {
-      "id": "ba2f713f7165cc233ca4-74",
+      "id": "ba2f713f7165cc233ca4-72",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-05-03",
@@ -1244,7 +1220,7 @@
       "canceled": false
     },
     {
-      "id": "2d23010ff1f978f02724-75",
+      "id": "2d23010ff1f978f02724-73",
       "complexId": "n-f0229e970b9c90f4eba2",
       "legalDongCode": "5182025022",
       "date": "2026-05-04",
@@ -1256,7 +1232,7 @@
       "canceled": false
     },
     {
-      "id": "0d5335d81b22f13312dd-76",
+      "id": "0d5335d81b22f13312dd-74",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-06-16",
@@ -1268,7 +1244,7 @@
       "canceled": false
     },
     {
-      "id": "a28d8b6739a1bfcbf9fc-77",
+      "id": "a28d8b6739a1bfcbf9fc-75",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-06-27",
@@ -1280,7 +1256,7 @@
       "canceled": false
     },
     {
-      "id": "234a8d1203558dccf97b-78",
+      "id": "234a8d1203558dccf97b-76",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2026-06-17",
@@ -1292,7 +1268,7 @@
       "canceled": false
     },
     {
-      "id": "e53c97afc2a4e34a53f5-79",
+      "id": "e53c97afc2a4e34a53f5-77",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-06-17",
@@ -1304,7 +1280,7 @@
       "canceled": false
     },
     {
-      "id": "2a2f29c39cbba53787f8-80",
+      "id": "2a2f29c39cbba53787f8-78",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-06-11",
@@ -1316,7 +1292,7 @@
       "canceled": false
     },
     {
-      "id": "583dba57fcfd4617f317-81",
+      "id": "583dba57fcfd4617f317-79",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-06-09",
@@ -1328,7 +1304,7 @@
       "canceled": false
     },
     {
-      "id": "fb1ba45937c4b1dddeaa-82",
+      "id": "fb1ba45937c4b1dddeaa-80",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-06-03",
@@ -1340,7 +1316,7 @@
       "canceled": false
     },
     {
-      "id": "f603fe9e502f7d3e2b09-83",
+      "id": "f603fe9e502f7d3e2b09-81",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-06-05",
@@ -1352,7 +1328,7 @@
       "canceled": false
     },
     {
-      "id": "9d4716d27a45b1806ba3-84",
+      "id": "9d4716d27a45b1806ba3-82",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-06-01",
@@ -1364,7 +1340,7 @@
       "canceled": false
     },
     {
-      "id": "c65b0945e18370310f16-85",
+      "id": "c65b0945e18370310f16-83",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2026-07-17",
@@ -1376,7 +1352,7 @@
       "canceled": false
     },
     {
-      "id": "fff6a4cd0a8319f2825b-86",
+      "id": "fff6a4cd0a8319f2825b-84",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-07-10",
@@ -1388,7 +1364,7 @@
       "canceled": false
     },
     {
-      "id": "158ab8c657afe273baad-87",
+      "id": "158ab8c657afe273baad-85",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-07-22",
@@ -1400,7 +1376,7 @@
       "canceled": false
     },
     {
-      "id": "b5970f863b83f8f2e71d-88",
+      "id": "b5970f863b83f8f2e71d-86",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-07-17",
@@ -1412,7 +1388,7 @@
       "canceled": false
     },
     {
-      "id": "8efbfc27ad5c74bddc9d-89",
+      "id": "8efbfc27ad5c74bddc9d-87",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-07-05",
@@ -1424,7 +1400,7 @@
       "canceled": false
     },
     {
-      "id": "bf155e17e7374d55c8ea-90",
+      "id": "bf155e17e7374d55c8ea-88",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-07-13",
@@ -1436,7 +1412,7 @@
       "canceled": false
     },
     {
-      "id": "36872840c98eabd68dc3-91",
+      "id": "36872840c98eabd68dc3-89",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2026-07-05",
@@ -1448,7 +1424,7 @@
       "canceled": false
     },
     {
-      "id": "8f1bb69fe566609ec538-92",
+      "id": "8f1bb69fe566609ec538-90",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-07-08",
@@ -1460,7 +1436,7 @@
       "canceled": false
     },
     {
-      "id": "079a131fa8494079426b-93",
+      "id": "079a131fa8494079426b-91",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-07-04",
@@ -1472,7 +1448,7 @@
       "canceled": false
     },
     {
-      "id": "87f9ad80c6b0e548e61c-94",
+      "id": "87f9ad80c6b0e548e61c-92",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-07-03",
@@ -1484,7 +1460,7 @@
       "canceled": false
     },
     {
-      "id": "62ff5e3b26b21216e08f-95",
+      "id": "62ff5e3b26b21216e08f-93",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-07-03",
@@ -1496,7 +1472,7 @@
       "canceled": false
     },
     {
-      "id": "f6444173b291c6db842b-96",
+      "id": "f6444173b291c6db842b-94",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-07-03",
@@ -1508,7 +1484,7 @@
       "canceled": false
     },
     {
-      "id": "c8ca22519a136c55ab36-97",
+      "id": "c8ca22519a136c55ab36-95",
       "complexId": "n-f81cd3839af4a9e56526",
       "legalDongCode": "5182025025",
       "date": "2026-07-02",
@@ -1520,7 +1496,7 @@
       "canceled": false
     },
     {
-      "id": "f36cc8296dcd362226bf-98",
+      "id": "f36cc8296dcd362226bf-96",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-08-08",
@@ -1532,7 +1508,7 @@
       "canceled": false
     },
     {
-      "id": "219c7ddedd8a1edc4a7f-99",
+      "id": "219c7ddedd8a1edc4a7f-97",
       "complexId": "n-533034ad533dd676c6cc",
       "legalDongCode": "5182025025",
       "date": "2026-08-27",
@@ -1544,7 +1520,7 @@
       "canceled": false
     },
     {
-      "id": "4988cfaa48465b807278-100",
+      "id": "4988cfaa48465b807278-98",
       "complexId": "n-3dd47697c3f0981cc76c",
       "legalDongCode": "5182025022",
       "date": "2026-08-25",
@@ -1556,7 +1532,7 @@
       "canceled": false
     },
     {
-      "id": "15f4601fb352914f1fb1-101",
+      "id": "15f4601fb352914f1fb1-99",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-08-25",
@@ -1568,7 +1544,7 @@
       "canceled": false
     },
     {
-      "id": "aa891ac346802b755b89-102",
+      "id": "aa891ac346802b755b89-100",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2026-08-11",
@@ -1580,7 +1556,7 @@
       "canceled": false
     },
     {
-      "id": "90d422867e780f175f4a-103",
+      "id": "90d422867e780f175f4a-101",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-08-08",
@@ -1592,7 +1568,7 @@
       "canceled": false
     },
     {
-      "id": "e8d53a03088469cd94da-104",
+      "id": "e8d53a03088469cd94da-102",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-08-08",
@@ -1604,7 +1580,7 @@
       "canceled": false
     },
     {
-      "id": "4528b8dec720b2e626ce-105",
+      "id": "4528b8dec720b2e626ce-103",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-08-05",
@@ -1616,7 +1592,7 @@
       "canceled": false
     },
     {
-      "id": "29e0c34a08749ac1f6a5-106",
+      "id": "29e0c34a08749ac1f6a5-104",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-08-02",
@@ -1628,7 +1604,7 @@
       "canceled": false
     },
     {
-      "id": "70067bf7bc4810e9af24-107",
+      "id": "70067bf7bc4810e9af24-105",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-09-22",
@@ -1640,7 +1616,7 @@
       "canceled": false
     },
     {
-      "id": "519f2a7427231f132998-108",
+      "id": "519f2a7427231f132998-106",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-09-28",
@@ -1652,7 +1628,7 @@
       "canceled": false
     },
     {
-      "id": "511411bd6a257722320d-109",
+      "id": "511411bd6a257722320d-107",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-09-23",
@@ -1664,7 +1640,7 @@
       "canceled": false
     },
     {
-      "id": "7e6aae18f0164ebc6a7d-110",
+      "id": "7e6aae18f0164ebc6a7d-108",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-09-17",
@@ -1676,7 +1652,7 @@
       "canceled": false
     },
     {
-      "id": "61c555f43247c7de3475-111",
+      "id": "61c555f43247c7de3475-109",
       "complexId": "n-53cbb206267442b7acd2",
       "legalDongCode": "5182025321",
       "date": "2026-09-03",
@@ -1688,7 +1664,7 @@
       "canceled": false
     },
     {
-      "id": "a74218d71c6a07f0a43c-112",
+      "id": "a74218d71c6a07f0a43c-110",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-09-05",
@@ -1700,7 +1676,7 @@
       "canceled": false
     },
     {
-      "id": "8613efbeae600090dcaf-113",
+      "id": "8613efbeae600090dcaf-111",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-09-03",
@@ -1712,7 +1688,7 @@
       "canceled": false
     },
     {
-      "id": "02127f889d9593b925e0-114",
+      "id": "02127f889d9593b925e0-112",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-09-01",
@@ -1724,7 +1700,7 @@
       "canceled": false
     },
     {
-      "id": "150db37345e5686e867f-115",
+      "id": "150db37345e5686e867f-113",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-10-19",
@@ -1736,7 +1712,7 @@
       "canceled": false
     },
     {
-      "id": "685461ffa7ec4ea846d6-116",
+      "id": "685461ffa7ec4ea846d6-114",
       "complexId": "n-61f68be2a549c81a6181",
       "legalDongCode": "5182033022",
       "date": "2026-10-08",
@@ -1748,7 +1724,7 @@
       "canceled": false
     },
     {
-      "id": "51dffd2349450bb8122e-117",
+      "id": "51dffd2349450bb8122e-115",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-10-31",
@@ -1760,7 +1736,7 @@
       "canceled": false
     },
     {
-      "id": "85cdbc8def952a18ea3b-118",
+      "id": "85cdbc8def952a18ea3b-116",
       "complexId": "n-61f68be2a549c81a6181",
       "legalDongCode": "5182033022",
       "date": "2026-10-23",
@@ -1772,7 +1748,7 @@
       "canceled": false
     },
     {
-      "id": "477c52a9ed868dfb4c5a-119",
+      "id": "477c52a9ed868dfb4c5a-117",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-10-23",
@@ -1784,7 +1760,7 @@
       "canceled": false
     },
     {
-      "id": "b3c5f313467e9f81e058-120",
+      "id": "b3c5f313467e9f81e058-118",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-10-24",
@@ -1796,7 +1772,7 @@
       "canceled": false
     },
     {
-      "id": "f2007e156963ef10e425-121",
+      "id": "f2007e156963ef10e425-119",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-10-24",
@@ -1808,7 +1784,7 @@
       "canceled": false
     },
     {
-      "id": "67527851eb2826e7060a-122",
+      "id": "67527851eb2826e7060a-120",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-10-23",
@@ -1820,7 +1796,7 @@
       "canceled": false
     },
     {
-      "id": "de5369527803e2347071-123",
+      "id": "de5369527803e2347071-121",
       "complexId": "n-533034ad533dd676c6cc",
       "legalDongCode": "5182025025",
       "date": "2026-10-13",
@@ -1832,7 +1808,7 @@
       "canceled": false
     },
     {
-      "id": "13c4fbd0c4fd561dd709-124",
+      "id": "13c4fbd0c4fd561dd709-122",
       "complexId": "n-aa470c894242758fc96c",
       "legalDongCode": "5182025022",
       "date": "2026-10-14",
@@ -1844,7 +1820,7 @@
       "canceled": false
     },
     {
-      "id": "be2f0e758eecfe2aca7f-125",
+      "id": "be2f0e758eecfe2aca7f-123",
       "complexId": "n-83102e72da2cef3c6bd1",
       "legalDongCode": "5182033035",
       "date": "2026-10-09",
@@ -1856,7 +1832,7 @@
       "canceled": false
     },
     {
-      "id": "89e97cebda24fdfe3489-126",
+      "id": "89e97cebda24fdfe3489-124",
       "complexId": "n-571455b244fa600ca156",
       "legalDongCode": "5182033035",
       "date": "2026-10-02",
@@ -1868,7 +1844,7 @@
       "canceled": false
     },
     {
-      "id": "0f7584529b4c92211884-127",
+      "id": "0f7584529b4c92211884-125",
       "complexId": "n-8ca689d397d1431cf498",
       "legalDongCode": "5182025333",
       "date": "2026-10-02",
@@ -1880,7 +1856,7 @@
       "canceled": false
     },
     {
-      "id": "7e102799c214b7a1ab94-128",
+      "id": "7e102799c214b7a1ab94-126",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-11-14",
@@ -1892,7 +1868,7 @@
       "canceled": false
     },
     {
-      "id": "ed0ec96f58275bb32d8b-129",
+      "id": "ed0ec96f58275bb32d8b-127",
       "complexId": "n-869daf3d54efca58867a",
       "legalDongCode": "5182033021",
       "date": "2026-11-10",
@@ -1904,7 +1880,7 @@
       "canceled": false
     },
     {
-      "id": "f3e8e1b9433f0ff1ff48-130",
+      "id": "f3e8e1b9433f0ff1ff48-128",
       "complexId": "n-79a20a625776ff051b4d",
       "legalDongCode": "5182033023",
       "date": "2026-11-02",
