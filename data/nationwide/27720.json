@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-23",
-  "updatedAt": "2026-11-23T11:53:55.288568+09:00",
+  "asOf": "2026-11-24",
+  "updatedAt": "2026-11-24T15:09:21.234736+09:00",
   "districtCode": "27720",
   "complexes": [
     {
@@ -20,31 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-23",
-      "sources": [
-        {
-          "label": "국토교통부 공식 실거래",
-          "url": "https://www.data.go.kr/data/15126468/openapi.do"
-        }
-      ],
-      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
-    },
-    {
-      "id": "n-7196bac54680236b24e2",
-      "name": "서원",
-      "aliases": [
-        "서원"
-      ],
-      "region": "대구광역시 군위군",
-      "districtCode": "27720",
-      "legalDongCode": "2772025022",
-      "legalDong": "군위읍 서부리",
-      "jibuns": [
-        "494"
-      ],
-      "households": null,
-      "verification": "api-identity",
-      "checkedAt": "2026-11-23",
+      "checkedAt": "2026-11-24",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-23",
+      "checkedAt": "2026-11-24",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-23",
+      "checkedAt": "2026-11-24",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-23",
+      "checkedAt": "2026-11-24",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-23",
+      "checkedAt": "2026-11-24",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,19 +140,7 @@
       "canceled": false
     },
     {
-      "id": "a6e1e0a382f321f1189a-1",
-      "complexId": "n-7196bac54680236b24e2",
-      "legalDongCode": "2772025022",
-      "date": "2025-11-24",
-      "area": 59.6,
-      "priceManwon": 8100,
-      "floor": "3",
-      "buildYear": 1989,
-      "dealingType": "직거래",
-      "canceled": false
-    },
-    {
-      "id": "42453dd7108a798c102a-2",
+      "id": "42453dd7108a798c102a-1",
       "complexId": "n-459f3785303274614939",
       "legalDongCode": "2772025021",
       "date": "2026-01-28",
@@ -188,7 +152,7 @@
       "canceled": false
     },
     {
-      "id": "0b06e8cd0f95293561d7-3",
+      "id": "0b06e8cd0f95293561d7-2",
       "complexId": "n-4f5bed74924923dddb8f",
       "legalDongCode": "2772025022",
       "date": "2026-01-30",
@@ -200,7 +164,7 @@
       "canceled": false
     },
     {
-      "id": "b7b4873ab36777d72e7f-4",
+      "id": "b7b4873ab36777d72e7f-3",
       "complexId": "n-11bc217219910edaf2fb",
       "legalDongCode": "2772025021",
       "date": "2026-02-17",
@@ -212,7 +176,7 @@
       "canceled": false
     },
     {
-      "id": "c1d65004e84f30bc41cf-5",
+      "id": "c1d65004e84f30bc41cf-4",
       "complexId": "n-11bc217219910edaf2fb",
       "legalDongCode": "2772025021",
       "date": "2026-02-28",
@@ -224,7 +188,7 @@
       "canceled": false
     },
     {
-      "id": "bfc5299012ccbabab1be-6",
+      "id": "bfc5299012ccbabab1be-5",
       "complexId": "n-11bc217219910edaf2fb",
       "legalDongCode": "2772025021",
       "date": "2026-02-10",
@@ -236,7 +200,7 @@
       "canceled": false
     },
     {
-      "id": "c3aa0fe21d5a0b3508ec-7",
+      "id": "c3aa0fe21d5a0b3508ec-6",
       "complexId": "n-4bdcf3b1cc0621a82837",
       "legalDongCode": "2772025021",
       "date": "2026-03-06",
@@ -248,7 +212,7 @@
       "canceled": false
     },
     {
-      "id": "32ac5556a512ceca2ced-8",
+      "id": "32ac5556a512ceca2ced-7",
       "complexId": "n-4f5bed74924923dddb8f",
       "legalDongCode": "2772025022",
       "date": "2026-07-20",
@@ -260,7 +224,7 @@
       "canceled": false
     },
     {
-      "id": "52038f35bad539be0b44-9",
+      "id": "52038f35bad539be0b44-8",
       "complexId": "n-628d36e3353b333914b2",
       "legalDongCode": "2772025022",
       "date": "2026-09-18",
