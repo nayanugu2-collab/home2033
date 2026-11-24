@@ -380,6 +380,43 @@ test("failed new district clears the old district chart instead of showing anoth
     assert.equal(elements.neighborhoodDong.disabled,true);
   });
 });
+test("quick choices include Pangyo-dong and retain its scope when that dong has no data", async () => {
+  await neighborhoodUI(async ({elements,flush,payload}) => {
+    const districtNames = [
+      ["41135","분당구"], ["41290","과천시"], ["11740","강동구"],
+      ["11215","광진구"], ["11440","마포구"], ["11170","용산구"]
+    ];
+    const pangyoCode = "4113510800";
+    const pangyo = {id:"pangyo",districtCode:"41135",legalDongCode:pangyoCode,legalDong:"판교동",jibuns:["9"],households:400};
+    const official = {
+      ...payload,
+      complexes:[...payload.complexes,pangyo],
+      trades:[...payload.trades,neighborhoodTrade({complexId:"pangyo",legalDongCode:pangyoCode,priceManwon:140000})]
+    };
+    const ui = initNeighborhood({getJSON:async path => path.includes("districts.json") ?
+      {districts:districtNames.map(([code,name])=>({code,name}))} : rawRegionalPayload(official,"41135")});
+    ui.update({demo:false,payload:{},complexes:[]});
+    await flush();
+    const quick = elements.neighborhoodDistrict.innerHTML.split("</optgroup>")[0];
+    for (const label of ["과천 전체","판교동","강동구","광진구","마포구","용산구"]) assert.ok(quick.includes(label));
+    elements.neighborhoodDistrict.value = "41135:" + pangyoCode;
+    elements.neighborhoodDistrict.listeners.change();
+    await flush();
+    assert.equal(elements.neighborhoodDong.value,pangyoCode);
+    assert.equal(elements.neighborhoodTitle.textContent,"판교동");
+    assert.match(elements.neighborhoodPoint.textContent,/14.00억원/);
+
+    ui.update({demo:true,payload:{asOf:today,trades:payload.trades},complexes:payload.complexes});
+    await flush();
+    assert.equal(elements.neighborhoodDong.value,pangyoCode);
+    assert.equal(elements.neighborhoodTitle.textContent,"[샘플] 판교동");
+    assert.match(elements.neighborhoodChart.innerHTML,/거래 부족/);
+    elements.neighborhoodDong.value = "all";
+    elements.neighborhoodDong.listeners.change();
+    assert.equal(elements.neighborhoodDistrict.value,"41135");
+  });
+});
+
 test("switching to sample mode cannot be overwritten by an earlier official district response", async()=> {
   await neighborhoodUI(async({elements,flush,payload})=>{
     let resolveDistrict, districtCalls=0;

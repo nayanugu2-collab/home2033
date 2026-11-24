@@ -6,7 +6,17 @@ export function initNeighborhood({ getJSON }) {
   const money = n => n == null ? "—" : n.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const number = n => n.toLocaleString("ko-KR");
   const stamp = iso => iso ? new Date(iso).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) : "확인 필요";
-  const quick = {"41135":"분당 전체", "41465":"수지 전체", "41597":"동탄 전체"};
+  const quick = new Map([
+    ["41135", "분당 전체"],
+    ["41465", "수지 전체"],
+    ["41597", "동탄 전체"],
+    ["41290", "과천 전체"],
+    ["41135:4113510800", "판교동"],
+    ["11740", "강동구"],
+    ["11215", "광진구"],
+    ["11440", "마포구"],
+    ["11170", "용산구"]
+  ]);
   const trendRegions = [["11", "서울 25개 구"], ["41", "경기도"], ["26", "부산"], ["27", "대구"], ["30", "대전"]];
   const regionColors = ["#165dac", "#ae4800", "#007650", "#793894"];
   const areaDashes = {"59":"2 5", "74":"9 5", "84":"", all:"10 4 2 4"};
@@ -19,7 +29,12 @@ export function initNeighborhood({ getJSON }) {
     return saved?.colorIndex ?? regionColors.findIndex((_, i) => !pinned.some(item => item.colorIndex === i));
   }
   const districtName=code=>districts.find(d=>d.code===code)?.name || code;
-  const labelFor=(c,d)=>d==="all" ? (quick[c] || districtName(c)+" 전체") : districtName(c)+" · "+(cache.get(c)?.months.flatMap(m=>m.rows).find(r=>r.dongCode===d)?.dongName || d);
+  const labelFor=(c,d)=>d==="all" ? (quick.get(c) || districtName(c)+" 전체") :
+    quick.get(scopeKey({code:c,dong:d})) || districtName(c)+" · "+(cache.get(c)?.months.flatMap(m=>m.rows).find(r=>r.dongCode===d)?.dongName || d);
+  function setDistrictOption() {
+    const preset = scopeKey({code,dong});
+    $("neighborhoodDistrict").value = quick.has(preset) ? preset : code;
+  }
   const areaLabel=area=>area==="all"?"전체 면적":area+"㎡급";
   const day=()=>source?.demo ? source.payload.asOf : koreaToday();
   function bands() { const value=$("neighborhoodArea").value; return value==="compare"?["59","74","84"]:value==="all-series"?["all","59","74","84"]:[value]; }
@@ -33,9 +48,12 @@ export function initNeighborhood({ getJSON }) {
   function setDongs() {
     const value=cache.get(code), names=new Map();
     for(const m of value?.months || []) for(const r of m.rows) if(r.dongCode!=="all") names.set(r.dongCode,r.dongName);
+    const presetName = quick.get(scopeKey({code,dong}));
+    if (presetName && !names.has(dong)) names.set(dong, presetName);
     if(dong!=="all" && !names.has(dong)) dong="all";
-    $("neighborhoodDong").innerHTML='<option value="all">'+escape(quick[code] || "시·군·구 전체")+'</option>'+[...names].sort((a,b)=>a[1].localeCompare(b[1],"ko")).map(([key,name])=>'<option value="'+key+'">'+escape(name)+'</option>').join("");
+    $("neighborhoodDong").innerHTML='<option value="all">'+escape(quick.get(code) || "시·군·구 전체")+'</option>'+[...names].sort((a,b)=>a[1].localeCompare(b[1],"ko")).map(([key,name])=>'<option value="'+key+'">'+escape(name)+'</option>').join("");
     $("neighborhoodDong").value=dong; $("neighborhoodDong").disabled=!value;
+    setDistrictOption();
   }
   function showPoint(li,mi) {
     const line=lines[li], p=line?.points[mi]; if(!p)return;
@@ -162,17 +180,22 @@ export function initNeighborhood({ getJSON }) {
       if(!Array.isArray(value.districts)||!value.districts.length||!value.districts.every(d=>/^\d{5}$/.test(d.code)&&typeof d.name==='string'))throw new Error();
       districts = value.districts.filter(d => trendRegions.some(([prefix]) => d.code.startsWith(prefix)));
       if (!districts.length) throw new Error();
-      const options = list => list.map(d => `<option value="${d.code}">${escape(quick[d.code] || d.name)}</option>`).join('');
-      const groups = [["빠른 선택", districts.filter(d => quick[d.code])], ...trendRegions.map(([prefix, label]) =>
-        [label, districts.filter(d => !quick[d.code] && d.code.startsWith(prefix))])];
+      const options = list => list.map(([id, name]) => `<option value="${id}">${escape(name)}</option>`).join('');
+      const availableCodes = new Set(districts.map(d => d.code));
+      const presets = [...quick].filter(([id]) => availableCodes.has(id.split(":")[0]));
+      const groups = [["빠른 선택", presets], ...trendRegions.map(([prefix, label]) =>
+        [label, districts.filter(d => !quick.has(d.code) && d.code.startsWith(prefix)).map(d => [d.code, d.name])])];
       $("neighborhoodDistrict").innerHTML = groups.filter(([, list]) => list.length)
         .map(([label, list]) => `<optgroup label="${label}">${options(list)}</optgroup>`).join('');
       if(!districts.some(d=>d.code===code))code=districts[0].code;
-      $("neighborhoodDistrict").value=code;initialized=true;await load();
+      setDistrictOption();initialized=true;await load();
     }catch{clear('지역 명부를 불러오지 못했습니다.');$("neighborhoodSource").textContent='동네 새로고침을 눌러 다시 시도하세요.';}
   }
-  $("neighborhoodDistrict").addEventListener('change',()=>{code=$("neighborhoodDistrict").value;dong='all';load();});
-  $("neighborhoodDong").addEventListener('change',()=>{dong=$("neighborhoodDong").value;render();});
+  $("neighborhoodDistrict").addEventListener('change',()=>{
+    [code,dong="all"]=$("neighborhoodDistrict").value.split(":");
+    load();
+  });
+  $("neighborhoodDong").addEventListener('change',()=>{dong=$("neighborhoodDong").value;setDistrictOption();render();});
   $("neighborhoodArea").addEventListener('change',()=>{hidden.clear();render();});
   $("neighborhoodPeriods").addEventListener('click',e=>{const b=e.target.closest('[data-period]');if(!b)return;period=Number(b.dataset.period);$("neighborhoodPeriods").querySelectorAll('button').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});render();});
   $("neighborhoodPin").addEventListener('click',()=>{

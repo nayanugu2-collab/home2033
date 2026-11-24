@@ -1,5 +1,5 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
-import { initNeighborhood } from "./neighborhood.js?v=data-basis";
+import { initNeighborhood } from "./neighborhood.js?v=quick-regions";
 import { initBudget } from "./budget.js?v=data-basis";
 import { planShareURL, readPlanShare } from "./plan-share.js";
 
