@@ -31,6 +31,21 @@ class NationwideTests(unittest.TestCase):
         self.assertEqual(p['complexes'], [])
         self.assertEqual(p['trades'], [])
 
+    def test_reviewed_road_address_accepts_a_placeholder_parcel(self):
+        fixture_path = Path(__file__).parent / 'fixtures' / 'observed-identities.json'
+        fixture = json.loads(fixture_path.read_text(encoding='utf-8'))
+        base = next(row['raw'] for row in fixture['identities'] if row['complexId'] == 'base')
+        matched = self.raw(**base)
+        rows = [
+            matched,
+            dict(matched, roadNmBubun='00019'),
+            dict(matched, aptNm='확인되지 않은 단지'),
+        ]
+        payload = district_payload('41465', '경기도 용인시 수지구', ['202610'],
+                                   dt.date(2026, 10, 26), update.load_registry(), lambda *_: rows)
+        self.assertEqual([c['id'] for c in payload['complexes']], ['base'])
+        self.assertEqual([t['complexId'] for t in payload['trades']], ['base'])
+
     def test_wrong_district_is_failure_not_a_misidentified_price(self):
         with self.assertRaises(update.CollectionError): self.payload([self.raw(sggCd='11110')])
 

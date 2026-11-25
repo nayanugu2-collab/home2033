@@ -513846,6 +513846,41 @@
       "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
     },
     {
+      "id": "base",
+      "region": "동천",
+      "name": "동천센트럴자이",
+      "legalDongCode": "4146510300",
+      "districtCode": "41465",
+      "legalDong": "동천동",
+      "jibuns": [
+        "164-4"
+      ],
+      "roadAddresses": [
+        {
+          "name": "고기로45번길",
+          "main": 40,
+          "sub": 18
+        }
+      ],
+      "households": 1057,
+      "aliases": [
+        "동천센트럴자이"
+      ],
+      "verification": "reviewed",
+      "checkedAt": "2026-10-26",
+      "sources": [
+        {
+          "label": "단지 정보 확인",
+          "url": "https://kbland.kr/se/c/33383"
+        }
+      ],
+      "note": "국토부 API 지번이 BL-로 제공될 수 있어 검증된 도로명과 본번·부번도 함께 확인합니다.",
+      "apiVerifiedAt": "2026-10-26T17:21:03.878501+09:00",
+      "apiAptSequences": [
+        "41465-463"
+      ]
+    },
+    {
       "id": "n-38456fdb109e7658acf6",
       "name": "산내마을9단지힐스테이트운정",
       "aliases": [

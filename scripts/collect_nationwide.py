@@ -32,17 +32,22 @@ def district_payload(code, name, months, today, registry, fetcher, start=None):
                 area, price = float(row['excluUseAr']), int(row['dealAmount'].replace(',', '').strip())
                 if not 0 < area < 10000 or price <= 0:
                     raise ValueError()
-                # Require an actual parcel as well as district, dong and apartment name.
-                parcel = update.normalize_jibun(row.get('jibun', ''))
-                if not re.fullmatch(r'\d+(?:-\d+)?', parcel) or not row.get('aptNm') or not row.get('umdNm'):
+                if not row.get('aptNm') or not row.get('umdNm'):
                     continue
             except (KeyError, ValueError):
                 raise update.CollectionError(f'{code}/{month} 전국 거래 필드 오류') from None
             known = update.match_complex(row, registry)
-            if known and known.get('comparisonEligible') is False:
-                continue
-            identity = '|'.join([code + dong, update.normalize_name(row['aptNm']), parcel])
-            ident = known['id'] if known else 'n-' + hashlib.sha256(identity.encode()).hexdigest()[:20]
+            if known:
+                if known.get('comparisonEligible') is False:
+                    continue
+                ident = known['id']
+            else:
+                # A new identity must have a parcel. Reviewed complexes can match by road address.
+                parcel = update.normalize_jibun(row.get('jibun', ''))
+                if not re.fullmatch(r'\d+(?:-\d+)?', parcel):
+                    continue
+                identity = '|'.join([code + dong, update.normalize_name(row['aptNm']), parcel])
+                ident = 'n-' + hashlib.sha256(identity.encode()).hexdigest()[:20]
             if ident not in complexes:
                 complexes[ident] = known or {
                     'id': ident, 'name': row['aptNm'], 'aliases': [row['aptNm']],
