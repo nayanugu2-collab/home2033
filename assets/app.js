@@ -1,7 +1,7 @@
 import { areaClass, assetComparison, calculate, capitalComparison, comparison, constructionLabel, forArea, koreaToday, matchesComplex, meetsHouseholdMinimum, MIN_HOUSEHOLDS, monthSeries, passesRatio, priceFor, referenceTrades, summary, trackerPreferences, validTrades, watchPreferences } from "./core.js?v=300-households";
 import { initNeighborhood } from "./neighborhood.js?v=quick-regions";
-import { initBudget } from "./budget.js?v=data-basis";
-import { planShareURL, readPlanShare } from "./plan-share.js";
+import { initBudget } from "./budget.js?v=budget-range";
+import { planShareURL, readPlanShare } from "./plan-share.js?v=budget-range";
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? "").replace(/[&<>"']/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[x]));
@@ -769,11 +769,11 @@ async function init() {
     setupRegistry();
     controls.forEach(control => { control.disabled = false; });
     neighborhoods = initNeighborhood({ getJSON, renderChart });
-    budgetView = initBudget(getJSON, {watchState: budgetWatchState, saveResult: saveBudgetResult, openResult: openBudgetResult});
     const shared = readPlanShare(location.href), request = budgetOpenRequest;
     if (shared.region) $("budgetRegion").value = shared.region;
     if (shared.area) $("budgetArea").value = shared.area;
     if (shared.range) $("budgetRange").value = shared.range;
+    budgetView = initBudget(getJSON, {watchState: budgetWatchState, saveResult: saveBudgetResult, openResult: openBudgetResult});
     await loadOfficial();
     await openSharedPlan(shared, request);
     if (personalMode()) renderBaseSearch();

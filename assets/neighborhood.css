@@ -10,14 +10,20 @@
 .budget-panel h2 { font-size: 21px; margin-bottom: 6px; }
 .budget-form {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)) auto;
+  grid-template-columns: minmax(235px, 1.2fr) minmax(0, 1.5fr) repeat(2, minmax(0, .8fr)) auto;
   align-items: start;
   gap: 14px;
   margin: 17px 0 12px;
 }
 .budget-form label { min-width: 0; color: var(--muted); font-size: 12px; }
 .budget-form input, .budget-form select { width: 100%; min-height: 44px; margin-top: 6px; font-size: 16px; }
-.budget-amount-field { min-width: 0; }
+.budget-prices { min-width: 0; }
+.budget-amount-fields {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 10px;
+}
 .budget-input-help { margin-top: 5px; font-size: 12px; color: #556559; }
 .budget-form .primary-button { margin-top: 26px; min-height: 50px; }
 .budget-status { font-size: 14px; font-weight: 650; margin: 16px 0 10px; }
@@ -26,14 +32,6 @@
 .budget-card { border: 1px solid var(--line); background: #f6f8f3; padding: 14px; border-radius: 9px; overflow-wrap: anywhere; }
 .budget-card h3, .budget-card h4 { margin: 0 0 6px; }
 .budget-card p { margin: 4px 0; }
-.budget-range {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-  grid-column: 1 / -1;
-}
-.budget-range select { width: auto; max-width: 100%; margin-top: 0; }
 .budget-card .budget-trade-dong { margin-top: 12px; }
 .budget-trade { padding: 10px 0; border-top: 1px solid var(--line); }
 .budget-trade-name { display: flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; }
@@ -56,12 +54,13 @@
 .budget-dong + .budget-dong { margin-top: 10px; }
 .budget-dong h4 { font-size: 13px; }
 #budgetMore { margin-top: 14px; min-height: 44px; }
+@media(max-width: 1000px) {
+  .budget-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .budget-range, .budget-prices, .budget-form .primary-button { grid-column: 1 / -1; }
+  .budget-form .primary-button { margin-top: 0; min-height: 46px; }
+}
 @media(max-width: 750px) {
   .budget-panel { padding: 16px; }
-  .budget-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .budget-amount-field, .budget-form .primary-button { grid-column: 1 / -1; }
-  .budget-form .primary-button { margin-top: 0; min-height: 46px; }
-  .budget-range select { flex: 1 1 200px; }
   .budget-results { grid-template-columns: 1fr; }
 }
 

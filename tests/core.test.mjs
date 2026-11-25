@@ -563,6 +563,18 @@ test("budget ranking keeps exact upper prices, excludes prices 2억 below, and d
   assert.deepEqual(districtsWithinBudget(input,85000,"84"),[]);
 });
 
+test("custom budgets include both bounds and exclude prices outside them", () => {
+  const district = {code: "11680", name: "강남구", dongs: [{code: "1168010100", name: "역삼동", sales:
+    [300001, 300000, 250000, 249999].map((price, index) =>
+      [`apt-${index}`, `아파트 ${index}`, "84", [[price, "2026-11-10", 84.9]], 500])
+  }]};
+  const search = minimum => districtsWithinBudget([district], 300000, "84", "custom", minimum);
+  assert.deepEqual(search(250000)[0].dongs[0].candidates.map(trade => trade.price), [300000, 250000]);
+  assert.equal(search(300000)[0].count, 1);
+  assert.deepEqual(search(300001), []);
+  assert.deepEqual(search(null), []);
+});
+
 import { planShareURL, readPlanShare } from "../assets/plan-share.js";
 test("plan share links carry the apartment and public filters without financial fields", () => {
   const url = planShareURL("https://example.test/home2033/?assets=3.5&loan=4", {
@@ -572,6 +584,9 @@ test("plan share links carry the apartment and public filters without financial 
   assert.equal(url,"https://example.test/home2033/?complex=gracium&band=84&size=84.95&region=41&area=all&range=near#calculator");
   assert.deepEqual(readPlanShare(url),{complex:"gracium",band:"84",size:"84.95",region:"41",area:"all",range:"near"});
   assert.equal(planShareURL(url,{region:"26",area:"59",range:"all"}),"https://example.test/home2033/?region=26&area=59&range=all#budget");
+  const rangeURL = planShareURL(url, {range: "custom", budgetMinimum: 25, budgetAmount: 30});
+  assert.equal(rangeURL, "https://example.test/home2033/?range=custom#budget");
+  assert.equal(readPlanShare(rangeURL).range, "custom");
   assert.deepEqual(readPlanShare("https://example.test/?complex=%3Cscript%3E&band=all&size=-8&region=52&area=101&range=0"),
     {complex:null,band:null,size:null,region:null,area:null,range:null});
 });

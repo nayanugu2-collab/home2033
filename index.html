@@ -9,7 +9,7 @@
   <title>아파트 실거래 모니터</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=quick-plan">
-  <link rel="stylesheet" href="./assets/neighborhood.css?v=data-basis">
+  <link rel="stylesheet" href="./assets/neighborhood.css?v=budget-range">
   <script id="startupGuard">
   (() => {
     const onlineURL = "https://nayanugu2-collab.github.io/home2033/?v=local-open-fix";
@@ -34,7 +34,7 @@
     }, true);
   })();
   </script>
-  <script id="dashboardModule" type="module" src="./assets/app.js?v=quick-regions"></script>
+  <script id="dashboardModule" type="module" src="./assets/app.js?v=budget-range"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -64,17 +64,27 @@
     <div id="budgetOfficialContent">
       <p class="small muted">최근 6개월 국토부 실거래 · 300세대 이상</p>
       <form id="budgetForm" class="budget-form">
-        <div class="budget-amount-field">
-          <label for="budgetAmount">매수가 상한 (억 원)</label>
-          <input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 15.5" aria-describedby="budgetAmountHelp" required>
+        <label class="budget-range" for="budgetRange">가격 조건
+          <select id="budgetRange">
+            <option value="all">상한 이하 전체</option>
+            <option value="custom">최소~최대 직접 지정</option>
+            <option value="near" selected>상한 근처 (2억 미만 차이)</option>
+          </select>
+        </label>
+        <div class="budget-prices">
+          <div class="budget-amount-fields">
+            <label for="budgetMinimum" id="budgetMinimumField" hidden>최소 금액 (억 원)
+              <input id="budgetMinimum" type="text" inputmode="decimal" placeholder="예: 25" required disabled>
+            </label>
+            <label for="budgetAmount">매수가 상한 (억 원)
+              <input id="budgetAmount" type="text" inputmode="decimal" placeholder="예: 30" aria-describedby="budgetAmountHelp" required>
+            </label>
+          </div>
           <p class="budget-input-help" id="budgetAmountHelp">자기자본과 대출을 더한 주택 가격 한도</p>
         </div>
         <label for="budgetRegion">지역<select id="budgetRegion"><option value="all">5개 지역 모두</option><option value="11">서울</option><option value="41">경기</option><option value="26">부산</option><option value="27">대구</option><option value="30">대전</option></select></label>
         <label for="budgetArea">전용면적<select id="budgetArea"><option value="84">84㎡급</option><option value="74">74㎡급</option><option value="59">59㎡급</option><option value="all">전체 면적</option></select></label>
         <button class="primary-button" type="submit">단지 찾기</button>
-        <label class="budget-range" for="budgetRange">가격 범위
-          <select id="budgetRange"><option value="near">상한에 가까운 거래 (2억 원 미만 차이)</option><option value="all">상한 이하 전체</option></select>
-        </label>
       </form>
       <p class="small muted">상한에 가까운 순으로 표시합니다. 취득세와 중개비는 별도예요.</p>
       <p id="budgetStatus" class="budget-status" role="status"></p>

@@ -14,7 +14,7 @@ function publicPlanSettings(searchParams) {
     size: /^\d+(?:\.\d{1,8})?$/.test(size ?? "") && Number(size) > 0 && Number(size) < 10000 ? String(Number(size)) : null,
     region: DISTRICT_GROUPS.includes(region) ? region : null,
     area: [...BANDS, "all"].includes(area) ? area : null,
-    range: ["near", "all"].includes(range) ? range : null
+    range: ["near", "all", "custom"].includes(range) ? range : null
   };
 }
 

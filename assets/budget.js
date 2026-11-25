@@ -21,8 +21,9 @@ export function naverComplexSearchURL(districtName, dongName, complexName, mobil
   return `https://new.land.naver.com/search?sk=${encodeURIComponent(query)}`;
 }
 
-export function districtsWithinBudget(districts, limit, area, range = "near") {
-  const minimum = minimumPrice(limit, range);
+export function districtsWithinBudget(districts, limit, area, range = "near", customMinimum = null) {
+  const minimum = minimumPrice(limit, range, customMinimum);
+  if (minimum === null || minimum > limit) return [];
   const byCloseness = (a, b) => b.price - a.price || b.date.localeCompare(a.date) || a.name.localeCompare(b.name, "ko");
   const matches = [];
   for (const district of districts) {
@@ -33,7 +34,7 @@ export function districtsWithinBudget(districts, limit, area, range = "near") {
       for (const [id, name, band, sales, households] of dong.sales) {
         if (!meetsHouseholdMinimum({households})) continue;
         if (area !== "all" && area !== band) continue;
-        const match = sales.find(([price]) => price <= limit && price > minimum);
+        const match = sales.find(([price]) => price >= minimum && price <= limit);
         if (!match) continue;
         const [price, date, size, contractCount] = match;
         const trade = {id, name, price, date, size, households, contractCount};
@@ -51,8 +52,9 @@ export function districtsWithinBudget(districts, limit, area, range = "near") {
   return matches.sort((a, b) => byCloseness(a.closest, b.closest) || b.count - a.count);
 }
 
-function minimumPrice(limit, range) {
-  return range === "all" ? 0 : Math.max(0, limit - PRICE_WINDOW_MANWON);
+function minimumPrice(limit, range, customMinimum) {
+  if (range === "custom") return customMinimum;
+  return range === "near" ? Math.max(1, limit - PRICE_WINDOW_MANWON + 1) : 1;
 }
 
 export function initBudget(getJSON, { watchState, saveResult, openResult }) {
@@ -61,6 +63,8 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const cache = new Map(), visibleTrades = new Map(), visibleDistricts = new Map();
   const results = $('budgetResults'), officialContent = $('budgetOfficialContent');
+  const form = $('budgetForm'), rangeSelect = $('budgetRange');
+  const minimumInput = $('budgetMinimum'), maximumInput = $('budgetAmount');
   let request = 0, matches = [], rendered = 0;
 
   function renderTrade(trade, district, dong) {
@@ -148,23 +152,44 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
     }
   });
 
-  $('budgetAmount').addEventListener('input', () => $('budgetAmount').setCustomValidity(''));
-  $('budgetMore').addEventListener('click', showMore);
-  $('budgetRange').addEventListener('change', () => {
-    if (request) $('budgetForm').requestSubmit();
+  function syncMinimumInput() {
+    const custom = rangeSelect.value === 'custom';
+    $('budgetMinimumField').hidden = !custom;
+    minimumInput.disabled = !custom;
+    minimumInput.setCustomValidity('');
+  }
+
+  syncMinimumInput();
+  minimumInput.addEventListener('input', () => minimumInput.setCustomValidity(''));
+  maximumInput.addEventListener('input', () => {
+    maximumInput.setCustomValidity('');
+    minimumInput.setCustomValidity('');
   });
-  $('budgetForm').addEventListener('submit', async event => {
+  $('budgetMore').addEventListener('click', showMore);
+  rangeSelect.addEventListener('change', () => {
+    syncMinimumInput();
+    if (request && (minimumInput.disabled || minimumInput.value.trim())) form.requestSubmit();
+  });
+  form.addEventListener('submit', async event => {
     event.preventDefault();
     if (officialContent.hidden) return;
-    const limit = budgetInManwon($('budgetAmount').value);
+    const limit = budgetInManwon(maximumInput.value);
     if (limit === null) {
-      $('budgetAmount').setCustomValidity('0보다 큰 예산을 억 원 단위로 입력하세요. 예: 12.5');
-      $('budgetAmount').reportValidity();
+      maximumInput.setCustomValidity('0보다 큰 예산을 억 원 단위로 입력하세요. 예: 30');
+      maximumInput.reportValidity();
+      return;
+    }
+    const priceRange = rangeSelect.value;
+    const customMinimum = priceRange === 'custom' ? budgetInManwon(minimumInput.value) : null;
+    if (priceRange === 'custom' && (customMinimum === null || customMinimum > limit)) {
+      minimumInput.setCustomValidity(customMinimum === null
+        ? '0보다 큰 최소 금액을 억 원 단위로 입력하세요. 예: 25'
+        : '최소 금액을 상한 이하로 입력하세요.');
+      minimumInput.reportValidity();
       return;
     }
     const region = $('budgetRegion').value;
     const area = $('budgetArea').value;
-    const priceRange = $('budgetRange').value;
     const regions = REGIONS.includes(region) ? [region] : REGIONS;
     const id = ++request;
     results.innerHTML = '';
@@ -186,12 +211,14 @@ export function initBudget(getJSON, { watchState, saveResult, openResult }) {
       return;
     }
     const districts = loaded.flatMap(data => data.districts);
-    matches = districtsWithinBudget(districts, limit, area, priceRange);
+    matches = districtsWithinBudget(districts, limit, area, priceRange, customMinimum);
     rendered = 0;
     const coverage = loaded.length < regions.length || districts.length < loaded.reduce((n, data) => n + data.districtCount, 0)
       ? ' · 일부 지역 자료 누락' : '';
-    const minimum = minimumPrice(limit, priceRange);
-    const range = minimum > 0 ? `${money(minimum)} 초과 ~ ${money(limit)} 이하` : `${money(limit)} 이하`;
+    const nearFloor = priceRange === 'near' ? minimumPrice(limit, priceRange) - 1 : 0;
+    const lowerLabel = customMinimum !== null ? `${money(customMinimum)} 이상 ~ `
+      : nearFloor > 0 ? `${money(nearFloor)} 초과 ~ ` : '';
+    const range = `${lowerLabel}${money(limit)} 이하`;
     $('budgetStatus').textContent = `${range} · ${area === 'all' ? '전체 면적' : area + '㎡급'} · ` +
       (matches.length ? `실거래가 있었던 시·군·구 ${matches.length}곳` : '조건에 맞는 실거래 없음') + coverage;
     showMore();
