@@ -1,34 +1,10 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-25",
-  "updatedAt": "2026-11-25T14:11:41.102242+09:00",
+  "asOf": "2026-11-26",
+  "updatedAt": "2026-11-26T13:23:55.875441+09:00",
   "districtCode": "47760",
   "complexes": [
-    {
-      "id": "n-c64415df1ef9e527c824",
-      "name": "다솜찬마을101동",
-      "aliases": [
-        "다솜찬마을101동"
-      ],
-      "region": "경상북도 영양군",
-      "districtCode": "47760",
-      "legalDongCode": "4776025022",
-      "legalDong": "영양읍 서부리",
-      "jibuns": [
-        "479-7"
-      ],
-      "households": null,
-      "verification": "api-identity",
-      "checkedAt": "2026-11-25",
-      "sources": [
-        {
-          "label": "국토교통부 공식 실거래",
-          "url": "https://www.data.go.kr/data/15126468/openapi.do"
-        }
-      ],
-      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
-    },
     {
       "id": "n-9a9709839fe64b7202a4",
       "name": "은성",
@@ -44,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-25",
+      "checkedAt": "2026-11-26",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -176,19 +152,7 @@
   ],
   "trades": [
     {
-      "id": "36c73a34ced009946c86-0",
-      "complexId": "n-c64415df1ef9e527c824",
-      "legalDongCode": "4776025022",
-      "date": "2025-11-26",
-      "area": 84.54,
-      "priceManwon": 13000,
-      "floor": "6",
-      "buildYear": 2003,
-      "dealingType": "직거래",
-      "canceled": false
-    },
-    {
-      "id": "b1deda61b14731053d88-1",
+      "id": "b1deda61b14731053d88-0",
       "complexId": "n-9a9709839fe64b7202a4",
       "legalDongCode": "4776025021",
       "date": "2025-12-29",
@@ -200,7 +164,7 @@
       "canceled": false
     },
     {
-      "id": "9ab34e4eeb2e1e9b39a8-2",
+      "id": "9ab34e4eeb2e1e9b39a8-1",
       "complexId": "n-9a9709839fe64b7202a4",
       "legalDongCode": "4776025021",
       "date": "2026-01-23",
@@ -212,7 +176,7 @@
       "canceled": false
     },
     {
-      "id": "77aaecd13f7269394697-3",
+      "id": "77aaecd13f7269394697-2",
       "complexId": "n-9eb9d2a5e5004130f262",
       "legalDongCode": "4776025022",
       "date": "2026-02-19",
@@ -224,7 +188,7 @@
       "canceled": false
     },
     {
-      "id": "ea194fd6b76b0022095a-4",
+      "id": "ea194fd6b76b0022095a-3",
       "complexId": "n-2811f0e54f1b524b47b6",
       "legalDongCode": "4776025022",
       "date": "2026-04-02",
@@ -236,7 +200,7 @@
       "canceled": false
     },
     {
-      "id": "035e3c7a511406b1c800-5",
+      "id": "035e3c7a511406b1c800-4",
       "complexId": "n-ab070204c51da475e38b",
       "legalDongCode": "4776025022",
       "date": "2026-04-04",
@@ -248,7 +212,7 @@
       "canceled": false
     },
     {
-      "id": "d0a05e31b8da114faa4f-6",
+      "id": "7a82245cd43190788ed6-5",
       "complexId": "n-50587fabb7d43d47d765",
       "legalDongCode": "4776025022",
       "date": "2026-07-31",
@@ -260,7 +224,7 @@
       "canceled": false
     },
     {
-      "id": "4aa0cb2f449aacb2b1e0-7",
+      "id": "4aa0cb2f449aacb2b1e0-6",
       "complexId": "n-9a9709839fe64b7202a4",
       "legalDongCode": "4776025021",
       "date": "2026-09-18",
@@ -272,7 +236,7 @@
       "canceled": false
     },
     {
-      "id": "778c72d0b2ac0699e072-8",
+      "id": "778c72d0b2ac0699e072-7",
       "complexId": "n-9513c8810c3b8bbac7fc",
       "legalDongCode": "4776025022",
       "date": "2026-11-05",
