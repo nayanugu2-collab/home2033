@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "mode": "official",
-  "asOf": "2026-11-26",
-  "updatedAt": "2026-11-26T13:24:39.356106+09:00",
+  "asOf": "2026-11-27",
+  "updatedAt": "2026-11-27T13:28:58.617029+09:00",
   "districtCode": "48720",
   "complexes": [
     {
@@ -20,7 +20,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -44,7 +44,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -68,7 +68,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -92,7 +92,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -116,7 +116,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -140,7 +140,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -164,7 +164,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -188,7 +188,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -212,7 +212,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -236,7 +236,31 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
+      "sources": [
+        {
+          "label": "국토교통부 공식 실거래",
+          "url": "https://www.data.go.kr/data/15126468/openapi.do"
+        }
+      ],
+      "note": "공식 거래의 지역·법정동·명칭·지번 기준. 세대수는 확인되지 않았습니다."
+    },
+    {
+      "id": "n-5eaba9c213d193181d5f",
+      "name": "천우스카이빌라",
+      "aliases": [
+        "천우스카이빌라"
+      ],
+      "region": "경상남도 의령군",
+      "districtCode": "48720",
+      "legalDongCode": "4872025021",
+      "legalDong": "의령읍 서동리",
+      "jibuns": [
+        "195-9"
+      ],
+      "households": null,
+      "verification": "api-identity",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -260,7 +284,7 @@
       ],
       "households": null,
       "verification": "api-identity",
-      "checkedAt": "2026-11-26",
+      "checkedAt": "2026-11-27",
       "sources": [
         {
           "label": "국토교통부 공식 실거래",
@@ -836,7 +860,19 @@
       "canceled": false
     },
     {
-      "id": "e64e682c6746fc6c5cd5-47",
+      "id": "c6264785522bba88785d-47",
+      "complexId": "n-5eaba9c213d193181d5f",
+      "legalDongCode": "4872025021",
+      "date": "2026-11-20",
+      "area": 127.01,
+      "priceManwon": 16000,
+      "floor": "8",
+      "buildYear": 1993,
+      "dealingType": "직거래",
+      "canceled": false
+    },
+    {
+      "id": "35a1375dc7820e7f6335-48",
       "complexId": "n-d6d13ab13e4cb2c33085",
       "legalDongCode": "4872025022",
       "date": "2026-11-19",
@@ -848,7 +884,7 @@
       "canceled": false
     },
     {
-      "id": "12ce74a329be6c2d980d-48",
+      "id": "12ce74a329be6c2d980d-49",
       "complexId": "n-887c904d9dc55da49244",
       "legalDongCode": "4872025023",
       "date": "2026-11-16",
@@ -860,7 +896,7 @@
       "canceled": false
     },
     {
-      "id": "af4ee7148f2698df33a7-49",
+      "id": "af4ee7148f2698df33a7-50",
       "complexId": "n-094e2ac58ff4269e0a29",
       "legalDongCode": "4872025023",
       "date": "2026-11-04",
@@ -872,7 +908,7 @@
       "canceled": false
     },
     {
-      "id": "dc887beb8b712fcc44c8-50",
+      "id": "dc887beb8b712fcc44c8-51",
       "complexId": "n-db8687f62a146f7277fb",
       "legalDongCode": "4872025021",
       "date": "2026-11-04",
